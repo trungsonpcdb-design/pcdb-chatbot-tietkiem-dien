@@ -1,16 +1,34 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { MessageList } from "./message-list";
 import { MessageInput } from "./message-input";
 import { SuggestedQuestions } from "./suggested-questions";
+import { RatingModal } from "./rating-modal";
+import { attachSessionEndListeners } from "@/lib/session-lifecycle";
 import type { ChatMessage } from "./message-bubble";
 
 export function ChatContainer() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [busy, setBusy] = useState(false);
   const sessionIdRef = useRef<string | null>(null);
+  const [ratingOpen, setRatingOpen] = useState(false);
+  const ratingShownRef = useRef(false);
+
+  useEffect(() => {
+    const detach = attachSessionEndListeners(() => {
+      if (
+        !ratingShownRef.current &&
+        messages.filter((m) => m.role === "user").length >= 1 &&
+        sessionIdRef.current
+      ) {
+        ratingShownRef.current = true;
+        setRatingOpen(true);
+      }
+    });
+    return detach;
+  }, [messages]);
 
   const send = useCallback(async (text: string) => {
     setBusy(true);
@@ -138,6 +156,11 @@ export function ChatContainer() {
         <SuggestedQuestions onPick={send} />
       )}
       <MessageInput onSend={send} disabled={busy} />
+      <RatingModal
+        open={ratingOpen}
+        onOpenChange={setRatingOpen}
+        sessionId={sessionIdRef.current}
+      />
     </div>
   );
 }
