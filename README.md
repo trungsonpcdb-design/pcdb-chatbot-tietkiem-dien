@@ -20,9 +20,16 @@ Web app chatbot AI tư vấn khách hàng của EVN Điện Biên về:
 - ✅ Trang câu hỏi chưa trả lời được cho admin bổ sung KB
 - ✅ Vercel Blob private cho file gốc + `/api/serve-file` với Bearer token
 
+## Milestone 3 (đã hoàn thành code)
+- ✅ Feedback 👍/👎 mỗi câu trả lời + modal chọn lý do (`SAI_THONG_TIN`, `KHONG_DU_CHI_TIET`, ...)
+- ✅ Rating 5 sao cuối phiên chat (trigger khi ẩn tab / idle 5 phút)
+- ✅ Form ĐMTMN inline — chatbot phát hiện thiếu dữ liệu tự sinh marker `<FORM_DMTMN/>`, client render form, server inject ước tính vào prompt
+- ✅ Lead capture modal — chatbot chủ động gợi ý khi phát hiện intent
+- ✅ Dashboard `/dashboard/leads` cho nhân viên: filter theo status, detail có full chat + tóm tắt AI + đổi status/ghi chú/gán đơn vị
+- ✅ Clerk webhook `/api/webhooks/clerk` sync user + role + đơn vị vào DB
+
 ## Milestone tiếp theo
-- M3: Feedback, rating, form ĐMTMN, lead capture
-- M4: Dashboard analytics đầy đủ
+- M4: Dashboard analytics đầy đủ (KPI, biểu đồ, admin/users)
 
 ## Local dev
 
@@ -53,6 +60,23 @@ Mở [http://localhost:3000/chat](http://localhost:3000/chat)
 | `NEXT_PUBLIC_APP_URL` | Vercel domain hoặc `http://localhost:3000` | ✓ |
 | `RATE_LIMIT_SALT` | `openssl rand -hex 16` | ✓ |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob store (Storage tab → Create Blob) | Prod (M2+) |
+| `CLERK_WEBHOOK_SECRET` | Clerk → Webhooks → endpoint signing secret | Prod (M3+) |
+
+## Phân quyền admin (M3+)
+
+Vào Clerk Dashboard → Users → chọn user → Public metadata:
+
+```json
+{ "role": "admin", "unitCode": "DBP" }
+```
+
+Webhook `/api/webhooks/clerk` sẽ đồng bộ role + đơn vị vào bảng `User`. `unitCode` phải khớp 1 trong 11 code của `UNIT_LIST` (DBP, TG, TA, NS, NSN, TCH, MA, MN, XNCT, PXPD, KHN).
+
+**Setup webhook trên Clerk:**
+1. Clerk Dashboard → Webhooks → Add endpoint.
+2. URL: `https://<your-domain>.vercel.app/api/webhooks/clerk`
+3. Events: `user.created`, `user.updated`, `user.deleted`.
+4. Copy Signing Secret → paste vào `CLERK_WEBHOOK_SECRET`.
 
 ## Deploy Vercel
 
