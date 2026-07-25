@@ -47,10 +47,63 @@ model Message {
   session    ChatSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   role       String
   content    String
+  citations  String?
+  topicTag   String?
   tokensIn   Int?
   tokensOut  Int?
   latencyMs  Int?
   createdAt  DateTime     @default(now())
 
   @@index([sessionId, createdAt])
+}
+
+model Document {
+  id              String        @id @default(cuid())
+  title           String
+  category        String
+  sourceType      String
+  sourceUrl       String?
+  blobUrl         String?
+  fileName        String?
+  fileSize        Int?
+  publishedAt     DateTime?
+  effectiveFrom   DateTime?
+  effectiveTo     DateTime?
+  supersededById  String?
+  supersededBy    Document?     @relation("Supersede", fields: [supersededById], references: [id])
+  supersedes      Document[]    @relation("Supersede")
+  isActive        Boolean       @default(true)
+  uploadedBy      String
+  status          String        @default("INDEXED")
+  errorMessage    String?
+  chunks          DocumentChunk[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([isActive, category])
+}
+
+model DocumentChunk {
+  id          String    @id @default(cuid())
+  documentId  String
+  document    Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  chunkIndex  Int
+  content     String
+  pageNumber  Int?
+  heading     String?
+  embedding   Bytes?
+  createdAt   DateTime  @default(now())
+
+  @@index([documentId, chunkIndex])
+}
+
+model UnansweredQuery {
+  id         String   @id @default(cuid())
+  sessionId  String
+  question   String
+  reason     String
+  reviewed   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([reviewed, createdAt])
 }
