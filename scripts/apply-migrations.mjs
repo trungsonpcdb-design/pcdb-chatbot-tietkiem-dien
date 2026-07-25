@@ -23,6 +23,7 @@ const client = createClient({
 const MIGRATIONS = [
   { id: "20260725071946_init", file: "prisma/migrations/20260725071946_init/migration.sql" },
   { id: "20260725073413_add_kb", file: "prisma/migrations/20260725073413_add_kb/migration.sql" },
+  { id: "20260725074622_add_feedback_lead", file: "prisma/migrations/20260725074622_add_feedback_lead/migration.sql" },
 ];
 
 async function run() {
