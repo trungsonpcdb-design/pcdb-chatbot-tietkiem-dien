@@ -63,6 +63,51 @@ function estimateTokens(text) {
   return Math.ceil(text.trim().split(/\s+/).length * 1.5);
 }
 
+function packBySize(parts, maxTokens, joiner) {
+  const out = [];
+  let cur = [];
+  let curTokens = 0;
+  for (const p of parts) {
+    const t = estimateTokens(p);
+    if (curTokens + t > maxTokens && cur.length > 0) {
+      out.push(cur.join(joiner));
+      cur = [];
+      curTokens = 0;
+    }
+    cur.push(p);
+    curTokens += t;
+  }
+  if (cur.length > 0) out.push(cur.join(joiner));
+  return out;
+}
+
+function hardSplit(text, maxTokens) {
+  if (estimateTokens(text) <= maxTokens) return [text];
+
+  const byLine = text.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+  if (byLine.length > 1 && byLine.every((s) => estimateTokens(s) <= maxTokens)) {
+    return packBySize(byLine, maxTokens, "\n");
+  }
+
+  const bySentence = byLine.flatMap((s) =>
+    estimateTokens(s) > maxTokens
+      ? s.split(/(?<=[.!?…。])\s+|(?<=;)\s+/).map((x) => x.trim()).filter(Boolean)
+      : [s]
+  );
+  if (bySentence.every((s) => estimateTokens(s) <= maxTokens)) {
+    return packBySize(bySentence, maxTokens, " ");
+  }
+
+  const maxChars = maxTokens * 3;
+  const byChars = bySentence.flatMap((s) => {
+    if (estimateTokens(s) <= maxTokens) return [s];
+    const out = [];
+    for (let i = 0; i < s.length; i += maxChars) out.push(s.slice(i, i + maxChars));
+    return out;
+  });
+  return packBySize(byChars, maxTokens, " ");
+}
+
 function chunkDocument({ pages, fullText }) {
   const chunks = [];
   let idx = 0;
@@ -72,7 +117,8 @@ function chunkDocument({ pages, fullText }) {
 
   for (const src of sources) {
     if (!src.text.trim()) continue;
-    const paragraphs = src.text.split(/\n{2,}|\r{2,}/).map((p) => p.trim()).filter(Boolean);
+    const rawParagraphs = src.text.split(/\n{2,}|\r{2,}/).map((p) => p.trim()).filter(Boolean);
+    const paragraphs = rawParagraphs.flatMap((p) => hardSplit(p, MAX_TOKENS));
     let current = [];
     let curTokens = 0;
     let heading;

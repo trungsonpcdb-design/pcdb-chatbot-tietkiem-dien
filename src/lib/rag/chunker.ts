@@ -17,6 +17,49 @@ export interface ChunkOptions {
   fullText?: string;
 }
 
+function hardSplit(text: string, maxTokens: number): string[] {
+  if (estimateTokens(text) <= maxTokens) return [text];
+
+  const byLine = text.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+  const byLineOk = byLine.every((s) => estimateTokens(s) <= maxTokens);
+  if (byLineOk && byLine.length > 1) return packBySize(byLine, maxTokens, "\n");
+
+  const bySentence = byLine.flatMap((s) =>
+    estimateTokens(s) > maxTokens
+      ? s.split(/(?<=[.!?…。])\s+|(?<=;)\s+/).map((x) => x.trim()).filter(Boolean)
+      : [s]
+  );
+  const bySentenceOk = bySentence.every((s) => estimateTokens(s) <= maxTokens);
+  if (bySentenceOk) return packBySize(bySentence, maxTokens, " ");
+
+  const maxChars = maxTokens * 3;
+  const byChars = bySentence.flatMap((s) => {
+    if (estimateTokens(s) <= maxTokens) return [s];
+    const out: string[] = [];
+    for (let i = 0; i < s.length; i += maxChars) out.push(s.slice(i, i + maxChars));
+    return out;
+  });
+  return packBySize(byChars, maxTokens, " ");
+}
+
+function packBySize(parts: string[], maxTokens: number, joiner: string): string[] {
+  const out: string[] = [];
+  let cur: string[] = [];
+  let curTokens = 0;
+  for (const p of parts) {
+    const t = estimateTokens(p);
+    if (curTokens + t > maxTokens && cur.length > 0) {
+      out.push(cur.join(joiner));
+      cur = [];
+      curTokens = 0;
+    }
+    cur.push(p);
+    curTokens += t;
+  }
+  if (cur.length > 0) out.push(cur.join(joiner));
+  return out;
+}
+
 export function chunkDocument(opts: ChunkOptions): Chunk[] {
   const chunks: Chunk[] = [];
   let idx = 0;
@@ -28,7 +71,9 @@ export function chunkDocument(opts: ChunkOptions): Chunk[] {
   for (const src of sources) {
     if (!src.text.trim()) continue;
 
-    const paragraphs = src.text.split(/\n{2,}|\r{2,}/).map((p) => p.trim()).filter(Boolean);
+    const rawParagraphs = src.text.split(/\n{2,}|\r{2,}/).map((p) => p.trim()).filter(Boolean);
+    const paragraphs = rawParagraphs.flatMap((p) => hardSplit(p, MAX_TOKENS));
+
     let currentContent: string[] = [];
     let currentTokens = 0;
     let currentHeading: string | undefined;
