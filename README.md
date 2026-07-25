@@ -11,8 +11,16 @@ Web app chatbot AI tư vấn khách hàng của EVN Điện Biên về:
 - ✅ Lưu lịch sử chat vào Prisma + libsql (SQLite dev, Turso prod)
 - ✅ Clerk auth cho `/dashboard` (skeleton)
 
+## Milestone 2 (đã hoàn thành code)
+- ✅ Upload PDF/DOCX/TXT vào Knowledge Base (`/dashboard/documents`)
+- ✅ Ingest: extract → chunk theo heading VN → embed OpenAI `text-embedding-3-small` → lưu Turso vector `Bytes`
+- ✅ RAG: query rewrite → cosine search top-5 → citation `[1] [2]` trong câu trả lời
+- ✅ Popover "Xem nguồn" cho mỗi câu trả lời assistant
+- ✅ Đánh dấu supersede (văn bản hết hiệu lực) — chỉ query chunk `isActive=true`
+- ✅ Trang câu hỏi chưa trả lời được cho admin bổ sung KB
+- ✅ Vercel Blob private cho file gốc + `/api/serve-file` với Bearer token
+
 ## Milestone tiếp theo
-- M2: RAG + Knowledge Base
 - M3: Feedback, rating, form ĐMTMN, lead capture
 - M4: Dashboard analytics đầy đủ
 
@@ -44,6 +52,7 @@ Mở [http://localhost:3000/chat](http://localhost:3000/chat)
 | `OPENAI_API_KEY` | platform.openai.com (nạp min $10) | ✓ |
 | `NEXT_PUBLIC_APP_URL` | Vercel domain hoặc `http://localhost:3000` | ✓ |
 | `RATE_LIMIT_SALT` | `openssl rand -hex 16` | ✓ |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob store (Storage tab → Create Blob) | Prod (M2+) |
 
 ## Deploy Vercel
 
@@ -80,7 +89,12 @@ src/
 ├── lib/
 │   ├── prisma.ts      # libsql adapter (Prisma 7)
 │   ├── openai.ts      # OpenAI client singleton
-│   ├── prompts/       # system prompts
+│   ├── prompts/       # system-mvp.ts + system-rag.ts
+│   ├── rag/           # chunker, embedder, vector-store, query-rewriter,
+│   │                  # topic-classifier, prompt-builder
+│   ├── extractors/    # pdf.ts (PDFParse v2) + docx.ts (mammoth)
+│   ├── blob.ts        # Vercel Blob put/fetch wrapper
+│   ├── tokenizer.ts
 │   ├── anonymous-id.ts
 │   ├── rate-limit.ts
 │   ├── moderation.ts
