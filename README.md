@@ -28,8 +28,29 @@ Web app chatbot AI tư vấn khách hàng của EVN Điện Biên về:
 - ✅ Dashboard `/dashboard/leads` cho nhân viên: filter theo status, detail có full chat + tóm tắt AI + đổi status/ghi chú/gán đơn vị
 - ✅ Clerk webhook `/api/webhooks/clerk` sync user + role + đơn vị vào DB
 
-## Milestone tiếp theo
-- M4: Dashboard analytics đầy đủ (KPI, biểu đồ, admin/users)
+## Milestone 4 (đã hoàn thành code)
+- ✅ Dashboard tổng quan `/dashboard`: 4 KPI cards (phiên hôm nay, câu hỏi hôm nay, hài lòng, rating TB) + 3 biểu đồ SVG tự vẽ (donut chủ đề, bar 7 ngày, hbar lý do 👎)
+- ✅ Lịch sử phiên chat `/dashboard/sessions`: list + tìm theo keyword, detail đọc full messages + feedback + rating
+- ✅ Thống kê chi tiết `/dashboard/stats?range=7|30|90` + 20 câu 👎 gần nhất
+- ✅ Admin quản lý user `/dashboard/admin/users`: đổi role (admin/staff/user) + đổi đơn vị, guard `requireAdmin()`
+- ✅ Sidebar hoàn thiện, tự hiện link Admin theo role
+- ✅ Flow "unanswered → doc": nhân viên biến câu hỏi chưa trả lời thành gợi ý bổ sung KB
+- ✅ Không thêm thư viện chart — mọi biểu đồ vẽ tay bằng SVG
+
+## Vận hành đầy đủ
+
+Sản phẩm đã đủ tính năng cho pilot nội bộ:
+- Khách hàng có công cụ chat 24/7
+- Nhân viên có kênh nhận lead + review chất lượng bot
+- Admin có KB quản lý tài liệu + phân quyền + số liệu vận hành
+
+## Backlog dài hạn (phase 2)
+- Export lead ra Excel
+- Auto assign lead theo địa lý
+- Email/Zalo notify nhân viên khi có lead mới
+- Live handoff (WebSocket) — nhân viên chat trực tiếp thay bot
+- Vision phân tích ảnh mái nhà / hóa đơn giấy
+- Migrate vector search sang Pinecone khi > 10.000 chunks
 
 ## Local dev
 
@@ -101,7 +122,7 @@ Prisma 7 dùng file cấu hình riêng: xem [prisma.config.ts](prisma.config.ts)
 src/
 ├── app/
 │   ├── chat/          # trang công khai (SSE streaming)
-│   ├── dashboard/     # Clerk protected (skeleton — sẽ mở rộng ở M4)
+│   ├── dashboard/     # Clerk protected — home KPI + sessions + stats + leads + documents + unanswered + admin/users
 │   ├── sign-in/, sign-up/  # Clerk auth pages
 │   └── api/
 │       ├── chat/      # POST — SSE streaming trả lời
