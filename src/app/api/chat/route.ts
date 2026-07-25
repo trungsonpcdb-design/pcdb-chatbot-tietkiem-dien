@@ -11,6 +11,7 @@ import { classifyTopic } from "@/lib/rag/topic-classifier";
 import { embedQuery } from "@/lib/rag/embedder";
 import { searchTopK } from "@/lib/rag/vector-store";
 import { buildPromptWithContext, type CitationRef } from "@/lib/rag/prompt-builder";
+import { shouldSuggestLead } from "@/lib/lead-intent";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -105,7 +106,8 @@ export async function POST(req: NextRequest) {
       return streamOneShot(
         "Tôi chưa có đủ thông tin để trả lời câu hỏi này. Bạn có muốn để lại số điện thoại để nhân viên EVN Điện Biên tư vấn trực tiếp không?",
         sessionId,
-        []
+        [],
+        "KHAC"
       );
     }
 
@@ -203,6 +205,13 @@ Hãy tư vấn dựa trên các thông số trên + tài liệu tham khảo. So 
           encoder.encode(`event: message_saved\ndata: ${JSON.stringify({ id: savedMessage.id })}\n\n`)
         );
 
+        if (shouldSuggestLead(body.message, fullText)) {
+          const currentTopic = savedMessage.topicTag ?? "KHAC";
+          controller.enqueue(
+            encoder.encode(`event: suggest_lead\ndata: ${JSON.stringify({ interestTopic: currentTopic })}\n\n`)
+          );
+        }
+
         controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
@@ -223,13 +232,23 @@ Hãy tư vấn dựa trên các thông số trên + tài liệu tham khảo. So 
   });
 }
 
-function streamOneShot(text: string, sessionId: string | null, citations: unknown[]): Response {
+function streamOneShot(
+  text: string,
+  sessionId: string | null,
+  citations: unknown[],
+  suggestLead?: string
+): Response {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     start(controller) {
       controller.enqueue(encoder.encode(`event: session\ndata: ${JSON.stringify({ sessionId })}\n\n`));
       controller.enqueue(encoder.encode(`event: delta\ndata: ${JSON.stringify({ text })}\n\n`));
       controller.enqueue(encoder.encode(`event: citations\ndata: ${JSON.stringify(citations)}\n\n`));
+      if (suggestLead) {
+        controller.enqueue(
+          encoder.encode(`event: suggest_lead\ndata: ${JSON.stringify({ interestTopic: suggestLead })}\n\n`)
+        );
+      }
       controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
       controller.close();
     },

@@ -6,6 +6,7 @@ import { MessageList } from "./message-list";
 import { MessageInput } from "./message-input";
 import { SuggestedQuestions } from "./suggested-questions";
 import { RatingModal } from "./rating-modal";
+import { LeadCaptureModal } from "./lead-capture-modal";
 import { attachSessionEndListeners } from "@/lib/session-lifecycle";
 import type { ChatMessage } from "./message-bubble";
 import type { FormDmtmnData } from "./form-dmtmn";
@@ -16,6 +17,9 @@ export function ChatContainer() {
   const sessionIdRef = useRef<string | null>(null);
   const [ratingOpen, setRatingOpen] = useState(false);
   const ratingShownRef = useRef(false);
+  const [leadOpen, setLeadOpen] = useState(false);
+  const [leadTopic, setLeadTopic] = useState("KHAC");
+  const leadShownRef = useRef(false);
 
   useEffect(() => {
     const detach = attachSessionEndListeners(() => {
@@ -77,6 +81,15 @@ export function ChatContainer() {
                     m.id === assistantId ? { ...m, citations: parsed } : m
                   )
                 );
+              }
+            } catch {}
+          } else if (evName === "suggest_lead") {
+            try {
+              const parsed = JSON.parse(evData);
+              if (!leadShownRef.current) {
+                leadShownRef.current = true;
+                setLeadTopic(parsed.interestTopic ?? "KHAC");
+                setTimeout(() => setLeadOpen(true), 1500);
               }
             } catch {}
           } else if (evName === "message_saved") {
@@ -205,6 +218,12 @@ export function ChatContainer() {
         open={ratingOpen}
         onOpenChange={setRatingOpen}
         sessionId={sessionIdRef.current}
+      />
+      <LeadCaptureModal
+        open={leadOpen}
+        onOpenChange={setLeadOpen}
+        sessionId={sessionIdRef.current}
+        interestTopic={leadTopic}
       />
     </div>
   );
