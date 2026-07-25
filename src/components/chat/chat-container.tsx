@@ -92,6 +92,17 @@ export function ChatContainer() {
                 );
               }
             } catch {}
+          } else if (evName === "message_saved") {
+            try {
+              const parsed = JSON.parse(evData);
+              if (parsed.id) {
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, serverMessageId: parsed.id } : m
+                  )
+                );
+              }
+            } catch {}
           } else if (evName === "error") {
             try {
               const parsed = JSON.parse(evData);

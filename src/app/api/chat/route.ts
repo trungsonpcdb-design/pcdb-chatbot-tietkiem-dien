@@ -169,6 +169,10 @@ export async function POST(req: NextRequest) {
           )
           .catch(() => {});
 
+        controller.enqueue(
+          encoder.encode(`event: message_saved\ndata: ${JSON.stringify({ id: savedMessage.id })}\n\n`)
+        );
+
         controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);

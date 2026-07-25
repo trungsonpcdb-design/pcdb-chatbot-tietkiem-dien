@@ -1,8 +1,10 @@
 import { cn } from "@/lib/utils";
 import { CitationPopover, type Citation } from "./citation-popover";
+import { FeedbackButtons } from "./feedback-buttons";
 
 export interface ChatMessage {
   id: string;
+  serverMessageId?: string;
   role: "user" | "assistant";
   content: string;
   citations?: Citation[];
@@ -23,8 +25,13 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
       >
         {message.content || (message.pending ? "…" : "")}
       </div>
-      {!isUser && message.citations && message.citations.length > 0 && (
-        <CitationPopover citations={message.citations} />
+      {!isUser && !message.pending && (
+        <div className="flex items-center gap-1">
+          {message.serverMessageId && <FeedbackButtons messageId={message.serverMessageId} />}
+          {message.citations && message.citations.length > 0 && (
+            <CitationPopover citations={message.citations} />
+          )}
+        </div>
       )}
     </div>
   );
