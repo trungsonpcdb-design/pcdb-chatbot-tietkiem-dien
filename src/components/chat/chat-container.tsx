@@ -81,6 +81,17 @@ export function ChatContainer() {
                 );
               }
             } catch {}
+          } else if (evName === "citations") {
+            try {
+              const parsed = JSON.parse(evData);
+              if (Array.isArray(parsed)) {
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, citations: parsed } : m
+                  )
+                );
+              }
+            } catch {}
           } else if (evName === "error") {
             try {
               const parsed = JSON.parse(evData);

@@ -1,16 +1,18 @@
 import { cn } from "@/lib/utils";
+import { CitationPopover, type Citation } from "./citation-popover";
 
 export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
+  citations?: Citation[];
   pending?: boolean;
 }
 
 export function MessageBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === "user";
   return (
-    <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
+    <div className={cn("flex flex-col", isUser ? "items-end" : "items-start")}>
       <div
         className={cn(
           "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap",
@@ -21,6 +23,9 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
       >
         {message.content || (message.pending ? "…" : "")}
       </div>
+      {!isUser && message.citations && message.citations.length > 0 && (
+        <CitationPopover citations={message.citations} />
+      )}
     </div>
   );
 }
