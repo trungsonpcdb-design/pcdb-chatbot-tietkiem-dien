@@ -29,8 +29,10 @@ export async function embedQuery(text: string): Promise<Float32Array> {
   return v;
 }
 
-export function encodeVector(v: Float32Array): Uint8Array {
-  return new Uint8Array(v.buffer, v.byteOffset, v.byteLength);
+export function encodeVector(v: Float32Array): Uint8Array<ArrayBuffer> {
+  const out = new Uint8Array(new ArrayBuffer(v.byteLength));
+  out.set(new Uint8Array(v.buffer, v.byteOffset, v.byteLength));
+  return out;
 }
 
 export function decodeVector(bytes: Uint8Array): Float32Array {
