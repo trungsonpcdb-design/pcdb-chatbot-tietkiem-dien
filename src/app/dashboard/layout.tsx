@@ -12,7 +12,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="p-2 bg-slate-800 rounded">📊 Tổng quan</div>
           <div className="p-2">👥 Lead khách hàng (M3)</div>
           <div className="p-2">💬 Lịch sử chat (M4)</div>
-          <div className="p-2">📚 Tài liệu (M2)</div>
+          <Link href="/dashboard/documents" className="p-2 hover:bg-slate-800 rounded block">
+            📚 Tài liệu (KB)
+          </Link>
         </nav>
       </aside>
       <main className="flex-1 flex flex-col">
