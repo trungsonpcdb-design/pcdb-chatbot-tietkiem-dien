@@ -15,6 +15,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Link href="/dashboard/documents" className="p-2 hover:bg-slate-800 rounded block">
             📚 Tài liệu (KB)
           </Link>
+          <Link href="/dashboard/unanswered" className="p-2 hover:bg-slate-800 rounded block">
+            ❓ Câu hỏi chưa trả lời
+          </Link>
         </nav>
       </aside>
       <main className="flex-1 flex flex-col">
