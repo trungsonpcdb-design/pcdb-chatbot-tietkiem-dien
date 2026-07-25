@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Unit {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  code      String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id         String   @id @default(cuid())
+  clerkId    String   @unique
+  email      String   @unique
+  fullName   String
+  role       String   @default("user")
+  unitId     String
+  unit       Unit     @relation(fields: [unitId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model ChatSession {
+  id              String    @id @default(cuid())
+  anonymousId     String?
+  clerkUserId     String?
+  ipHash          String?
+  userAgent       String?
+  startedAt       DateTime  @default(now())
+  lastMessageAt   DateTime  @default(now())
+  messageCount    Int       @default(0)
+  messages        Message[]
+
+  @@index([anonymousId])
+  @@index([startedAt])
+}
+
+model Message {
+  id         String       @id @default(cuid())
+  sessionId  String
+  session    ChatSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role       String
+  content    String
+  tokensIn   Int?
+  tokensOut  Int?
+  latencyMs  Int?
+  createdAt  DateTime     @default(now())
+
+  @@index([sessionId, createdAt])
+}
