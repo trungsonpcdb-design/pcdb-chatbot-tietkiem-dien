@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { CitationPopover, type Citation } from "./citation-popover";
 import { FeedbackButtons } from "./feedback-buttons";
+import { FormDmtmn, type FormDmtmnData } from "./form-dmtmn";
 
 export interface ChatMessage {
   id: string;
@@ -11,8 +12,21 @@ export interface ChatMessage {
   pending?: boolean;
 }
 
-export function MessageBubble({ message }: { message: ChatMessage }) {
+const FORM_MARKER = "<FORM_DMTMN/>";
+
+export function MessageBubble({
+  message,
+  onFormSubmit,
+  disabled,
+}: {
+  message: ChatMessage;
+  onFormSubmit?: (data: FormDmtmnData) => void;
+  disabled?: boolean;
+}) {
   const isUser = message.role === "user";
+  const hasForm = !isUser && message.content.includes(FORM_MARKER);
+  const textOnly = hasForm ? message.content.replace(FORM_MARKER, "").trim() : message.content;
+
   return (
     <div className={cn("flex flex-col", isUser ? "items-end" : "items-start")}>
       <div
@@ -23,8 +37,11 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
             : "bg-slate-100 text-slate-900 rounded-bl-md"
         )}
       >
-        {message.content || (message.pending ? "…" : "")}
+        {textOnly || (message.pending ? "…" : "")}
       </div>
+      {hasForm && onFormSubmit && (
+        <FormDmtmn onSubmit={onFormSubmit} disabled={disabled ?? false} />
+      )}
       {!isUser && !message.pending && (
         <div className="flex items-center gap-1">
           {message.serverMessageId && <FeedbackButtons messageId={message.serverMessageId} />}

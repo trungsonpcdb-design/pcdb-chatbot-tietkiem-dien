@@ -8,6 +8,7 @@ import { SuggestedQuestions } from "./suggested-questions";
 import { RatingModal } from "./rating-modal";
 import { attachSessionEndListeners } from "@/lib/session-lifecycle";
 import type { ChatMessage } from "./message-bubble";
+import type { FormDmtmnData } from "./form-dmtmn";
 
 export function ChatContainer() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -30,41 +31,9 @@ export function ChatContainer() {
     return detach;
   }, [messages]);
 
-  const send = useCallback(async (text: string) => {
-    setBusy(true);
-    const userMsg: ChatMessage = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: text,
-    };
-    const assistantId = crypto.randomUUID();
-    setMessages((prev) => [
-      ...prev,
-      userMsg,
-      { id: assistantId, role: "assistant", content: "", pending: true },
-    ]);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: sessionIdRef.current,
-          message: text,
-        }),
-      });
-
-      if (!res.ok) {
-        let msg = "Đã xảy ra lỗi khi gửi câu hỏi.";
-        try {
-          const j = await res.json();
-          if (j?.error) msg = j.error;
-        } catch {}
-        throw new Error(msg);
-      }
-      if (!res.body) throw new Error("Không nhận được phản hồi.");
-
-      const reader = res.body.getReader();
+  const consumeSSE = useCallback(
+    async (body: ReadableStream<Uint8Array>, assistantId: string) => {
+      const reader = body.getReader();
       const decoder = new TextDecoder();
       let buf = "";
 
@@ -131,6 +100,45 @@ export function ChatContainer() {
           }
         }
       }
+    },
+    []
+  );
+
+  const send = useCallback(async (text: string) => {
+    setBusy(true);
+    const userMsg: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: text,
+    };
+    const assistantId = crypto.randomUUID();
+    setMessages((prev) => [
+      ...prev,
+      userMsg,
+      { id: assistantId, role: "assistant", content: "", pending: true },
+    ]);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: sessionIdRef.current,
+          message: text,
+        }),
+      });
+
+      if (!res.ok) {
+        let msg = "Đã xảy ra lỗi khi gửi câu hỏi.";
+        try {
+          const j = await res.json();
+          if (j?.error) msg = j.error;
+        } catch {}
+        throw new Error(msg);
+      }
+      if (!res.body) throw new Error("Không nhận được phản hồi.");
+
+      await consumeSSE(res.body, assistantId);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       toast.error(msg);
@@ -144,14 +152,51 @@ export function ChatContainer() {
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [consumeSSE]);
+
+  const sendForm = useCallback(
+    async (data: FormDmtmnData) => {
+      setBusy(true);
+      const summary = `[Form ĐMTMN] Diện tích ${data.areaM2}m², hướng ${data.orientation}, ${data.roofType}, hóa đơn ${data.monthlyBillVnd.toLocaleString("vi-VN")}đ/tháng.`;
+      const userMsg: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "user",
+        content: summary,
+      };
+      const assistantId = crypto.randomUUID();
+      setMessages((prev) => [
+        ...prev,
+        userMsg,
+        { id: assistantId, role: "assistant", content: "", pending: true },
+      ]);
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId: sessionIdRef.current,
+            message: summary,
+            formData: data,
+          }),
+        });
+        if (!res.ok || !res.body) throw new Error("Gửi form thất bại");
+        await consumeSSE(res.body, assistantId);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : String(err));
+      } finally {
+        setBusy(false);
+      }
+    },
+    [consumeSSE]
+  );
 
   const hasMessages = messages.length > 0;
 
   return (
     <div className="flex flex-1 flex-col bg-white">
       {hasMessages ? (
-        <MessageList messages={messages} />
+        <MessageList messages={messages} onFormSubmit={sendForm} busy={busy} />
       ) : (
         <SuggestedQuestions onPick={send} />
       )}

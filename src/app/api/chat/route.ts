@@ -18,9 +18,17 @@ export const maxDuration = 60;
 const MIN_SCORE_ACCEPT = 0.35;
 const MIN_SCORE_USE = 0.5;
 
+interface FormDmtmnPayload {
+  areaM2: number;
+  orientation: string;
+  roofType: string;
+  monthlyBillVnd: number;
+}
+
 interface ChatBody {
   sessionId?: string;
   message: string;
+  formData?: FormDmtmnPayload;
 }
 
 export async function POST(req: NextRequest) {
@@ -106,6 +114,27 @@ export async function POST(req: NextRequest) {
     citationMap = built.citationMap;
   }
 
+  if (body.formData) {
+    const f = body.formData;
+    const suggestedKw = Math.round((f.monthlyBillVnd / 300000) * 10) / 10;
+    const area = Math.round(suggestedKw * 7);
+    const dailyKwh = Math.round(suggestedKw * 4);
+    const capitalM = Math.round(suggestedKw * 12);
+    systemPrompt += `\n\nDỮ LIỆU KHÁCH HÀNG CUNG CẤP:
+- Diện tích mái: ${f.areaM2} m²
+- Hướng mái: ${f.orientation}
+- Loại mái: ${f.roofType}
+- Hóa đơn TB/tháng: ${f.monthlyBillVnd.toLocaleString("vi-VN")} VNĐ
+
+ƯỚC TÍNH SƠ BỘ (dùng để tư vấn, luôn nhấn mạnh cần khảo sát thực tế):
+- Công suất khuyến nghị: ~${suggestedKw} kWp
+- Diện tích cần: ~${area} m²
+- Sản lượng: ~${dailyKwh} kWh/ngày
+- Chi phí đầu tư tham khảo: ~${capitalM} triệu VNĐ
+
+Hãy tư vấn dựa trên các thông số trên + tài liệu tham khảo. So sánh diện tích cần với diện tích khách có (${f.areaM2} m²) để đánh giá khả thi. KHÔNG chèn <FORM_DMTMN/> vào câu trả lời lần này.`;
+  }
+
   const openai = getOpenAI();
   const encoder = new TextEncoder();
 
@@ -154,6 +183,7 @@ export async function POST(req: NextRequest) {
             role: "assistant",
             content: fullText,
             citations: citationsJson,
+            formData: body.formData ? JSON.stringify(body.formData) : null,
             latencyMs,
           },
         });
