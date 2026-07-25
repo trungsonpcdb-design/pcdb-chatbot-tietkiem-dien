@@ -10,7 +10,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </Link>
         <nav className="text-sm space-y-1 opacity-70">
           <div className="p-2 bg-slate-800 rounded">📊 Tổng quan</div>
-          <div className="p-2">👥 Lead khách hàng (M3)</div>
+          <Link href="/dashboard/leads" className="p-2 hover:bg-slate-800 rounded block">
+            👥 Lead khách hàng
+          </Link>
           <div className="p-2">💬 Lịch sử chat (M4)</div>
           <Link href="/dashboard/documents" className="p-2 hover:bg-slate-800 rounded block">
             📚 Tài liệu (KB)
