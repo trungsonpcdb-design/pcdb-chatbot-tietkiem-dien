@@ -60,3 +60,9 @@ Thumbs.db
 
 # Brainstorming visual companion
 .superpowers/
+
+# KB source docs — nội dung nội bộ, không public
+tailieu/
+
+# Personal skill files (không thuộc dự án)
+*.skill

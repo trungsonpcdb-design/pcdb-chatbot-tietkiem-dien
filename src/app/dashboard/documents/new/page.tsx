@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { DocumentForm } from "@/components/dashboard/document-form";
 
 export default function NewDocumentPage() {
@@ -8,7 +9,9 @@ export default function NewDocumentPage() {
         Chấp nhận PDF, DOCX, TXT tối đa 15MB. Tài liệu sẽ được extract, chia chunk và embed
         tự động — quá trình mất ~5-30 giây tuỳ độ dài.
       </p>
-      <DocumentForm />
+      <Suspense fallback={<div className="text-sm text-slate-500">Đang tải...</div>}>
+        <DocumentForm />
+      </Suspense>
     </div>
   );
 }
