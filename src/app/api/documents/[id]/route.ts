@@ -1,12 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { getCurrentDbUser } from "@/lib/auth";
 
 export async function DELETE(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
-  const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const user = await getCurrentDbUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (user.role !== "admin") return NextResponse.json({ error: "Chỉ admin mới có quyền xóa tài liệu" }, { status: 403 });
+
   const { id } = await ctx.params;
+  const doc = await prisma.document.findUnique({ where: { id }, select: { blobUrl: true } });
+  if (!doc) return NextResponse.json({ error: "Không tìm thấy tài liệu" }, { status: 404 });
+
   await prisma.document.delete({ where: { id } });
+
+  if (doc.blobUrl && process.env.BLOB_READ_WRITE_TOKEN && /^https?:\/\//.test(doc.blobUrl)) {
+    try {
+      const { del } = await import("@vercel/blob");
+      await del(doc.blobUrl, { token: process.env.BLOB_READ_WRITE_TOKEN });
+    } catch (err) {
+      console.error("[documents.delete] blob delete failed", err);
+    }
+  }
+
   return NextResponse.json({ ok: true });
 }
 

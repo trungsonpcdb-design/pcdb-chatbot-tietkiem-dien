@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { cn, formatDate } from "@/lib/utils";
+import { RenameDocDialog } from "./rename-doc-dialog";
+import { DeleteDocButton } from "./delete-doc-button";
 
 interface DocRow {
   id: string;
@@ -22,7 +24,7 @@ const CAT_LABEL: Record<string, string> = {
   TIET_KIEM: "Tiết kiệm",
 };
 
-export function DocumentListTable({ documents }: { documents: DocRow[] }) {
+export function DocumentListTable({ documents, isAdmin = false }: { documents: DocRow[]; isAdmin?: boolean }) {
   if (documents.length === 0) {
     return (
       <div className="text-center py-16 text-slate-500 border rounded-xl bg-white">
@@ -48,9 +50,39 @@ export function DocumentListTable({ documents }: { documents: DocRow[] }) {
           {documents.map((d) => (
             <tr key={d.id} className="border-t hover:bg-slate-50">
               <td className="p-3">
-                <Link href={`/dashboard/documents/${d.id}`} className="font-medium text-[color:var(--color-evn-blue)] hover:underline">
-                  {d.title}
-                </Link>
+                <div className="flex items-start gap-2">
+                  <Link href={`/dashboard/documents/${d.id}`} className="font-medium text-[color:var(--color-evn-blue)] hover:underline">
+                    {d.title}
+                  </Link>
+                  <RenameDocDialog
+                    docId={d.id}
+                    currentTitle={d.title}
+                    trigger={
+                      <button
+                        type="button"
+                        className="text-xs text-slate-400 hover:text-[color:var(--color-evn-blue)] underline underline-offset-2 shrink-0"
+                        title="Đổi tiêu đề"
+                      >
+                        Đổi tên
+                      </button>
+                    }
+                  />
+                  {isAdmin && (
+                    <DeleteDocButton
+                      docId={d.id}
+                      docTitle={d.title}
+                      trigger={
+                        <button
+                          type="button"
+                          className="text-xs text-slate-400 hover:text-red-600 underline underline-offset-2 shrink-0"
+                          title="Xóa tài liệu"
+                        >
+                          Xóa
+                        </button>
+                      }
+                    />
+                  )}
+                </div>
                 <div className="text-xs text-slate-500 mt-0.5">
                   {CAT_LABEL[d.category] ?? d.category} · {d.sourceType}
                 </div>

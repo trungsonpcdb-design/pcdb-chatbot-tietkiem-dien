@@ -3,7 +3,10 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { SupersedeDialog } from "@/components/dashboard/supersede-dialog";
+import { RenameDocDialog } from "@/components/dashboard/rename-doc-dialog";
+import { DeleteDocButton } from "@/components/dashboard/delete-doc-button";
 import { Button } from "@/components/ui/button";
+import { requireDbUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +16,7 @@ export default async function DocumentDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const user = await requireDbUser();
   const doc = await prisma.document.findUnique({
     where: { id },
     include: {
@@ -69,8 +73,16 @@ export default async function DocumentDetailPage({
         )}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
+        <RenameDocDialog docId={doc.id} currentTitle={doc.title} />
         {doc.isActive && <SupersedeDialog docId={doc.id} others={others} />}
+        {user.role === "admin" && (
+          <DeleteDocButton
+            docId={doc.id}
+            docTitle={doc.title}
+            redirectTo="/dashboard/documents"
+          />
+        )}
         <Button variant="outline" asChild>
           <Link href="/dashboard/documents">Đóng</Link>
         </Button>
