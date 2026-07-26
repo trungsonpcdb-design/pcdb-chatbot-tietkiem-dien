@@ -24,7 +24,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 bg-slate-900 text-white p-4 flex flex-col">
-        <Link href="/dashboard" className="block mb-6">
+        <Link href="/dashboard" className="block mb-2">
           <div className="bg-white rounded-lg p-2 flex items-center justify-center">
             <Image
               src="/logo-pcdienbien.jpg"
@@ -36,6 +36,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
             />
           </div>
         </Link>
+        <div className="text-center text-sm font-bold italic text-red-400 mb-6">
+          Thắp sáng niềm tin
+        </div>
         <SidebarNav items={items} />
         <div className="mt-auto pt-4 border-t border-slate-800 text-xs text-slate-400">
           <div className="truncate">{user.fullName}</div>
