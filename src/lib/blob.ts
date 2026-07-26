@@ -24,7 +24,7 @@ export async function putPrivate(
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     const { put } = await import("@vercel/blob");
     const res = await put(pathname, buffer, {
-      access: "public",
+      access: "private",
       contentType,
       addRandomSuffix: false,
       allowOverwrite: true,
