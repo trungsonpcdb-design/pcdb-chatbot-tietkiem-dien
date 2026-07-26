@@ -49,8 +49,14 @@ async function run() {
     console.log(`[apply-migrations] APPLY ${mig.id}`);
     const statements = sql
       .split(/;\s*[\r\n]/)
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0 && !s.startsWith("--"));
+      .map((s) =>
+        s
+          .split(/\r?\n/)
+          .filter((line) => !line.trim().startsWith("--"))
+          .join("\n")
+          .trim()
+      )
+      .filter((s) => s.length > 0);
     for (const stmt of statements) {
       await client.execute(stmt);
     }
