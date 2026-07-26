@@ -12,10 +12,16 @@ export interface ModerationResult {
   suggestedReply?: string;
 }
 
+function containsAsWord(text: string, term: string): boolean {
+  if (term.includes(" ")) return text.includes(term);
+  const tokens = text.split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+  return tokens.includes(term);
+}
+
 export function moderate(text: string): ModerationResult {
   const lower = text.toLowerCase();
 
-  if (PROFANITY.some((w) => lower.includes(w))) {
+  if (PROFANITY.some((w) => containsAsWord(lower, w))) {
     return {
       allowed: false,
       reason: "PROFANITY",
@@ -24,7 +30,7 @@ export function moderate(text: string): ModerationResult {
     };
   }
 
-  if (OFF_TOPIC_KEYWORDS.some((w) => lower.includes(w))) {
+  if (OFF_TOPIC_KEYWORDS.some((w) => containsAsWord(lower, w))) {
     return {
       allowed: false,
       reason: "OFF_TOPIC",
