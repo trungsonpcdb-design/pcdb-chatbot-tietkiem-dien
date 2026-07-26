@@ -1,4 +1,5 @@
 import { UserButton } from "@clerk/nextjs";
+import Image from "next/image";
 import Link from "next/link";
 import { requireDbUser } from "@/lib/auth";
 import { SidebarNav, type NavItem } from "@/components/dashboard/sidebar-nav";
@@ -23,8 +24,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 bg-slate-900 text-white p-4 flex flex-col">
-        <Link href="/dashboard" className="text-lg font-semibold block mb-6">
-          ⚡ EVN AI
+        <Link href="/dashboard" className="block mb-6">
+          <div className="bg-white rounded-lg p-2 flex items-center justify-center">
+            <Image
+              src="/logo-pcdienbien.jpg"
+              alt="Công ty Điện lực Điện Biên"
+              width={200}
+              height={174}
+              priority
+              className="h-20 w-auto"
+            />
+          </div>
         </Link>
         <SidebarNav items={items} />
         <div className="mt-auto pt-4 border-t border-slate-800 text-xs text-slate-400">

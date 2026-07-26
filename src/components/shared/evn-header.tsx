@@ -3,27 +3,27 @@ import Link from "next/link";
 
 export function EvnHeader() {
   return (
-    <header className="bg-[color:var(--color-evn-blue)] text-white shadow-md">
-      <div className="max-w-4xl mx-auto flex items-center gap-3 px-4 py-3">
-        <Image
-          src="/evn-placeholder-logo.svg"
-          alt="EVN Điện Biên"
-          width={36}
-          height={36}
-          priority
-        />
-        <div>
-          <div className="text-sm font-semibold leading-tight">
-            EVN Điện Biên
-          </div>
-          <div className="text-xs opacity-90 leading-tight">
-            Trợ lý AI — Tiết kiệm điện & Điện mặt trời mái nhà
+    <header className="bg-white border-b-2 border-[color:var(--color-evn-blue)] shadow-sm">
+      <div className="max-w-4xl mx-auto flex items-center gap-4 px-4 py-2">
+        <Link href="/" className="shrink-0">
+          <Image
+            src="/logo-pcdienbien.jpg"
+            alt="Công ty Điện lực Điện Biên"
+            width={200}
+            height={174}
+            priority
+            className="h-16 w-auto"
+          />
+        </Link>
+        <div className="hidden sm:block flex-1 min-w-0">
+          <div className="text-sm text-slate-600 leading-tight">
+            Trợ lý AI · Tiết kiệm điện & Điện mặt trời mái nhà
           </div>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto shrink-0">
           <Link
             href="/dashboard"
-            className="text-xs bg-white/10 hover:bg-white/20 rounded-full px-3 py-1.5 transition"
+            className="text-xs bg-[color:var(--color-evn-blue)] text-white hover:opacity-90 rounded-full px-3 py-1.5 transition"
           >
             Nhân viên đăng nhập
           </Link>
