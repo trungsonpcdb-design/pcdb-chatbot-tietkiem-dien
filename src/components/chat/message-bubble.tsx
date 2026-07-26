@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { CitationPopover, type Citation } from "./citation-popover";
+import type { Citation } from "./citation-popover";
 import { FeedbackButtons } from "./feedback-buttons";
 import { FormDmtmn, type FormDmtmnData } from "./form-dmtmn";
 
@@ -61,12 +61,9 @@ export function MessageBubble({
       {hasForm && onFormSubmit && (
         <FormDmtmn onSubmit={onFormSubmit} disabled={disabled ?? false} />
       )}
-      {!isUser && !message.pending && (
+      {!isUser && !message.pending && message.serverMessageId && (
         <div className="flex items-center gap-1 pl-11">
-          {message.serverMessageId && <FeedbackButtons messageId={message.serverMessageId} />}
-          {message.citations && message.citations.length > 0 && (
-            <CitationPopover citations={message.citations} />
-          )}
+          <FeedbackButtons messageId={message.serverMessageId} />
         </div>
       )}
     </div>

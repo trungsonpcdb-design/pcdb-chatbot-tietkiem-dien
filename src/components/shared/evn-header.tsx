@@ -35,8 +35,13 @@ export function EvnHeader() {
           <div className="text-sm sm:text-base font-bold italic text-[#c8102e] leading-tight drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
             Thắp sáng niềm tin
           </div>
-          <div className="hidden sm:block text-xs text-slate-700 leading-tight mt-0.5 drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)]">
-            Trợ lý AI · Tiết kiệm điện & Điện mặt trời mái nhà
+          <div className="mt-1 leading-snug font-bold text-[#0b2f7a] [text-shadow:_0_1px_0_#fff,_0_0_6px_rgba(255,255,255,0.95),_0_0_10px_rgba(255,255,255,0.7)]">
+            <div className="text-sm sm:text-lg">
+              Trợ lý AI của Công ty Điện lực Điện Biên
+            </div>
+            <div className="text-sm sm:text-base mt-0.5">
+              Tư vấn sử dụng điện tiết kiệm và điện mặt trời mái nhà
+            </div>
           </div>
         </div>
         <div className="ml-auto shrink-0">
