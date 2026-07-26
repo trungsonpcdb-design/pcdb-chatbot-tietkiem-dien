@@ -16,7 +16,10 @@ export function EvnHeader() {
           />
         </Link>
         <div className="hidden sm:block flex-1 min-w-0">
-          <div className="text-sm text-slate-600 leading-tight">
+          <div className="text-base font-bold italic text-[#c8102e] leading-tight">
+            Thắp sáng niềm tin
+          </div>
+          <div className="text-xs text-slate-600 leading-tight mt-0.5">
             Trợ lý AI · Tiết kiệm điện & Điện mặt trời mái nhà
           </div>
         </div>
