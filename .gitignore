@@ -66,3 +66,6 @@ tailieu/
 
 # Personal skill files (không thuộc dự án)
 *.skill
+
+.vercel
+.env*
