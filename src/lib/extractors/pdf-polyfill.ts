@@ -1,18 +1,11 @@
 // pdf-parse v2 → pdfjs-dist references DOMMatrix/Path2D at module evaluation.
 // Node.js serverless (Vercel) has no DOM globals, so we stub the minimal surface
 // pdfjs needs for text-only extraction (no rendering).
+// DOMMatrix etc. are already typed via lib.dom.d.ts — we just assign at runtime.
 
-type MatrixCtor = new (init?: unknown) => object;
+const g = globalThis as unknown as Record<string, unknown>;
 
-declare global {
-  var DOMMatrix: MatrixCtor | undefined;
-  var Path2D: (new () => object) | undefined;
-  var ImageData:
-    | (new (data: Uint8ClampedArray, w: number, h?: number) => object)
-    | undefined;
-}
-
-if (typeof globalThis.DOMMatrix === "undefined") {
+if (typeof g.DOMMatrix === "undefined") {
   class DOMMatrixStub {
     a = 1;
     b = 0;
@@ -27,39 +20,39 @@ if (typeof globalThis.DOMMatrix === "undefined") {
     m41 = 0;
     m42 = 0;
     constructor(_init?: unknown) {}
-    multiply(): this {
+    multiply() {
       return this;
     }
-    inverse(): this {
+    inverse() {
       return this;
     }
-    translate(): this {
+    translate() {
       return this;
     }
-    scale(): this {
+    scale() {
       return this;
     }
-    rotate(): this {
+    rotate() {
       return this;
     }
     transformPoint(p: unknown) {
       return p;
     }
   }
-  globalThis.DOMMatrix = DOMMatrixStub as unknown as MatrixCtor;
+  g.DOMMatrix = DOMMatrixStub;
 }
 
-if (typeof globalThis.Path2D === "undefined") {
+if (typeof g.Path2D === "undefined") {
   class Path2DStub {
     addPath() {}
     moveTo() {}
     lineTo() {}
     closePath() {}
   }
-  globalThis.Path2D = Path2DStub as unknown as new () => object;
+  g.Path2D = Path2DStub;
 }
 
-if (typeof globalThis.ImageData === "undefined") {
+if (typeof g.ImageData === "undefined") {
   class ImageDataStub {
     data: Uint8ClampedArray;
     width: number;
@@ -70,11 +63,7 @@ if (typeof globalThis.ImageData === "undefined") {
       this.height = h || data.length / (4 * w);
     }
   }
-  globalThis.ImageData = ImageDataStub as unknown as new (
-    data: Uint8ClampedArray,
-    w: number,
-    h?: number
-  ) => object;
+  g.ImageData = ImageDataStub;
 }
 
 export {};
