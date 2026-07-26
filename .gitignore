@@ -67,5 +67,8 @@ tailieu/
 # Personal skill files (không thuộc dự án)
 *.skill
 
+# Claude Code local settings
+.claude/
+
 .vercel
 .env*
