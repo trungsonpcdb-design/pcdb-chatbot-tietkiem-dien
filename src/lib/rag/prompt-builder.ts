@@ -44,9 +44,15 @@ export function buildPromptWithContext(chunks: RetrievedChunk[]): BuiltPrompt {
     refBlocks.push(`[${marker}] ${c.content}\n    (Nguồn: ${meta})`);
   });
 
+  const uniqueDocIds = new Set(chunks.map((c) => c.documentId));
+  const multiDocNote =
+    uniqueDocIds.size > 1
+      ? `\n\n⚠ LƯU Ý: Có ${uniqueDocIds.size} văn bản khác nhau cùng liên quan đến câu hỏi này. Nếu các văn bản có nội dung mâu thuẫn hoặc chồng chéo về cùng một quy định, hãy ƯU TIÊN văn bản có "Hiệu lực từ" gần nhất và nói rõ cho khách biết có nhiều bản (ví dụ: "Theo bản mới nhất [n], … Bản cũ hơn [m] quy định khác một chút, khách nên xem [n] để có thông tin cập nhật.").`
+      : "";
+
   const context =
     refBlocks.length > 0
-      ? `\n\nTÀI LIỆU THAM KHẢO:\n${refBlocks.join("\n\n")}\n\n`
+      ? `\n\nTÀI LIỆU THAM KHẢO:\n${refBlocks.join("\n\n")}${multiDocNote}\n\n`
       : "\n\n(Không có tài liệu tham khảo phù hợp cho câu hỏi này.)\n\n";
 
   return {
