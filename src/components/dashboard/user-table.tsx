@@ -11,6 +11,7 @@ interface UserRow {
   email: string;
   fullName: string;
   role: string;
+  status: string;
   unitCode: string;
   unitName: string;
   createdAt: string;
@@ -45,6 +46,7 @@ export function UserTable({ users }: { users: UserRow[] }) {
           <tr>
             <th className="p-3">Nhân viên</th>
             <th className="p-3">Email</th>
+            <th className="p-3">Trạng thái</th>
             <th className="p-3">Vai trò</th>
             <th className="p-3">Đơn vị</th>
             <th className="p-3">Ngày tạo</th>
@@ -55,6 +57,27 @@ export function UserTable({ users }: { users: UserRow[] }) {
             <tr key={u.id} className="border-t">
               <td className="p-3 font-medium">{u.fullName}</td>
               <td className="p-3 text-slate-600 text-xs">{u.email}</td>
+              <td className="p-3">
+                {u.status === "active" ? (
+                  <button
+                    disabled={busy === u.id}
+                    onClick={() => update(u.id, { status: "pending" })}
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition disabled:opacity-50"
+                    title="Bấm để tạm khoá"
+                  >
+                    ✓ Đã duyệt
+                  </button>
+                ) : (
+                  <button
+                    disabled={busy === u.id}
+                    onClick={() => update(u.id, { status: "active" })}
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700 hover:bg-amber-200 transition disabled:opacity-50"
+                    title="Bấm để cấp quyền"
+                  >
+                    ⏳ Chờ duyệt
+                  </button>
+                )}
+              </td>
               <td className="p-3">
                 <select
                   disabled={busy === u.id}

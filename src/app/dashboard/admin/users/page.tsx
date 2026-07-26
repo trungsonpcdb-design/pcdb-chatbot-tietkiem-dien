@@ -21,6 +21,7 @@ export default async function AdminUsersPage() {
           email: u.email,
           fullName: u.fullName,
           role: u.role,
+          status: u.status,
           unitCode: u.unit.code,
           unitName: u.unit.name,
           createdAt: u.createdAt.toISOString(),

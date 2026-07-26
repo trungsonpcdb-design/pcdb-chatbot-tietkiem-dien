@@ -22,6 +22,7 @@ model User {
   email      String   @unique
   fullName   String
   role       String   @default("user")
+  status     String   @default("pending")
   unitId     String
   unit       Unit     @relation(fields: [unitId], references: [id])
   createdAt  DateTime @default(now())

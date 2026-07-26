@@ -10,26 +10,31 @@ export async function getCurrentDbUser(): Promise<User | null> {
 }
 
 export async function requireDbUser(): Promise<User> {
-  const user = await getCurrentDbUser();
-  if (user) return user;
+  let user = await getCurrentDbUser();
 
-  const clerk = await currentUser();
-  if (!clerk) redirect("/sign-in");
+  if (!user) {
+    const clerk = await currentUser();
+    if (!clerk) redirect("/sign-in");
 
-  const email = clerk.emailAddresses[0]?.emailAddress;
-  if (!email) throw new Error("Clerk user missing email");
-  const defaultUnit = await prisma.unit.findUnique({ where: { code: "KHN" } });
-  if (!defaultUnit) throw new Error("Default unit KHN not seeded");
+    const email = clerk.emailAddresses[0]?.emailAddress;
+    if (!email) throw new Error("Clerk user missing email");
+    const defaultUnit = await prisma.unit.findUnique({ where: { code: "KHN" } });
+    if (!defaultUnit) throw new Error("Default unit KHN not seeded");
 
-  return prisma.user.create({
-    data: {
-      clerkId: clerk.id,
-      email,
-      fullName: [clerk.firstName, clerk.lastName].filter(Boolean).join(" ") || email,
-      role: "user",
-      unitId: defaultUnit.id,
-    },
-  });
+    user = await prisma.user.create({
+      data: {
+        clerkId: clerk.id,
+        email,
+        fullName: [clerk.firstName, clerk.lastName].filter(Boolean).join(" ") || email,
+        role: "user",
+        status: "pending",
+        unitId: defaultUnit.id,
+      },
+    });
+  }
+
+  if (user.status !== "active") redirect("/pending");
+  return user;
 }
 
 export async function requireAdmin(): Promise<User> {
