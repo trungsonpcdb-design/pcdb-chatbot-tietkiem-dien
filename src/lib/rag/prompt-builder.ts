@@ -1,5 +1,6 @@
 import type { RetrievedChunk } from "./vector-store";
 import { SYSTEM_PROMPT_RAG } from "@/lib/prompts/system-rag";
+import { SCRIPTED_FACTS } from "@/lib/prompts/scripted-facts";
 
 export interface CitationRef {
   marker: number;
@@ -56,7 +57,7 @@ export function buildPromptWithContext(chunks: RetrievedChunk[]): BuiltPrompt {
       : "\n\n(Không có tài liệu tham khảo phù hợp cho câu hỏi này.)\n\n";
 
   return {
-    system: SYSTEM_PROMPT_RAG + context,
+    system: SYSTEM_PROMPT_RAG + "\n\n" + SCRIPTED_FACTS + context,
     citationMap,
   };
 }
