@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import type { Citation } from "./citation-popover";
 import { FeedbackButtons } from "./feedback-buttons";
 import { FormDmtmn, type FormDmtmnData } from "./form-dmtmn";
+import { QuickReplyButtons } from "./quick-reply-buttons";
+import type { ScriptButton } from "@/lib/scripts";
 
 export interface ChatMessage {
   id: string;
@@ -11,6 +13,8 @@ export interface ChatMessage {
   content: string;
   citations?: Citation[];
   pending?: boolean;
+  quickReplies?: ScriptButton[];
+  scripted?: boolean;
 }
 
 const FORM_MARKER = "<FORM_DMTMN/>";
@@ -18,10 +22,12 @@ const FORM_MARKER = "<FORM_DMTMN/>";
 export function MessageBubble({
   message,
   onFormSubmit,
+  onQuickReply,
   disabled,
 }: {
   message: ChatMessage;
   onFormSubmit?: (data: FormDmtmnData) => void;
+  onQuickReply?: (btn: ScriptButton) => void;
   disabled?: boolean;
 }) {
   const isUser = message.role === "user";
@@ -61,7 +67,14 @@ export function MessageBubble({
       {hasForm && onFormSubmit && (
         <FormDmtmn onSubmit={onFormSubmit} disabled={disabled ?? false} />
       )}
-      {!isUser && !message.pending && message.serverMessageId && (
+      {!isUser && message.quickReplies && message.quickReplies.length > 0 && onQuickReply && (
+        <QuickReplyButtons
+          buttons={message.quickReplies}
+          onPick={onQuickReply}
+          disabled={disabled}
+        />
+      )}
+      {!isUser && !message.pending && !message.scripted && message.serverMessageId && (
         <div className="flex items-center gap-1 pl-11">
           <FeedbackButtons messageId={message.serverMessageId} />
         </div>

@@ -4,15 +4,40 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { MessageList } from "./message-list";
 import { MessageInput } from "./message-input";
-import { SuggestedQuestions } from "./suggested-questions";
 import { RatingModal } from "./rating-modal";
 import { LeadCaptureModal } from "./lead-capture-modal";
 import { attachSessionEndListeners } from "@/lib/session-lifecycle";
 import type { ChatMessage } from "./message-bubble";
 import type { FormDmtmnData } from "./form-dmtmn";
+import {
+  getScript,
+  PICKER_SCRIPT_ID,
+  type ScriptButton,
+  type ScriptNode,
+} from "@/lib/scripts";
 
-export function ChatContainer() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+function buildScriptMessage(node: ScriptNode): ChatMessage {
+  return {
+    id: crypto.randomUUID(),
+    role: "assistant",
+    content: node.message,
+    quickReplies: node.buttons,
+    scripted: true,
+  };
+}
+
+export function ChatContainer({
+  initialScriptId = PICKER_SCRIPT_ID,
+}: {
+  initialScriptId?: string;
+}) {
+  const [currentScriptId, setCurrentScriptId] = useState<string>(initialScriptId);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    const script = getScript(initialScriptId);
+    if (!script) return [];
+    const rootNode = script.nodes[script.rootId];
+    return rootNode ? [buildScriptMessage(rootNode)] : [];
+  });
   const [busy, setBusy] = useState(false);
   const sessionIdRef = useRef<string | null>(null);
   const [ratingOpen, setRatingOpen] = useState(false);
@@ -167,6 +192,58 @@ export function ChatContainer() {
     }
   }, [consumeSSE]);
 
+  const handleQuickReply = useCallback(
+    (btn: ScriptButton) => {
+      const currentScript = getScript(currentScriptId);
+      if (!currentScript) return;
+
+      let targetScriptId = currentScriptId;
+      let targetNodeId: string | null = null;
+      const action = btn.action;
+
+      if (action.type === "goto") {
+        targetNodeId = action.nodeId;
+      } else if (action.type === "root") {
+        targetNodeId = currentScript.rootId;
+      } else if (action.type === "escalate") {
+        targetNodeId = "escalate";
+      } else if (action.type === "switch") {
+        const nextScript = getScript(action.scriptId);
+        if (nextScript) {
+          targetScriptId = action.scriptId;
+          targetNodeId = nextScript.rootId;
+        } else {
+          targetScriptId = PICKER_SCRIPT_ID;
+          targetNodeId = "not-ready";
+        }
+      } else if (action.type === "picker") {
+        targetScriptId = PICKER_SCRIPT_ID;
+        const picker = getScript(PICKER_SCRIPT_ID);
+        targetNodeId = picker?.rootId ?? null;
+      }
+      if (!targetNodeId) return;
+
+      const targetScript = getScript(targetScriptId);
+      const node = targetScript?.nodes[targetNodeId];
+      if (!node) return;
+
+      if (targetScriptId !== currentScriptId) setCurrentScriptId(targetScriptId);
+
+      setMessages((prev) => {
+        const withoutOldButtons = prev.map((m) =>
+          m.scripted && m.quickReplies ? { ...m, quickReplies: undefined } : m
+        );
+        const userEcho: ChatMessage = {
+          id: crypto.randomUUID(),
+          role: "user",
+          content: btn.label,
+        };
+        return [...withoutOldButtons, userEcho, buildScriptMessage(node)];
+      });
+    },
+    [currentScriptId]
+  );
+
   const sendForm = useCallback(
     async (data: FormDmtmnData) => {
       setBusy(true);
@@ -204,15 +281,14 @@ export function ChatContainer() {
     [consumeSSE]
   );
 
-  const hasMessages = messages.length > 0;
-
   return (
     <div className="flex flex-1 flex-col bg-white">
-      {hasMessages ? (
-        <MessageList messages={messages} onFormSubmit={sendForm} busy={busy} />
-      ) : (
-        <SuggestedQuestions onPick={send} />
-      )}
+      <MessageList
+        messages={messages}
+        onFormSubmit={sendForm}
+        onQuickReply={handleQuickReply}
+        busy={busy}
+      />
       <MessageInput onSend={send} disabled={busy} />
       <RatingModal
         open={ratingOpen}
