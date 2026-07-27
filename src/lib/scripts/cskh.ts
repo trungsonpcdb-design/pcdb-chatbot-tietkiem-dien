@@ -39,7 +39,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Bắc (EVNNPC) — bao gồm cả PC Điện Biên — có thể liên hệ:\n\n☎️ Tổng đài: 1900 6769\n🔗 Website: https://npc.com.vn\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được xử lý nhanh hơn.",
+        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Bắc (EVNNPC) — bao gồm cả PC Điện Biên — có thể liên hệ:\n\n☎️ Tổng đài: 1900 6769\n🔗 Website: https://cskh.npc.com.vn\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được xử lý nhanh hơn.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,
