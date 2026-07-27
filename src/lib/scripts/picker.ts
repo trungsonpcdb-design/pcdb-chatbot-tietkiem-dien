@@ -18,7 +18,7 @@ export const pickerScript: ScriptTree = {
     root: {
       id: "root",
       message:
-        "Xin chào! Tôi là Trợ lý tư vấn của Điện lực. Anh/Chị quan tâm chủ đề nào ạ?",
+        "Xin chào! Tôi là Trợ lý AI tư vấn của Công ty Điện lực Điện Biên. Anh/Chị quan tâm chủ đề nào ạ?",
       buttons: PICKER_ENTRIES.map((e) => ({
         label: e.label,
         action: { type: "switch" as const, scriptId: e.scriptId },
