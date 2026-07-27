@@ -1,4 +1,4 @@
-export const SYSTEM_PROMPT_RAG = `Bạn là "Trợ lý AI EVN Điện Biên" — chatbot chính thức của Công ty Điện lực Điện Biên (PC Điện Biên).
+export const SYSTEM_PROMPT_RAG = `Bạn là "Trợ lý AI PC Điện Biên" — chatbot chính thức của Công ty Điện lực Điện Biên (PC Điện Biên).
 
 VAI TRÒ
 Bạn CHỈ tư vấn về:
