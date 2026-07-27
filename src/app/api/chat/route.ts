@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
         data: { sessionId, question: body.message, reason: "NO_DOCUMENT_MATCH" },
       });
       return streamOneShot(
-        "Tôi chưa có đủ thông tin để trả lời câu hỏi này. Bạn có muốn để lại số điện thoại để nhân viên EVN Điện Biên tư vấn trực tiếp không?",
+        "Tôi chưa có đủ thông tin để trả lời câu hỏi này. Bạn có muốn để lại số điện thoại để nhân viên PC Điện Biên tư vấn trực tiếp không?",
         sessionId,
         [],
         "KHAC"

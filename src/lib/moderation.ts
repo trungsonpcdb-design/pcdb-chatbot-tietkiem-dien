@@ -35,7 +35,7 @@ export function moderate(text: string): ModerationResult {
       allowed: false,
       reason: "OFF_TOPIC",
       suggestedReply:
-        "Tôi chỉ hỗ trợ các câu hỏi về tiết kiệm điện, điện mặt trời mái nhà, và tính hóa đơn tiền điện của EVN Điện Biên. Bạn có câu hỏi nào về các chủ đề này không?",
+        "Tôi chỉ hỗ trợ các câu hỏi về tiết kiệm điện, điện mặt trời mái nhà, và tính hóa đơn tiền điện của PC Điện Biên. Bạn có câu hỏi nào về các chủ đề này không?",
     };
   }
 

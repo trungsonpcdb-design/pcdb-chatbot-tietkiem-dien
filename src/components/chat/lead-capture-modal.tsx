@@ -71,7 +71,7 @@ export function LeadCaptureModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nhận tư vấn trực tiếp từ EVN Điện Biên</DialogTitle>
+          <DialogTitle>Nhận tư vấn trực tiếp từ PC Điện Biên</DialogTitle>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-3">
           <Input name="fullName" required placeholder="Họ tên *" />
