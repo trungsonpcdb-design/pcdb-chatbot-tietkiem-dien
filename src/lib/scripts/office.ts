@@ -5,7 +5,7 @@ const SWITCH_TOPIC = { label: "🔄 Đổi chủ đề khác", action: { type: "
 
 export const officeScript: ScriptTree = {
   id: "office",
-  title: "Tiết kiệm điện trong Văn phòng, tòa nhà, công nghiệp",
+  title: "Tư vấn tiết kiệm điện trong Văn phòng, tòa nhà, công nghiệp",
   rootId: "root",
   nodes: {
     root: {
