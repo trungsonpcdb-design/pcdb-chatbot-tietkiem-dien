@@ -77,7 +77,7 @@ Chuyển tiếp:
 • Hệ thống từ 1/1/2021 chưa làm thủ tục: theo VBHN 52 hiện hành.
 
 ═══════ 8. TỔNG ĐÀI CSKH ═══════
-• Miền Bắc (EVNNPC — gồm PC Điện Biên): 1900 6769 | https://npc.com.vn
+• Miền Bắc (EVNNPC — gồm PC Điện Biên): 1900 6769 | https://cskh.npc.com.vn
 • Miền Trung:                             1900 1909
 • Miền Nam:                               1900 1006 / 1900 9000
 • Hà Nội (EVNHANOI):                      1900 1288
