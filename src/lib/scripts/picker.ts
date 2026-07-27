@@ -2,7 +2,7 @@ import type { ScriptTree } from "./types";
 
 export const PICKER_ENTRIES = [
   { scriptId: "home-savings", label: "🏠 Tư vấn tiết kiệm điện trong gia đình" },
-  { scriptId: "office", label: "🏢 Tư vấn tiết kiệm điện trong Văn phòng, tòa nhà, công nghiệp" },
+  { scriptId: "office", label: "🏢 Tiết kiệm điện trong Văn phòng, tòa nhà, công nghiệp" },
   { scriptId: "solar", label: "☀️ Tư vấn Điện mặt trời mái nhà" },
   { scriptId: "pricing", label: "💵 Tra cứu giá bán điện" },
   { scriptId: "cskh", label: "📞 Liên hệ CSKH" },
