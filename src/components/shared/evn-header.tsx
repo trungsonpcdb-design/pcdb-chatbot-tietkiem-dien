@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function EvnHeader() {
   return (
-    <header className="relative isolate border-b-2 border-[color:var(--color-evn-blue)] shadow-sm overflow-hidden bg-white aspect-[4/1] max-h-[240px]">
+    <header className="relative isolate border-b-2 border-[color:var(--color-evn-blue)] shadow-sm overflow-hidden bg-white min-h-[190px] sm:min-h-[170px] sm:aspect-[4/1] sm:max-h-[240px]">
       <Image
         src="/header-v3.png"
         alt=""
@@ -18,9 +18,9 @@ export function EvnHeader() {
         alt="Tiết kiệm điện thành thói quen"
         width={255}
         height={330}
-        className="absolute bottom-2 left-3 h-16 sm:h-24 w-auto z-10 pointer-events-none drop-shadow-[0_2px_4px_rgba(255,255,255,0.7)]"
+        className="hidden sm:block absolute bottom-2 left-3 h-24 w-auto z-10 pointer-events-none drop-shadow-[0_2px_4px_rgba(255,255,255,0.7)]"
       />
-      <div className="relative max-w-4xl mx-auto flex items-start gap-4 px-4 py-3">
+      <div className="relative max-w-4xl mx-auto flex flex-col sm:flex-row items-start gap-2 sm:gap-4 px-4 py-3">
         <Link href="/" className="shrink-0">
           <Image
             src="/logo-pcdienbien.jpg"
