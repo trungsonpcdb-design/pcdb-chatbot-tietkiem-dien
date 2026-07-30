@@ -12,6 +12,9 @@ import { embedQuery } from "@/lib/rag/embedder";
 import { searchTopK } from "@/lib/rag/vector-store";
 import { buildPromptWithContext, type CitationRef } from "@/lib/rag/prompt-builder";
 import { shouldSuggestLead } from "@/lib/lead-intent";
+import { isMemoryCommandCandidate } from "@/lib/memory/keyword-filter";
+import { handleMemoryCommand } from "@/lib/memory/handle-memory-command";
+import { listUserMemoryNotes, getUserMemoryBlock, type OwnerKey } from "@/lib/memory/user-memory-store";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -57,6 +60,12 @@ export async function POST(req: NextRequest) {
   }
 
   const anonymousId = clerkUserId ? null : await getOrCreateAnonymousId();
+  const owner: OwnerKey = { anonymousId, clerkUserId };
+
+  if (isMemoryCommandCandidate(body.message)) {
+    const memoryReply = await handleMemoryCommand(owner, body.message);
+    if (memoryReply) return streamOneShot(memoryReply, null, []);
+  }
 
   let session = body.sessionId
     ? await prisma.chatSession.findUnique({ where: { id: body.sessionId } })
@@ -115,6 +124,8 @@ export async function POST(req: NextRequest) {
     systemPrompt = built.system;
     citationMap = built.citationMap;
   }
+
+  systemPrompt += getUserMemoryBlock(await listUserMemoryNotes(owner));
 
   if (body.formData) {
     const f = body.formData;
