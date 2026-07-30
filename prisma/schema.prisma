@@ -151,3 +151,14 @@ model UnansweredQuery {
 
   @@index([reviewed, createdAt])
 }
+
+model UserMemoryNote {
+  id          String   @id @default(cuid())
+  anonymousId String?
+  clerkUserId String?
+  content     String
+  createdAt   DateTime @default(now())
+
+  @@index([anonymousId])
+  @@index([clerkUserId])
+}

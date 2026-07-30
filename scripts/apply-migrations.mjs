@@ -25,6 +25,7 @@ const MIGRATIONS = [
   { id: "20260725073413_add_kb", file: "prisma/migrations/20260725073413_add_kb/migration.sql" },
   { id: "20260725074622_add_feedback_lead", file: "prisma/migrations/20260725074622_add_feedback_lead/migration.sql" },
   { id: "20260726135443_add_user_status", file: "prisma/migrations/20260726135443_add_user_status/migration.sql" },
+  { id: "20260730024550_add_user_memory_notes", file: "prisma/migrations/20260730024550_add_user_memory_notes/migration.sql" },
 ];
 
 async function run() {
