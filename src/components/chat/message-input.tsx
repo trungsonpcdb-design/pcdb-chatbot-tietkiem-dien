@@ -1,6 +1,13 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useEffect, useRef } from "react";
+import {
+  FormEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Mic, MicOff, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -14,42 +21,58 @@ export function MessageInput({
   onSend: (text: string) => void;
   disabled: boolean;
 }) {
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [text, setText] = useState("");
   const baseBeforeListenRef = useRef<string>("");
+  const shouldAutoSubmitRef = useRef(false);
   const { supported, listening, transcript, error, start, stop, reset } =
     useSpeechRecognition();
 
   useEffect(() => {
-    if (!listening || !inputRef.current) return;
+    if (!listening) return;
     const base = baseBeforeListenRef.current;
-    const joined = base ? `${base} ${transcript}`.trim() : transcript;
-    inputRef.current.value = joined;
+    setText(base ? `${base} ${transcript}`.trim() : transcript);
   }, [transcript, listening]);
 
   useEffect(() => {
     if (error) toast.error(error);
   }, [error]);
 
-  function submit() {
-    const text = inputRef.current?.value.trim();
-    if (!text || disabled) return;
-    if (listening) stop();
-    onSend(text);
-    if (inputRef.current) inputRef.current.value = "";
-    reset();
-    baseBeforeListenRef.current = "";
-  }
+  const submitText = useCallback(
+    (raw: string) => {
+      const trimmed = raw.trim();
+      if (!trimmed || disabled) return;
+      onSend(trimmed);
+      setText("");
+      reset();
+      baseBeforeListenRef.current = "";
+    },
+    [disabled, onSend, reset]
+  );
+
+  useEffect(() => {
+    if (listening) return;
+    if (!shouldAutoSubmitRef.current) return;
+    shouldAutoSubmitRef.current = false;
+    if (error) return;
+    const spoken = transcript.trim();
+    if (!spoken) return;
+    const base = baseBeforeListenRef.current;
+    const finalText = base ? `${base} ${spoken}`.trim() : spoken;
+    submitText(finalText);
+  }, [listening, error, transcript, submitText]);
 
   function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      submit();
+      if (listening) stop();
+      submitText(text);
     }
   }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    submit();
+    if (listening) stop();
+    submitText(text);
   }
 
   function toggleMic() {
@@ -57,7 +80,8 @@ export function MessageInput({
       stop();
       return;
     }
-    baseBeforeListenRef.current = inputRef.current?.value.trim() ?? "";
+    shouldAutoSubmitRef.current = true;
+    baseBeforeListenRef.current = text.trim();
     start();
   }
 
@@ -88,11 +112,12 @@ export function MessageInput({
         </Button>
       )}
       <textarea
-        ref={inputRef}
         rows={1}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         placeholder={
           listening
-            ? "Đang nghe... Nói xong bấm nút micro để dừng"
+            ? "Đang nghe... Nói xong sẽ tự gửi"
             : "Nhập câu hỏi của bạn... (Enter để gửi, Shift+Enter xuống dòng)"
         }
         disabled={disabled}
