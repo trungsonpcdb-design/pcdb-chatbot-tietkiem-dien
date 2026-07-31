@@ -45,6 +45,22 @@ Sau khi OpenAI trả lời xong: lưu `Message` role=assistant (kèm `citations`
 
 **Lưu ý:** citation `[n]` được sinh và lưu trong DB nhưng **không hiển thị** cho end-user trong UI chat hiện tại (đã bỏ "Xem nguồn" để chat tự nhiên hơn) — xem [[feedback-chatbot-no-citation-ui]]. Đừng thêm lại UI trích dẫn trừ khi được yêu cầu rõ.
 
+### Voice input/output trên `/chat` (Web Speech API, giai đoạn A)
+
+Hai hook browser-native ở `src/lib/hooks/`:
+
+- `use-speech-recognition.ts` — wrap `SpeechRecognition` (`lang=vi-VN`, `interimResults=true`, `continuous=false`), expose `{ supported, listening, transcript, error, start, stop, reset }`. Feature-detected qua `SpeechRecognition`/`webkitSpeechRecognition`.
+- `use-speech-synthesis.ts` — wrap `speechSynthesis`, chọn voice có `lang` bắt đầu bằng `vi`. Expose thêm `hasVietnameseVoice`. Hàm `speak()` **return `false` và không phát** nếu không có voice vi — vì fallback sang voice mặc định (thường English) sẽ đọc chữ tiếng Việt bằng phát âm Anh, nghe tệ hơn không đọc.
+
+Tích hợp vào 2 chỗ:
+
+- `MessageInput` — nút mic bên trái ô nhập, tự ẩn nếu không supported. **Textarea dùng controlled state (`useState`), KHÔNG uncontrolled ref** — đây là fix bắt buộc cho mobile: `inputRef.current.value = ""` không clear được textarea trên iOS Safari và Android Chrome sau khi submit. Khi speech kết thúc (browser tự dừng do silence, hoặc user bấm mic lần 2), effect watch transition `listening: true → false` sẽ **auto-submit** nếu transcript non-empty và không có error — không bắt user bấm Gửi. Xem [[feedback-web-speech-api-patterns]].
+- `MessageBubble` — nút "Nghe" dưới mỗi câu trả lời bot (cả free-text lẫn scripted). Nếu `!hasVietnameseVoice` thì hiển thị mờ + tooltip "Thiết bị chưa cài giọng tiếng Việt" và bấm sẽ hiện toast hướng dẫn cài đặt Windows/Android/iOS thay vì phát âm sai.
+
+**Không tự động đọc** câu trả lời — user chủ động bấm để nghe (tránh làm phiền ở môi trường CSKH đông người).
+
+**Chi phí: $0** — hoàn toàn client-side, không đụng backend, không gọi OpenAI. Đã cân nhắc giai đoạn B (OpenAI Whisper + TTS) nhưng chưa cần thiết. Nếu về sau pilot phản hồi độ chính xác thuật ngữ ngành điện kém trên webview Zalo/Facebook (nơi `SpeechRecognition` có thể bị chặn), khi đó mới đánh giá lại.
+
 ### Auth & phân quyền (`src/lib/auth.ts`, `src/middleware.ts`)
 
 Clerk bảo vệ toàn bộ `/dashboard(.*)` qua middleware. `requireDbUser()` tự tạo `User` trong DB ở lần đăng nhập đầu (unit mặc định `KHN` — "Khách hàng ngoài"), với `status="pending"` → redirect `/pending` cho tới khi admin đổi `status="active"` (qua `/dashboard/admin/users`). `requireAdmin()` guard thêm `role==="admin"`. Ngoài cơ chế DB status, còn có Clerk **allowlist** (`/api/admin/allowlist`) để chặn đăng ký ở tầng Clerk trước khi vào được app.
