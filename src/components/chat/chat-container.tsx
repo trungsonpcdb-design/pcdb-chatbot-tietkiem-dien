@@ -7,6 +7,7 @@ import { MessageInput } from "./message-input";
 import { RatingModal } from "./rating-modal";
 import { LeadCaptureModal } from "./lead-capture-modal";
 import { attachSessionEndListeners } from "@/lib/session-lifecycle";
+import { useSpeechSynthesis } from "@/lib/hooks/use-speech-synthesis";
 import type { ChatMessage } from "./message-bubble";
 import type { FormDmtmnData } from "./form-dmtmn";
 import {
@@ -45,6 +46,39 @@ export function ChatContainer({
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadTopic, setLeadTopic] = useState("KHAC");
   const leadShownRef = useRef(false);
+  const { hasVietnameseVoice, speak } = useSpeechSynthesis();
+  const greetingSpokenRef = useRef(false);
+
+  useEffect(() => {
+    if (greetingSpokenRef.current) return;
+    const greeting = messages[0];
+    if (!greeting || greeting.role !== "assistant" || !greeting.content) return;
+
+    const spokenGreeting =
+      "Xin chào! Tôi là trợ lý Ây Ai ảo của Công ty Điện lực Điện Biên. Anh chị quan tâm chủ đề nào ạ?";
+
+    const trySpeak = () => {
+      if (greetingSpokenRef.current) return;
+      if (!hasVietnameseVoice) return;
+      if (speak(spokenGreeting)) {
+        greetingSpokenRef.current = true;
+        detach();
+      }
+    };
+
+    const onInteract = () => trySpeak();
+    const detach = () => {
+      window.removeEventListener("pointerdown", onInteract);
+      window.removeEventListener("keydown", onInteract);
+      window.removeEventListener("touchstart", onInteract);
+    };
+
+    window.addEventListener("pointerdown", onInteract, { once: false });
+    window.addEventListener("keydown", onInteract, { once: false });
+    window.addEventListener("touchstart", onInteract, { once: false });
+
+    return detach;
+  }, [messages, hasVietnameseVoice, speak]);
 
   useEffect(() => {
     const detach = attachSessionEndListeners(() => {
