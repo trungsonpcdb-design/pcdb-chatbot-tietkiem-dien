@@ -18,6 +18,7 @@ export const solarScript: ScriptTree = {
         { label: "🏛️ Cơ quan, tổ chức, tài sản công", action: { type: "goto", nodeId: "publicorg" } },
         { label: "🚫 Không bán điện dư", action: { type: "goto", nodeId: "nosurplus" } },
         { label: "💰 Có bán điện dư", action: { type: "goto", nodeId: "surplus" } },
+        { label: "📍 Đầu mối liên hệ tại xã, phường", action: { type: "goto", nodeId: "docs.local_contact" } },
         { label: "📄 Thủ tục và hồ sơ", action: { type: "goto", nodeId: "docs" } },
         { label: "⚙️ Kỹ thuật và an toàn", action: { type: "goto", nodeId: "tech" } },
         { label: "🔧 Hệ thống đã lắp đặt", action: { type: "goto", nodeId: "existing" } },
