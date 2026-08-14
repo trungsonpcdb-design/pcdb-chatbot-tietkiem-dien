@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { getOpenAI, CHAT_MODEL, MAX_OUTPUT_TOKENS } from "@/lib/openai";
 import { SYSTEM_PROMPT_MVP } from "@/lib/prompts/system-mvp";
+import { SCRIPTED_FACTS } from "@/lib/prompts/scripted-facts";
 import { getOrCreateAnonymousId } from "@/lib/anonymous-id";
 import { checkRateLimit, hashIp } from "@/lib/rate-limit";
 import { moderate } from "@/lib/moderation";
@@ -101,7 +102,7 @@ export async function POST(req: NextRequest) {
   const hasDocuments = (await prisma.document.count({ where: { isActive: true } })) > 0;
 
   if (!hasDocuments) {
-    systemPrompt = SYSTEM_PROMPT_MVP;
+    systemPrompt = SYSTEM_PROMPT_MVP + "\n\n" + SCRIPTED_FACTS;
   } else {
     const queryVec = await embedQuery(rewritten);
     const topChunks = await searchTopK(queryVec, 5);
