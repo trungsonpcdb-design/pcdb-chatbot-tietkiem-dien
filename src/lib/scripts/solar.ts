@@ -509,6 +509,114 @@ export const solarScript: ScriptTree = {
         { label: "Điều kiện cấp Giấy chứng nhận", action: { type: "goto", nodeId: "docs.conditions" } },
         { label: "Thu hồi Giấy chứng nhận", action: { type: "goto", nodeId: "docs.revoke" } },
         { label: "Hồ sơ bán điện", action: { type: "goto", nodeId: "surplus.dossier" } },
+        { label: "📍 Đầu mối liên hệ tại xã, phường", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact": {
+      id: "docs.local_contact",
+      parentId: "docs",
+      parentLabel: "Thủ tục và hồ sơ",
+      message:
+        "Mỗi xã, phường trên địa bàn tỉnh Điện Biên đều có một đầu mối (thuộc Điện lực khu vực) tiếp nhận, hướng dẫn thủ tục phát triển điện mặt trời mái nhà tự sản xuất, tự tiêu thụ. Anh/Chị vui lòng chọn Điện lực quản lý khu vực cần lắp đặt để xem đầu mối liên hệ:",
+      buttons: [
+        { label: "Điện lực Điện Biên Phủ", action: { type: "goto", nodeId: "docs.local_contact.dbp" } },
+        { label: "Điện lực Tuần Giáo", action: { type: "goto", nodeId: "docs.local_contact.tuan_giao" } },
+        { label: "Điện lực Thanh An", action: { type: "goto", nodeId: "docs.local_contact.thanh_an" } },
+        { label: "Điện lực Na Sang", action: { type: "goto", nodeId: "docs.local_contact.na_sang" } },
+        { label: "Điện lực Na Son", action: { type: "goto", nodeId: "docs.local_contact.na_son" } },
+        { label: "Điện lực Tủa Chùa", action: { type: "goto", nodeId: "docs.local_contact.tua_chua" } },
+        { label: "Điện lực Mường Ảng", action: { type: "goto", nodeId: "docs.local_contact.muong_ang" } },
+        { label: "Điện lực Mường Nhé", action: { type: "goto", nodeId: "docs.local_contact.muong_nhe" } },
+        { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.dbp": {
+      id: "docs.local_contact.dbp",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Điện Biên Phủ:\n\n• Phường Điện Biên Phủ: 📞 0984500767 — Phòng Kinh tế hạ tầng và Đô thị, Số 1 đường Trần Văn Thọ\n• Phường Mường Thanh: 📞 0912707363 — Phòng Kinh tế hạ tầng và Đô thị, Bản Pú Tửu\n• Xã Mường Pồn: 📞 0888266538 — Phòng Kinh tế hạ tầng và Đô thị, Bản Huổi Vang\n• Xã Mường Phăng: 📞 0969969628 — Phòng Kinh tế hạ tầng và Đô thị, Bản Trung tâm\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.tuan_giao": {
+      id: "docs.local_contact.tuan_giao",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Tuần Giáo:\n\n• Xã Tuần Giáo: 📞 0986866356 — Phòng kinh tế xã\n• Xã Quài Tở: 📞 0835220989 — Phòng kinh tế xã\n• Xã Mường Mùn: 📞 0344542829 — Phòng kinh tế xã\n• Xã Pú Nhung: 📞 0968877566 — Phòng kinh tế xã\n• Xã Chiềng Sinh: 📞 0944685525 — Phòng kinh tế xã\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.thanh_an": {
+      id: "docs.local_contact.thanh_an",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Thanh An:\n\n• Xã Thanh Nưa: 📞 0358763555 — Phòng kinh tế xã, Bản Pe Luông\n• Xã Thanh An: 📞 0976875200 — Phòng kinh tế xã, Thôn Hoàng Công Chất\n• Xã Thanh Yên: 📞 0386777704 — Phòng kinh tế xã, Bản Noong Luống\n• Xã Sam Mứn: 📞 0916157044 — Phòng kinh tế xã, Thôn Sam Mứn\n• Xã Núa Ngam: 📞 0368397686 — Phòng kinh tế xã, Thôn Sam Mứn\n• Xã Mường Nhà: 📞 0976296625 — Phòng kinh tế xã, Bản Xẻ\n• Phường Mường Thanh: 📞 0912707363 — Phòng Kinh tế hạ tầng và Đô thị\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.na_sang": {
+      id: "docs.local_contact.na_sang",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Na Sang:\n\n• Na Sang: 📞 0366744998 — Phòng Kinh tế xã, Tổ dân phố 2\n• Mường Tùng: 📞 0974681682 — Phòng Kinh tế xã, Bản Piêng Ban\n• Nậm Nèn: 📞 0981921368 — Phòng Kinh tế xã, Bản Nậm Nèn\n• Pa Ham: 📞 0914541478 — Phòng Kinh tế xã, Bản Pa Ham\n• Si Pa Phìn: 📞 0917510620 — Phòng Kinh tế xã, Bản Nậm Chim\n• Mường Chà: 📞 0353161984 — Phòng Kinh tế xã, Bản Mới\n• Nà Hỳ: 📞 0917983603 — Phòng Kinh tế xã, Bản Nà Hỳ 1\n• Nà Bủng: 📞 0385462021 — Phòng Kinh tế xã, Bản Vàng Đán\n• Chà Tở: 📞 0355358451 — Phòng Kinh tế xã, Bản Nà Mười\n• Phường Mường Lay: 📞 0916820929 — Phòng Kinh tế xã, Tổ dân phố 1\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.na_son": {
+      id: "docs.local_contact.na_son",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Na Son:\n\n• Xã Na Son: 📞 0918238565 — Phòng Kinh tế xã, Trung tâm xã\n• Xã Mường Luân: 📞 0388239856 — Phòng Kinh tế xã, Trung tâm xã\n• Xã Tìa Dình: 📞 0943182400 — Phòng Kinh tế xã, Trung tâm xã\n• Xã Pu Nhi: 📞 0947430128 — Phòng Kinh tế xã, Trung tâm xã\n• Xã Phình Giàng: 📞 0915806036 — Phòng Kinh tế xã, Trung tâm xã\n• Xã Xa Dung: 📞 0946338855 — Phòng Kinh tế xã, Trung tâm xã\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.tua_chua": {
+      id: "docs.local_contact.tua_chua",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Tủa Chùa:\n\n• Sín Chải: 📞 0982691866 — Phòng Kinh tế xã, Thôn Tả Sìn Thàng\n• Sính Phình: 📞 0911776000 — Phòng Kinh tế xã, Thôn Tà Là Cáo\n• Tủa Chùa: 📞 0843303456 — Phòng Kinh tế xã, Thôn Thắng Lợi\n• Sáng Nhè: 📞 0976666612 — Phòng Kinh tế xã, Thôn Sáng Nhè\n• Tủa Thàng: 📞 0978634555 — Phòng Kinh tế xã, Thôn Cộng Hòa\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.muong_ang": {
+      id: "docs.local_contact.muong_ang",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Mường Ảng:\n\n• Mường Ảng: 📞 0982372093 — Phòng Kinh tế xã, Trung tâm hành chính xã\n• Búng Lao: 📞 0818639119 — Phòng Kinh tế xã, Trung tâm xã\n• Nà Tấu: 📞 0984120420 — Phòng Kinh tế xã, Trung tâm xã\n• Mường Lạn: 📞 0973552760 — Phòng Kinh tế xã, Trung tâm xã\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.local_contact.muong_nhe": {
+      id: "docs.local_contact.muong_nhe",
+      parentId: "docs.local_contact",
+      parentLabel: "Đầu mối liên hệ tại xã, phường",
+      message:
+        "📍 Đầu mối tại các xã, phường thuộc Điện lực Mường Nhé:\n\n• Sín Thầu: 📞 0814382346 — Phòng Kinh tế xã, Bản Suối Voi\n• Mường Nhé: 📞 0924975888 — Phòng Kinh tế xã, Tổ dân cư số 1\n• Mường Toong: 📞 0335489200 — Phòng Kinh tế xã, Bản Mường Toong\n• Nậm Kè: 📞 0964443153 — Phòng Kinh tế xã, Bản Phiêng Vai\n• Quảng Lâm: 📞 0839180055 — Phòng Kinh tế xã, Bản Trạm Púng\n\n📖 Theo Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên. Số điện thoại có thể thay đổi theo phân công thực tế — nếu không liên hệ được, Anh/Chị gọi tổng đài CSKH 1900 6769.",
+      buttons: [
+        { label: "🔙 Chọn khu vực khác", action: { type: "goto", nodeId: "docs.local_contact" } },
         BACK_TO_ROOT,
       ],
     },

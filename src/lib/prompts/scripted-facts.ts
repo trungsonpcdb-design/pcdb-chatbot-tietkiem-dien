@@ -76,7 +76,73 @@ Chuyển tiếp:
 • Hệ thống trước 1/1/2021 (đã có HĐ bán điện): được lắp thêm nhưng không làm tăng công suất cũ.
 • Hệ thống từ 1/1/2021 chưa làm thủ tục: theo VBHN 52 hiện hành.
 
-═══════ 8. TỔNG ĐÀI CSKH ═══════
+═══════ 8. ĐẦU MỐI TIẾP NHẬN THỦ TỤC ĐMTMN TẠI CÁC XÃ, PHƯỜNG (tỉnh Điện Biên) ═══════
+(Nguồn: Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên)
+Định dạng mỗi dòng: Xã/phường | Bộ phận tiếp nhận | SĐT liên hệ | Địa chỉ
+
+[Điện lực Điện Biên Phủ]
+Phường Điện Biên Phủ | Phòng Kinh tế hạ tầng và Đô thị | 0984500767 | Số 1 đường Trần Văn Thọ
+Phường Mường Thanh | Phòng Kinh tế hạ tầng và Đô thị | 0912707363 | Bản Pú Tửu
+Xã Mường Pồn | Phòng Kinh tế hạ tầng và Đô thị | 0888266538 | Bản Huổi Vang
+Xã Mường Phăng | Phòng Kinh tế hạ tầng và Đô thị | 0969969628 | Bản Trung tâm
+
+[Điện lực Tuần Giáo]
+Xã Tuần Giáo | Phòng kinh tế xã | 0986866356
+Xã Quài Tở | Phòng kinh tế xã | 0835220989
+Xã Mường Mùn | Phòng kinh tế xã | 0344542829
+Xã Pú Nhung | Phòng kinh tế xã | 0968877566
+Xã Chiềng Sinh | Phòng kinh tế xã | 0944685525
+
+[Điện lực Thanh An]
+Xã Thanh Nưa | Phòng kinh tế xã | 0358763555 | Bản Pe Luông
+Xã Thanh An | Phòng kinh tế xã | 0976875200 | Thôn Hoàng Công Chất
+Xã Thanh Yên | Phòng kinh tế xã | 0386777704 | Bản Noong Luống
+Xã Sam Mứn | Phòng kinh tế xã | 0916157044 | Thôn Sam Mứn
+Xã Núa Ngam | Phòng kinh tế xã | 0368397686 | Thôn Sam Mứn
+Xã Mường Nhà | Phòng kinh tế xã | 0976296625 | Bản Xẻ
+Phường Mường Thanh (Thanh An) | Phòng Kinh tế hạ tầng và Đô thị | 0912707363
+
+[Điện lực Na Sang]
+Na Sang | Phòng Kinh tế xã | 0366744998 | Tổ dân phố 2
+Mường Tùng | Phòng Kinh tế xã | 0974681682 | Bản Piêng Ban
+Nậm Nèn | Phòng Kinh tế xã | 0981921368 | Bản Nậm Nèn
+Pa Ham | Phòng Kinh tế xã | 0914541478 | Bản Pa Ham
+Si Pa Phìn | Phòng Kinh tế xã | 0917510620 | Bản Nậm Chim
+Mường Chà | Phòng Kinh tế xã | 0353161984 | Bản Mới
+Nà Hỳ | Phòng Kinh tế xã | 0917983603 | Bản Nà Hỳ 1
+Nà Bủng | Phòng Kinh tế xã | 0385462021 | Bản Vàng Đán
+Chà Tở | Phòng Kinh tế xã | 0355358451 | Bản Nà Mười
+Phường Mường Lay | Phòng Kinh tế xã | 0916820929 | Tổ dân phố 1
+
+[Điện lực Na Son]
+Xã Na Son | Phòng Kinh tế xã | 0918238565
+Xã Mường Luân | Phòng Kinh tế xã | 0388239856
+Xã Tìa Dình | Phòng Kinh tế xã | 0943182400
+Xã Pu Nhi | Phòng Kinh tế xã | 0947430128
+Xã Phình Giàng | Phòng Kinh tế xã | 0915806036
+Xã Xa Dung | Phòng Kinh tế xã | 0946338855
+
+[Điện lực Tủa Chùa]
+Sín Chải | Phòng Kinh tế xã | 0982691866 | Thôn Tả Sìn Thàng
+Sính Phình | Phòng Kinh tế xã | 0911776000 | Thôn Tà Là Cáo
+Tủa Chùa | Phòng Kinh tế xã | 0843303456 | Thôn Thắng Lợi
+Sáng Nhè | Phòng Kinh tế xã | 0976666612 | Thôn Sáng Nhè
+Tủa Thàng | Phòng Kinh tế xã | 0978634555 | Thôn Cộng Hòa
+
+[Điện lực Mường Ảng]
+Mường Ảng | Phòng Kinh tế xã | 0982372093 | Trung tâm hành chính xã
+Búng Lao | Phòng Kinh tế xã | 0818639119
+Nà Tấu | Phòng Kinh tế xã | 0984120420
+Mường Lạn | Phòng Kinh tế xã | 0973552760
+
+[Điện lực Mường Nhé]
+Sín Thầu | Phòng Kinh tế xã | 0814382346 | Bản Suối Voi
+Mường Nhé | Phòng Kinh tế xã | 0924975888 | Tổ dân cư số 1
+Mường Toong | Phòng Kinh tế xã | 0335489200 | Bản Mường Toong
+Nậm Kè | Phòng Kinh tế xã | 0964443153 | Bản Phiêng Vai
+Quảng Lâm | Phòng Kinh tế xã | 0839180055 | Bản Trạm Púng
+
+═══════ 10. TỔNG ĐÀI CSKH ═══════
 • Miền Bắc (EVNNPC — gồm PC Điện Biên): 1900 6769 | https://cskh.npc.com.vn
 • Miền Trung:                             1900 1909
 • Miền Nam:                               1900 1006 / 1900 9000
@@ -84,7 +150,7 @@ Chuyển tiếp:
 • TP.HCM (EVNHCMC):                       1900 545454
 • Cổng Dịch vụ công quốc gia:             https://dichvucong.gov.vn
 
-═══════ 9. HÓA ĐƠN — QUY TẮC TÍNH ═══════
+═══════ 11. HÓA ĐƠN — QUY TẮC TÍNH ═══════
 Sinh hoạt: chia sản lượng theo 6 bậc → cộng lại → cộng VAT.
 Ba giá (TOU): (SL_bình_thường × giá_BT) + (SL_thấp_điểm × giá_TĐ) + (SL_cao_điểm × giá_CĐ) → cộng VAT.
 Giá đổi giữa kỳ: phân bổ theo thời gian hoặc chốt chỉ số, KHÔNG áp toàn bộ theo giá mới chỉ dựa vào ngày xuất hóa đơn.
@@ -94,5 +160,6 @@ Giá đổi giữa kỳ: phân bổ theo thời gian hoặc chốt chỉ số, K
 • Khi user hỏi số hotline/URL → trích chính xác từ bảng trên.
 • Khi user hỏi thủ tục điện mặt trời → tra bảng ngưỡng công suất + mẫu số.
 • Khi user hỏi khung giờ TOU → dùng khung "hiện hành", nhắc "khung mới QĐ 963 CHƯA áp dụng".
-• Nếu user hỏi ngoài phạm vi 9 mục trên → tham chiếu "TÀI LIỆU THAM KHẢO" như bình thường.
+• Khi user hỏi đầu mối/số điện thoại liên hệ đăng ký, hướng dẫn thủ tục ĐMTMN tại 1 xã/phường cụ thể (hoặc hỏi theo tên Điện lực/huyện) → tra đúng dòng trong bảng mục 8, trả lời tên xã/phường + bộ phận tiếp nhận + SĐT. Nếu user chỉ nêu tên huyện/khu vực mà không rõ xã/phường, liệt kê TẤT CẢ xã/phường thuộc Điện lực khu vực đó. KHÔNG suy diễn hay bịa số điện thoại nếu xã/phường không có trong bảng — khi đó hướng dẫn gọi tổng đài CSKH (mục 10) để được nối máy đúng đầu mối.
+• Nếu user hỏi ngoài phạm vi các mục trên → tham chiếu "TÀI LIỆU THAM KHẢO" như bình thường.
 `;
