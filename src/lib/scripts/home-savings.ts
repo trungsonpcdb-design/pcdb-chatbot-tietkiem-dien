@@ -480,7 +480,7 @@ export const homeSavingsScript: ScriptTree = {
       parentId: "contact",
       parentLabel: "Tra cứu dịch vụ điện",
       message:
-        "Tổng đài Chăm sóc khách hàng của Tập đoàn Điện lực Việt Nam (EVN) — hỗ trợ khách hàng trên toàn quốc qua tổng đài 1588. Khi gọi, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được điều phối đến đúng đơn vị Điện lực khu vực.",
+        "Tổng đài Chăm sóc khách hàng của Tập đoàn Điện lực Việt Nam (EVN) — hỗ trợ khách hàng trên toàn quốc qua tổng đài 1558. Khi gọi, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được điều phối đến đúng đơn vị Điện lực khu vực.",
       buttons: [
         { label: "🔙 Quay lại Tra cứu dịch vụ", action: { type: "goto", nodeId: "contact" } },
         BACK_TO_ROOT,

@@ -29,7 +29,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Tổng đài Chăm sóc khách hàng của Tập đoàn Điện lực Việt Nam (EVN) — hỗ trợ khách hàng trên toàn quốc:\n\n☎️ Tổng đài: 1588\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được điều phối đến đúng đơn vị Điện lực khu vực.",
+        "Tổng đài Chăm sóc khách hàng của Tập đoàn Điện lực Việt Nam (EVN) — hỗ trợ khách hàng trên toàn quốc:\n\n☎️ Tổng đài: 1558\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được điều phối đến đúng đơn vị Điện lực khu vực.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,
