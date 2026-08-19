@@ -143,6 +143,7 @@ Nậm Kè | Phòng Kinh tế xã | 0964443153 | Bản Phiêng Vai
 Quảng Lâm | Phòng Kinh tế xã | 0839180055 | Bản Trạm Púng
 
 ═══════ 10. TỔNG ĐÀI CSKH ═══════
+• EVN toàn quốc:                          1588
 • Miền Bắc (EVNNPC — gồm PC Điện Biên): 1900 6769 | https://cskh.npc.com.vn
 • Miền Trung:                             1900 1909
 • Miền Nam:                               1900 1006 / 1900 9000

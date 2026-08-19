@@ -12,6 +12,7 @@ export const cskhScript: ScriptTree = {
       id: "root",
       message: "Xin chào! Anh/Chị cần tra cứu dịch vụ chăm sóc khách hàng nào?",
       buttons: [
+        { label: "📞 Tổng đài EVN toàn quốc", action: { type: "goto", nodeId: "evn" } },
         { label: "🌐 Cổng Dịch vụ công", action: { type: "goto", nodeId: "dvc" } },
         { label: "📞 Điện lực miền Bắc (EVNNPC)", action: { type: "goto", nodeId: "north" } },
         { label: "📞 Điện lực miền Trung", action: { type: "goto", nodeId: "central" } },
@@ -23,6 +24,17 @@ export const cskhScript: ScriptTree = {
       ],
     },
 
+    evn: {
+      id: "evn",
+      parentId: "root",
+      parentLabel: "CSKH",
+      message:
+        "Tổng đài Chăm sóc khách hàng của Tập đoàn Điện lực Việt Nam (EVN) — hỗ trợ khách hàng trên toàn quốc:\n\n☎️ Tổng đài: 1588\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được điều phối đến đúng đơn vị Điện lực khu vực.",
+      buttons: [
+        { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
+        BACK_TO_ROOT,
+      ],
+    },
     dvc: {
       id: "dvc",
       parentId: "root",

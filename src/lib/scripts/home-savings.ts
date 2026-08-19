@@ -464,6 +464,7 @@ export const homeSavingsScript: ScriptTree = {
       id: "contact",
       message: "Anh/Chị cần tra cứu dịch vụ nào?",
       buttons: [
+        { label: "Tổng đài EVN toàn quốc", action: { type: "goto", nodeId: "contact.evn" } },
         { label: "Cổng Dịch vụ công", action: { type: "goto", nodeId: "contact.dvc" } },
         { label: "Điện lực miền Bắc", action: { type: "goto", nodeId: "contact.north" } },
         { label: "Điện lực miền Trung", action: { type: "goto", nodeId: "contact.central" } },
@@ -471,6 +472,17 @@ export const homeSavingsScript: ScriptTree = {
         { label: "Điện lực Hà Nội", action: { type: "goto", nodeId: "contact.hanoi" } },
         { label: "Điện lực TP. Hồ Chí Minh", action: { type: "goto", nodeId: "contact.hcmc" } },
         { label: "Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "contact.info" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "contact.evn": {
+      id: "contact.evn",
+      parentId: "contact",
+      parentLabel: "Tra cứu dịch vụ điện",
+      message:
+        "Tổng đài Chăm sóc khách hàng của Tập đoàn Điện lực Việt Nam (EVN) — hỗ trợ khách hàng trên toàn quốc qua tổng đài 1588. Khi gọi, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được điều phối đến đúng đơn vị Điện lực khu vực.",
+      buttons: [
+        { label: "🔙 Quay lại Tra cứu dịch vụ", action: { type: "goto", nodeId: "contact" } },
         BACK_TO_ROOT,
       ],
     },
