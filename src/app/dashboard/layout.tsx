@@ -53,7 +53,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </aside>
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="relative isolate border-b-2 border-[color:var(--color-evn-blue)] shadow-sm overflow-hidden bg-white aspect-[4/1] max-h-[200px]">
+        <header className="relative isolate border-b-2 border-[color:var(--color-evn-blue)] shadow-sm overflow-hidden bg-white aspect-[3/1] max-h-[260px]">
           <Image
             src="/header-v3.png"
             alt=""

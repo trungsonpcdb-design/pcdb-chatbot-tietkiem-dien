@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function EvnHeader() {
   return (
-    <header className="relative isolate border-b-2 border-[color:var(--color-evn-blue)] shadow-sm overflow-hidden bg-white min-h-[190px] sm:min-h-[170px] sm:aspect-[4/1] sm:max-h-[240px]">
+    <header className="relative isolate border-b-2 border-[color:var(--color-evn-blue)] shadow-sm overflow-hidden bg-white min-h-[190px] sm:min-h-[200px] sm:aspect-[3/1] sm:max-h-[320px]">
       <Image
         src="/header-v3.png"
         alt=""

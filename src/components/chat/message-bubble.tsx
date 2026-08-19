@@ -81,7 +81,7 @@ export function MessageBubble({
         {!isUser && (
           <div className="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden bg-white ring-1 ring-slate-200 shadow-sm">
             <Image
-              src="/bot-avatar.jpg"
+              src="/bot-avatar.png"
               alt="Trợ lý AI"
               width={72}
               height={72}
