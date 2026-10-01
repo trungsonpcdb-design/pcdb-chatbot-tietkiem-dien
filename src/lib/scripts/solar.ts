@@ -151,6 +151,7 @@ export const solarScript: ScriptTree = {
         { label: "Hồ sơ đăng ký phát triển", action: { type: "goto", nodeId: "business.dossier" } },
         { label: "Thay đổi công suất/chủ sở hữu", action: { type: "goto", nodeId: "business.change" } },
         { label: "Nghiệm thu hệ thống", action: { type: "goto", nodeId: "business.acceptance" } },
+        { label: "Đất kết hợp đa mục đích", action: { type: "goto", nodeId: "business.multiuse_land" } },
         BACK_TO_ROOT,
       ],
     },
@@ -217,7 +218,7 @@ export const solarScript: ScriptTree = {
       parentId: "business",
       parentLabel: "Doanh nghiệp",
       message:
-        "Nếu hồ sơ thiếu, không hợp lệ hoặc công suất không đáp ứng quy định, trong 3 ngày làm việc, Ủy ban nhân dân cấp tỉnh phải thông báo lý do để doanh nghiệp bổ sung. Với hồ sơ đầy đủ, hợp lệ, thời hạn cấp Giấy chứng nhận là 10 ngày làm việc kể từ ngày tiếp nhận. Đơn vị quản lý lưới điện được lấy ý kiến về nguy cơ quá tải và chất lượng điện năng.\n\n📖 Điều 18.",
+        "Nếu hồ sơ thiếu, không hợp lệ hoặc công suất không đáp ứng quy định, trong 3 ngày làm việc Ủy ban nhân dân cấp tỉnh phải thông báo lý do để doanh nghiệp điều chỉnh, bổ sung và nộp lại hồ sơ. Với hồ sơ đầy đủ, hợp lệ, Ủy ban nhân dân cấp tỉnh lấy ý kiến Đơn vị quản lý lưới điện về nguy cơ quá tải, mức độ ảnh hưởng chất lượng điện năng và yêu cầu kỹ thuật; đơn vị này trả lời bằng văn bản điện tử trong tối đa 3 ngày làm việc. Thời hạn cấp Giấy chứng nhận đăng ký phát triển theo Mẫu số 04 là 10 ngày làm việc kể từ ngày tiếp nhận hồ sơ đầy đủ, hợp lệ.\n\n📖 Điều 18 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "Lưới điện quá tải", action: { type: "goto", nodeId: "surplus.reject" } },
         { label: "Điều kiện cấp giấy", action: { type: "goto", nodeId: "docs.conditions" } },
@@ -242,8 +243,22 @@ export const solarScript: ScriptTree = {
       parentId: "business",
       parentLabel: "Doanh nghiệp",
       message:
-        "Có. Tổ chức không phải hộ gia đình phải thực hiện nghiệm thu đầu tư xây dựng theo quy định về xây dựng, điện lực, phòng cháy, chữa cháy và bảo vệ môi trường trước khi đưa hệ thống vào khai thác. Hệ thống phải bảo đảm chất lượng điện năng và an toàn vận hành. Việc không đấu nối với lưới quốc gia không làm mất nghĩa vụ tuân thủ các quy định chuyên ngành.\n\n📖 Điều 23.",
+        "Có. Tổ chức không phải hộ gia đình phải thực hiện nghiệm thu đầu tư xây dựng theo quy định về xây dựng, điện lực, phòng cháy, chữa cháy và bảo vệ môi trường trước khi đưa hệ thống vào khai thác. Hệ thống phải bảo đảm chất lượng điện năng và an toàn vận hành. Việc không đấu nối với lưới quốc gia không làm mất nghĩa vụ tuân thủ các quy định chuyên ngành.\n\n📖 Điều 23 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
+        { label: "🔙 Quay lại Doanh nghiệp", action: { type: "goto", nodeId: "business" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "business.multiuse_land": {
+      id: "business.multiuse_land",
+      parentId: "business",
+      parentLabel: "Doanh nghiệp",
+      message:
+        "Nguồn điện mặt trời tự sản xuất, tự tiêu thụ lắp đặt trên công trình sử dụng đất kết hợp đa mục đích theo quy định pháp luật về đất đai (ví dụ: đất nông nghiệp kết hợp sản xuất điện, đất khu công nghiệp đa mục đích…) được bán sản lượng điện dư nhưng không quá 10% sản lượng điện thực phát. Các quy định khác về thủ tục đăng ký, nghiệm thu, mua bán điện dư và yêu cầu kỹ thuật được áp dụng tương tự nguồn điện mặt trời mái nhà tự sản xuất, tự tiêu thụ.\n\n📖 Khoản 4 Điều 13 và điểm b khoản 1 Điều 10 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
+      buttons: [
+        { label: "Hồ sơ đăng ký phát triển", action: { type: "goto", nodeId: "business.dossier" } },
+        { label: "Hồ sơ bán điện dư", action: { type: "goto", nodeId: "surplus.dossier" } },
+        { label: "Nghiệm thu hệ thống", action: { type: "goto", nodeId: "business.acceptance" } },
         { label: "🔙 Quay lại Doanh nghiệp", action: { type: "goto", nodeId: "business" } },
         BACK_TO_ROOT,
       ],
@@ -407,7 +422,7 @@ export const solarScript: ScriptTree = {
       parentId: "surplus",
       parentLabel: "Có bán điện dư",
       message:
-        "Thông thường, sản lượng điện dư được mua bán theo thỏa thuận nhưng không vượt quá 50% sản lượng điện phát theo cường độ bức xạ. Đến hết ngày 31/12/2030, hai bên có thể thỏa thuận tỷ lệ cao hơn 50% nếu lưới điện có khả năng tiếp nhận và bảo đảm vận hành an toàn. Khu vực miền núi, biên giới, hải đảo chưa được cấp điện từ hệ thống điện quốc gia không bị giới hạn tỷ lệ này.\n\n📖 Khoản 2 Điều 14.",
+        "Thông thường, sản lượng điện dư được mua bán theo thỏa thuận nhưng không vượt quá 50% sản lượng điện phát tại đầu ra của nguồn điện mặt trời mái nhà theo cường độ bức xạ. Đến hết ngày 31/12/2030, hai bên có thể thỏa thuận tỷ lệ cao hơn 50% nếu lưới điện tại khu vực đấu nối bảo đảm khả năng tiếp nhận và việc mua bán đáp ứng điều kiện vận hành an toàn. Đối với khu vực miền núi, biên giới, hải đảo chưa được cấp điện từ hệ thống điện quốc gia thì không giới hạn tỷ lệ, sản lượng được thanh toán là toàn bộ điện năng phát lên lưới điện của Bên mua điện dư đo đếm tại công tơ; kể từ thời điểm khu vực này được cấp điện từ hệ thống điện quốc gia, việc mua bán quay về áp dụng theo tỷ lệ 50% hoặc tỷ lệ cao hơn theo thời điểm.\n\n📖 Khoản 2 Điều 14 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "Cách tính sản lượng thanh toán", action: { type: "goto", nodeId: "surplus.payment" } },
         { label: "🔙 Quay lại Có bán điện dư", action: { type: "goto", nodeId: "surplus" } },
@@ -443,7 +458,7 @@ export const solarScript: ScriptTree = {
       parentId: "surplus",
       parentLabel: "Có bán điện dư",
       message:
-        "Giá mua điện dư được xác định theo giá điện năng thị trường điện bình quân của năm trước liền kề, tính bằng đồng Việt Nam trên kWh. Nếu mức giá này cao hơn giá tối đa của khung giá phát điện điện mặt trời mặt đất không có pin lưu trữ tương ứng theo miền, giá mua được giới hạn bằng mức giá tối đa của khung giá đó. Mức giá được xác định chưa bao gồm thuế giá trị gia tăng.\n\n📖 Khoản 5 Điều 14.",
+        "Giá mua điện dư được xác định theo giá điện năng thị trường điện bình quân của năm trước liền kề do đơn vị điều hành giao dịch thị trường điện công bố, tính bằng đồng Việt Nam trên kWh. Nếu mức giá này cao hơn giá tối đa của khung giá phát điện điện mặt trời mặt đất không có pin lưu trữ tương ứng theo miền áp dụng, giá mua được giới hạn bằng mức giá tối đa (chưa bao gồm thuế giá trị gia tăng) của khung giá đó.\n\n📖 Khoản 5 Điều 14 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "🔙 Quay lại Có bán điện dư", action: { type: "goto", nodeId: "surplus" } },
         BACK_TO_ROOT,
@@ -649,7 +664,7 @@ export const solarScript: ScriptTree = {
       parentId: "docs",
       parentLabel: "Thủ tục và hồ sơ",
       message:
-        "Thông báo phải được gửi trước ngày bắt đầu lắp đặt ít nhất 10 ngày làm việc. Nếu sau 10 ngày làm việc kể từ ngày gửi mà không nhận được phản hồi của cơ quan tiếp nhận, tổ chức hoặc cá nhân được phép lắp đặt theo nội dung đã thông báo và các quy định pháp luật liên quan. Nếu nhận được thông tin có nguy cơ quá tải, chủ đầu tư phải tạm dừng để phối hợp xử lý.\n\n📖 Khoản 4, khoản 5 và khoản 6 Điều 15.",
+        "Thông báo phải được gửi trước ngày bắt đầu lắp đặt ít nhất 10 ngày làm việc. Trường hợp việc lắp đặt có khả năng gây quá tải trạm biến áp, lưới điện hạ áp hoặc lưới phân phối, Đơn vị quản lý lưới điện có 3 ngày làm việc để gửi ý kiến phản hồi đến cơ quan tiếp nhận; cơ quan này sẽ thông tin tới chủ đầu tư tạm dừng lắp đặt, vận hành để phối hợp xử lý. Nếu sau 10 ngày làm việc kể từ ngày gửi Thông báo mà không nhận được phản hồi của cơ quan tiếp nhận, tổ chức, cá nhân được phép lắp đặt theo nội dung đã thông báo và các quy định pháp luật liên quan.\n\n📖 Khoản 4, 5 và 6 Điều 15 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
         BACK_TO_ROOT,
@@ -660,7 +675,7 @@ export const solarScript: ScriptTree = {
       parentId: "docs",
       parentLabel: "Thủ tục và hồ sơ",
       message:
-        "Trong 3 ngày làm việc, cơ quan tiếp nhận gửi bản sao điện tử của thông báo đến các đơn vị quản lý về xây dựng, phòng cháy, môi trường và đơn vị quản lý lưới điện để theo dõi, hướng dẫn. Nếu hệ thống hạ áp đăng ký bán điện dư, Ủy ban nhân dân cấp xã gửi bản sao thông báo đến Ủy ban nhân dân cấp tỉnh trong 5 ngày làm việc.\n\n📖 Khoản 4 Điều 15.",
+        "Trong 3 ngày làm việc kể từ ngày nhận được Thông báo, cơ quan tiếp nhận gửi bản sao điện tử của Thông báo thông qua Hệ thống thông tin giải quyết thủ tục hành chính đến cơ quan quản lý về xây dựng, phòng cháy chữa cháy, bảo vệ môi trường, Đơn vị quản lý lưới điện để theo dõi, hướng dẫn; đồng thời đăng tải Thông báo công khai trên trang thông tin điện tử của cơ quan mình. Nếu hệ thống hạ áp đăng ký bán điện dư, Ủy ban nhân dân cấp xã gửi bản sao Thông báo đến Ủy ban nhân dân cấp tỉnh trong 5 ngày làm việc.\n\n📖 Khoản 4 Điều 15 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
         BACK_TO_ROOT,
@@ -813,6 +828,7 @@ export const solarScript: ScriptTree = {
       buttons: [
         { label: "Lắp trước năm 2021 (đã có hợp đồng bán)", action: { type: "goto", nodeId: "existing.pre2021" } },
         { label: "Lắp từ năm 2021 nhưng chưa làm thủ tục", action: { type: "goto", nodeId: "existing.post2021" } },
+        { label: "Hồ sơ đã nộp trước 26/6/2026", action: { type: "goto", nodeId: "existing.pending_dossier" } },
         BACK_TO_ROOT,
       ],
     },
@@ -832,9 +848,20 @@ export const solarScript: ScriptTree = {
       parentId: "existing",
       parentLabel: "Hệ thống đã lắp đặt",
       message:
-        "Nguồn điện mặt trời mái nhà phát triển từ ngày 1/1/2021 đến thời điểm văn bản có hiệu lực mà chưa thực hiện thủ tục theo Nghị định số 135/2024/NĐ-CP thì phải thực hiện theo quy định hiện hành tại văn bản hợp nhất này. Chủ sở hữu cần xác định cấp điện áp, công suất và việc có bán điện dư để chọn thủ tục thông báo hoặc đăng ký phù hợp.\n\n📖 Khoản 2 quy định chuyển tiếp.",
+        "Nguồn điện mặt trời mái nhà phát triển từ ngày 1/1/2021 đến thời điểm Nghị định 58/2025/NĐ-CP có hiệu lực mà chưa thực hiện thủ tục theo Nghị định số 135/2024/NĐ-CP thì phải thực hiện theo quy định tại Văn bản hợp nhất số 52/VBHN-BCT. Chủ sở hữu cần xác định cấp điện áp, công suất và việc có bán điện dư để chọn thủ tục thông báo (Mẫu số 01/02) hoặc đăng ký phát triển (Mẫu số 03) phù hợp.\n\n📖 Khoản 2 Điều 39 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "Thủ tục và hồ sơ", action: { type: "goto", nodeId: "docs" } },
+        { label: "🔙 Quay lại Hệ thống đã lắp đặt", action: { type: "goto", nodeId: "existing" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "existing.pending_dossier": {
+      id: "existing.pending_dossier",
+      parentId: "existing",
+      parentLabel: "Hệ thống đã lắp đặt",
+      message:
+        "Hồ sơ đăng ký phát triển nguồn điện mặt trời mái nhà tự sản xuất, tự tiêu thụ có đề nghị bán sản lượng điện dư ĐÃ ĐƯỢC CƠ QUAN TIẾP NHẬN TRƯỚC NGÀY 26/6/2026 (thời điểm Nghị định 243/2026/NĐ-CP có hiệu lực) sẽ TIẾP TỤC được xử lý theo quy định của Nghị định số 135/2024/NĐ-CP, không áp dụng thủ tục mới. Nếu hồ sơ nộp từ 26/6/2026 trở đi, áp dụng quy định tại Văn bản hợp nhất số 52/VBHN-BCT (hợp nhất Nghị định 58/2025 và 243/2026).\n\n📖 Khoản 3 Điều 39 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
+      buttons: [
         { label: "🔙 Quay lại Hệ thống đã lắp đặt", action: { type: "goto", nodeId: "existing" } },
         BACK_TO_ROOT,
       ],
