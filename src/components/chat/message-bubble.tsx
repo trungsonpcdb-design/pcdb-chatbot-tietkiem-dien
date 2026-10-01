@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { Volume2, VolumeX } from "lucide-react";
 import { toast } from "sonner";
@@ -23,6 +24,35 @@ export interface ChatMessage {
 }
 
 const FORM_MARKER = "<FORM_DMTMN/>";
+const DL_REGEX = /\[\[DL:([^|\]]+)\|([^\]]+)\]\]/g;
+
+function renderWithDownloads(text: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  DL_REGEX.lastIndex = 0;
+  while ((m = DL_REGEX.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    const url = m[1].trim();
+    const label = m[2].trim();
+    const filename = url.split("/").pop() ?? "mau.docx";
+    parts.push(
+      <a
+        key={`${m.index}-${url}`}
+        href={url}
+        download={filename}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1 font-semibold text-[color:var(--color-evn-blue)] underline decoration-dotted underline-offset-2 hover:bg-slate-200 rounded px-1"
+      >
+        {label}
+      </a>
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.length ? parts : [text];
+}
 
 export function MessageBubble({
   message,
@@ -97,7 +127,11 @@ export function MessageBubble({
               : "bg-slate-100 text-slate-900 rounded-bl-md"
           )}
         >
-          {textOnly || (message.pending ? "…" : "")}
+          {textOnly
+            ? isUser
+              ? textOnly
+              : renderWithDownloads(textOnly)
+            : (message.pending ? "…" : "")}
         </div>
       </div>
       {hasForm && onFormSubmit && (
