@@ -254,6 +254,18 @@ export function ChatContainer({
         targetScriptId = PICKER_SCRIPT_ID;
         const picker = getScript(PICKER_SCRIPT_ID);
         targetNodeId = picker?.rootId ?? null;
+      } else if (action.type === "download") {
+        if (typeof window !== "undefined") {
+          const a = document.createElement("a");
+          a.href = action.url;
+          if (action.filename) a.download = action.filename;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+        return;
       }
       if (!targetNodeId) return;
 

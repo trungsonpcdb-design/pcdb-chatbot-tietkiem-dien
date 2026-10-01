@@ -205,8 +205,9 @@ export const solarScript: ScriptTree = {
       parentId: "business",
       parentLabel: "Doanh nghiệp",
       message:
-        "Hồ sơ gồm một Giấy đăng ký theo Mẫu số 03; sơ đồ lắp đặt và đấu nối nguồn điện với phụ tải và lưới điện; tài liệu về thẩm định thiết kế hoặc nghiệm thu phòng cháy, chữa cháy nếu công trình thuộc diện phải thực hiện. Hồ sơ gồm một bộ, nộp đến Ủy ban nhân dân cấp tỉnh, chủ yếu qua Cổng Dịch vụ công quốc gia hoặc Ứng dụng định danh quốc gia.\n\n📖 Điều 17.",
+        "Hồ sơ gồm một Giấy đăng ký theo Mẫu số 03; sơ đồ lắp đặt và đấu nối nguồn điện với phụ tải và lưới điện; tài liệu về thẩm định thiết kế hoặc nghiệm thu phòng cháy, chữa cháy nếu công trình thuộc diện phải thực hiện. Hồ sơ gồm một bộ, nộp đến Ủy ban nhân dân cấp tỉnh, chủ yếu qua Cổng Dịch vụ công quốc gia hoặc Ứng dụng định danh quốc gia.\n\n📖 Điều 17 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
+        { label: "📥 Tải Mẫu số 03 — Giấy đăng ký (.docx)", action: { type: "download", url: "/mau-dmtmn/Mau-so-03-Giay-dang-ky.docx", filename: "Mau-so-03-Giay-dang-ky.docx" } },
         { label: "Thời gian cấp giấy", action: { type: "goto", nodeId: "business.time" } },
         { label: "Điều kiện cấp giấy", action: { type: "goto", nodeId: "docs.conditions" } },
         { label: "Điều chỉnh hồ sơ", action: { type: "goto", nodeId: "business.change" } },
@@ -507,8 +508,9 @@ export const solarScript: ScriptTree = {
       parentId: "surplus",
       parentLabel: "Có bán điện dư",
       message:
-        "Trong 5 ngày làm việc kể từ khi nhận đủ hồ sơ, bên mua điện dư có trách nhiệm phối hợp kiểm tra hiện trạng kỹ thuật, lắp đặt công tơ đo đếm, chốt chỉ số công tơ và ký hợp đồng mua bán điện. Hợp đồng được lập theo các nội dung chính tại Mẫu số 05. Thời hạn hợp đồng là 5 năm kể từ ngày hệ thống được nghiệm thu và bên bán đã cung cấp đủ hồ sơ.\n\n📖 Khoản 2, khoản 3 và khoản 4 Điều 24.",
+        "Trong 5 ngày làm việc kể từ khi nhận đủ hồ sơ, bên mua điện dư có trách nhiệm phối hợp kiểm tra hiện trạng kỹ thuật, lắp đặt công tơ đo đếm, chốt chỉ số công tơ và ký hợp đồng mua bán điện. Hợp đồng được lập theo các nội dung chính tại Mẫu số 05. Thời hạn hợp đồng là 5 năm kể từ ngày hệ thống được nghiệm thu và bên bán đã cung cấp đủ hồ sơ.\n\n📖 Khoản 2, 3 và 4 Điều 24 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
+        { label: "📥 Tải khung Mẫu số 05 (.docx)", action: { type: "download", url: "/mau-dmtmn/Mau-so-05-Hop-dong-mua-ban-dien.docx", filename: "Mau-so-05-Hop-dong-mua-ban-dien.docx" } },
         { label: "🔙 Quay lại Có bán điện dư", action: { type: "goto", nodeId: "surplus" } },
         BACK_TO_ROOT,
       ],
@@ -530,6 +532,7 @@ export const solarScript: ScriptTree = {
       id: "docs",
       message: "Anh/Chị cần tra cứu thủ tục nào?",
       buttons: [
+        { label: "📥 Tải mẫu biểu (.docx)", action: { type: "goto", nodeId: "docs.download_forms" } },
         { label: "Mẫu số 01", action: { type: "goto", nodeId: "docs.form01" } },
         { label: "Mẫu số 02", action: { type: "goto", nodeId: "docs.form02" } },
         { label: "Mẫu số 03 (Giấy đăng ký)", action: { type: "goto", nodeId: "business.dossier" } },
@@ -541,6 +544,22 @@ export const solarScript: ScriptTree = {
         { label: "Nghĩa vụ sau khi lắp đặt xong", action: { type: "goto", nodeId: "docs.post_installation" } },
         { label: "Hồ sơ bán điện", action: { type: "goto", nodeId: "surplus.dossier" } },
         { label: "📍 Đầu mối liên hệ tại xã, phường", action: { type: "goto", nodeId: "docs.local_contact" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.download_forms": {
+      id: "docs.download_forms",
+      parentId: "docs",
+      parentLabel: "Thủ tục và hồ sơ",
+      message:
+        "Anh/Chị có thể tải xuống các mẫu biểu định dạng Word (.docx) theo Phụ lục Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026, biên tập theo đúng nội dung Nghị định 58/2025/NĐ-CP và Nghị định 243/2026/NĐ-CP. Bấm vào mẫu cần tải:\n\n• Mẫu số 01 — Thông báo lắp đặt (hạ áp): hộ gia đình, doanh nghiệp đấu nối hạ áp dùng để thông báo cho UBND cấp xã.\n• Mẫu số 02 — Thông báo lắp đặt (trung áp trở lên, không bán điện): doanh nghiệp đấu nối trung áp không bán điện dư, nộp UBND cấp tỉnh.\n• Mẫu số 03 — Giấy đăng ký phát triển: doanh nghiệp đấu nối trung áp trở lên có bán điện dư, nộp UBND cấp tỉnh để được cấp Giấy chứng nhận.\n• Mẫu số 04 — Giấy chứng nhận đăng ký phát triển (tham khảo): mẫu Giấy chứng nhận do UBND cấp tỉnh ban hành.\n• Mẫu số 05 — Hợp đồng mua bán điện dư (khung tham khảo): mẫu hợp đồng giữa Bên mua điện (đơn vị điện lực) và Bên bán điện dư.\n\n📖 Phụ lục kèm theo Văn bản hợp nhất số 52/VBHN-BCT.",
+      buttons: [
+        { label: "📥 Mẫu 01 — Thông báo hạ áp", action: { type: "download", url: "/mau-dmtmn/Mau-so-01-Thong-bao-ha-ap.docx", filename: "Mau-so-01-Thong-bao-ha-ap.docx" } },
+        { label: "📥 Mẫu 02 — Thông báo trung áp", action: { type: "download", url: "/mau-dmtmn/Mau-so-02-Thong-bao-trung-ap.docx", filename: "Mau-so-02-Thong-bao-trung-ap.docx" } },
+        { label: "📥 Mẫu 03 — Giấy đăng ký", action: { type: "download", url: "/mau-dmtmn/Mau-so-03-Giay-dang-ky.docx", filename: "Mau-so-03-Giay-dang-ky.docx" } },
+        { label: "📥 Mẫu 04 — Giấy chứng nhận", action: { type: "download", url: "/mau-dmtmn/Mau-so-04-Giay-chung-nhan.docx", filename: "Mau-so-04-Giay-chung-nhan.docx" } },
+        { label: "📥 Mẫu 05 — Hợp đồng mua bán điện", action: { type: "download", url: "/mau-dmtmn/Mau-so-05-Hop-dong-mua-ban-dien.docx", filename: "Mau-so-05-Hop-dong-mua-ban-dien.docx" } },
+        { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
         BACK_TO_ROOT,
       ],
     },
@@ -658,6 +677,7 @@ export const solarScript: ScriptTree = {
       message:
         "Mẫu số 01 dùng để thông báo lắp đặt điện mặt trời mái nhà tự sản xuất, tự tiêu thụ có đấu nối với hệ thống điện quốc gia tại cấp điện áp hạ áp, gửi đến Ủy ban nhân dân cấp xã nơi lắp đặt. Hệ thống có công suất inverter nhỏ hơn 1 kW không bắt buộc gửi Mẫu số 01.\n\nAnh/Chị cần chuẩn bị các thông tin sau để điền vào Mẫu:\n• Thông tin chủ sở hữu: tên; số định danh cá nhân/CCCD (với cá nhân) hoặc mã số doanh nghiệp (với tổ chức); địa chỉ; số điện thoại; email (nếu có); mã số khách hàng sử dụng điện\n• Vị trí lắp đặt; mô tả công trình (kết cấu, chiều cao, diện tích mái)\n• Công suất: tổng công suất tấm quang điện (kWp); tổng công suất inverter (kW); dung lượng pin lưu trữ (kWh, nếu có)\n• Phương án xử lý điện dư: chọn 1 trong 2 — bán điện dư hoặc không bán điện dư\n• Thời gian dự kiến lắp đặt và hoàn thành\n• Cam kết: an toàn PCCC, không nhập khẩu thiết bị đã qua sử dụng\n\n📖 Khoản 2 Điều 15 và Mẫu số 01 Phụ lục Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
+        { label: "📥 Tải Mẫu số 01 (.docx)", action: { type: "download", url: "/mau-dmtmn/Mau-so-01-Thong-bao-ha-ap.docx", filename: "Mau-so-01-Thong-bao-ha-ap.docx" } },
         { label: "Nghĩa vụ sau khi lắp đặt xong", action: { type: "goto", nodeId: "docs.post_installation" } },
         { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
         BACK_TO_ROOT,
@@ -680,8 +700,9 @@ export const solarScript: ScriptTree = {
       parentId: "docs",
       parentLabel: "Thủ tục và hồ sơ",
       message:
-        "Mẫu số 02 áp dụng cho tổ chức hoặc cá nhân lắp điện mặt trời mái nhà đấu nối với hệ thống điện quốc gia từ cấp điện áp trung áp trở lên và không đăng ký bán điện dư. Thông báo được gửi đến Ủy ban nhân dân cấp tỉnh trước ngày dự kiến lắp đặt ít nhất 10 ngày làm việc. Hệ thống phải đáp ứng yêu cầu về Zero-Export, bảo vệ, giám sát và điều độ.\n\n📖 Khoản 3 và khoản 4 Điều 15.",
+        "Mẫu số 02 áp dụng cho tổ chức hoặc cá nhân lắp điện mặt trời mái nhà đấu nối với hệ thống điện quốc gia từ cấp điện áp trung áp trở lên và không đăng ký bán điện dư. Thông báo được gửi đến Ủy ban nhân dân cấp tỉnh trước ngày dự kiến lắp đặt ít nhất 10 ngày làm việc. Hệ thống phải đáp ứng yêu cầu về Zero-Export (thiết bị bật, tắt phát ngược vào lưới), bảo vệ, giám sát và điều độ.\n\n📖 Khoản 3 và khoản 4 Điều 15 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
+        { label: "📥 Tải Mẫu số 02 (.docx)", action: { type: "download", url: "/mau-dmtmn/Mau-so-02-Thong-bao-trung-ap.docx", filename: "Mau-so-02-Thong-bao-trung-ap.docx" } },
         { label: "Zero-Export là gì?", action: { type: "goto", nodeId: "tech.zero_export" } },
         { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
         BACK_TO_ROOT,

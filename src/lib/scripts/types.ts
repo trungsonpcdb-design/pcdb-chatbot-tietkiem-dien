@@ -3,7 +3,8 @@ export type ScriptAction =
   | { type: "root" }
   | { type: "escalate" }
   | { type: "switch"; scriptId: string }
-  | { type: "picker" };
+  | { type: "picker" }
+  | { type: "download"; url: string; filename?: string };
 
 export type ScriptButton = {
   label: string;
