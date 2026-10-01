@@ -120,7 +120,7 @@ export const solarScript: ScriptTree = {
       parentId: "household",
       parentLabel: "Hộ gia đình",
       message:
-        "Có. Pháp luật khuyến khích lắp hệ thống lưu trữ phù hợp với công suất nguồn điện và nhu cầu phụ tải. Pin có thể tích điện vào thời điểm có nắng để sử dụng khi điện mặt trời không đủ. Khi bán điện dư, sản lượng điện từ pin lưu trữ chỉ được tính vào lượng điện mua bán nếu pin được tích điện từ chính nguồn điện mặt trời mái nhà.\n\n📖 Điều 11 và Điều 14.",
+        "Có. Pháp luật khuyến khích lắp hệ thống lưu trữ phù hợp với công suất nguồn điện và nhu cầu phụ tải. Pin có thể tích điện vào thời điểm có nắng để sử dụng khi điện mặt trời không đủ. Khi bán điện dư, sản lượng điện từ pin lưu trữ chỉ được tính vào lượng điện mua bán nếu pin được tích điện từ chính nguồn điện mặt trời mái nhà. Lưu ý: khi lắp đặt hệ thống lưu trữ điện, chủ sở hữu phải bảo đảm an toàn điện, bảo vệ môi trường và phòng cháy, chữa cháy theo quy định pháp luật — đây là nghĩa vụ bắt buộc của tổ chức, cá nhân phát triển nguồn điện.\n\n📖 Điều 11, Điều 14 và điểm h khoản 2 Điều 37 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
         { label: "Điện từ pin có được bán?", action: { type: "goto", nodeId: "surplus.battery" } },
         { label: "🔙 Quay lại Hộ gia đình", action: { type: "goto", nodeId: "household" } },
@@ -152,6 +152,7 @@ export const solarScript: ScriptTree = {
         { label: "Thay đổi công suất/chủ sở hữu", action: { type: "goto", nodeId: "business.change" } },
         { label: "Nghiệm thu hệ thống", action: { type: "goto", nodeId: "business.acceptance" } },
         { label: "Đất kết hợp đa mục đích", action: { type: "goto", nodeId: "business.multiuse_land" } },
+        { label: "Trong KCN, cụm công nghiệp", action: { type: "goto", nodeId: "business.industrial_zone" } },
         BACK_TO_ROOT,
       ],
     },
@@ -258,6 +259,19 @@ export const solarScript: ScriptTree = {
       buttons: [
         { label: "Hồ sơ đăng ký phát triển", action: { type: "goto", nodeId: "business.dossier" } },
         { label: "Hồ sơ bán điện dư", action: { type: "goto", nodeId: "surplus.dossier" } },
+        { label: "Nghiệm thu hệ thống", action: { type: "goto", nodeId: "business.acceptance" } },
+        { label: "🔙 Quay lại Doanh nghiệp", action: { type: "goto", nodeId: "business" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "business.industrial_zone": {
+      id: "business.industrial_zone",
+      parentId: "business",
+      parentLabel: "Doanh nghiệp",
+      message:
+        "Doanh nghiệp hoạt động trong khu công nghiệp, khu kinh tế, khu chế xuất, cụm công nghiệp, khu công nghệ cao, khu công nghệ số tập trung, khu nông nghiệp ứng dụng công nghệ cao, khu đô thị, khu thương mại tự do (gọi chung là \"mô hình khu, cụm\") được phát triển ĐMTMN tự sản xuất, tự tiêu thụ bình thường. Tuy nhiên, Anh/Chị cần phối hợp với đơn vị quản lý mô hình khu, cụm — đơn vị này có nghĩa vụ không cản trở, tạo điều kiện thuận lợi và theo dõi, kiểm tra việc phát triển ĐMTMN trong khu vực quản lý. Nếu nguồn điện đấu nối qua lưới điện của Đơn vị sở hữu lưới điện riêng (ngoài EVN), đơn vị này sẽ là bên phối hợp nghiệm thu và được lấy ý kiến thay cho đơn vị điện lực quốc gia.\n\n📖 Khoản 8 Điều 3 và Điều 38 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
+      buttons: [
+        { label: "Hồ sơ đăng ký phát triển", action: { type: "goto", nodeId: "business.dossier" } },
         { label: "Nghiệm thu hệ thống", action: { type: "goto", nodeId: "business.acceptance" } },
         { label: "🔙 Quay lại Doanh nghiệp", action: { type: "goto", nodeId: "business" } },
         BACK_TO_ROOT,
@@ -524,6 +538,7 @@ export const solarScript: ScriptTree = {
         { label: "Cơ quan xử lý thông báo", action: { type: "goto", nodeId: "docs.processing" } },
         { label: "Điều kiện cấp Giấy chứng nhận", action: { type: "goto", nodeId: "docs.conditions" } },
         { label: "Thu hồi Giấy chứng nhận", action: { type: "goto", nodeId: "docs.revoke" } },
+        { label: "Nghĩa vụ sau khi lắp đặt xong", action: { type: "goto", nodeId: "docs.post_installation" } },
         { label: "Hồ sơ bán điện", action: { type: "goto", nodeId: "surplus.dossier" } },
         { label: "📍 Đầu mối liên hệ tại xã, phường", action: { type: "goto", nodeId: "docs.local_contact" } },
         BACK_TO_ROOT,
@@ -641,8 +656,21 @@ export const solarScript: ScriptTree = {
       parentId: "docs",
       parentLabel: "Thủ tục và hồ sơ",
       message:
-        "Mẫu số 01 dùng để thông báo lắp đặt điện mặt trời mái nhà tự sản xuất, tự tiêu thụ có đấu nối với hệ thống điện quốc gia tại cấp điện áp hạ áp. Thông báo được gửi đến Ủy ban nhân dân cấp xã nơi lắp đặt. Hệ thống có công suất inverter nhỏ hơn 1 kW không bắt buộc gửi Mẫu số 01. Người dùng nên chuẩn bị thông tin chủ sở hữu, địa điểm, công suất, sơ đồ và phương án xử lý điện dư.\n\n📖 Khoản 2 Điều 15 và Phụ lục Mẫu số 01.",
+        "Mẫu số 01 dùng để thông báo lắp đặt điện mặt trời mái nhà tự sản xuất, tự tiêu thụ có đấu nối với hệ thống điện quốc gia tại cấp điện áp hạ áp, gửi đến Ủy ban nhân dân cấp xã nơi lắp đặt. Hệ thống có công suất inverter nhỏ hơn 1 kW không bắt buộc gửi Mẫu số 01.\n\nAnh/Chị cần chuẩn bị các thông tin sau để điền vào Mẫu:\n• Thông tin chủ sở hữu: tên; số định danh cá nhân/CCCD (với cá nhân) hoặc mã số doanh nghiệp (với tổ chức); địa chỉ; số điện thoại; email (nếu có); mã số khách hàng sử dụng điện\n• Vị trí lắp đặt; mô tả công trình (kết cấu, chiều cao, diện tích mái)\n• Công suất: tổng công suất tấm quang điện (kWp); tổng công suất inverter (kW); dung lượng pin lưu trữ (kWh, nếu có)\n• Phương án xử lý điện dư: chọn 1 trong 2 — bán điện dư hoặc không bán điện dư\n• Thời gian dự kiến lắp đặt và hoàn thành\n• Cam kết: an toàn PCCC, không nhập khẩu thiết bị đã qua sử dụng\n\n📖 Khoản 2 Điều 15 và Mẫu số 01 Phụ lục Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
       buttons: [
+        { label: "Nghĩa vụ sau khi lắp đặt xong", action: { type: "goto", nodeId: "docs.post_installation" } },
+        { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "docs.post_installation": {
+      id: "docs.post_installation",
+      parentId: "docs",
+      parentLabel: "Thủ tục và hồ sơ",
+      message:
+        "Sau khi hoàn thành xây dựng, lắp đặt và đưa nguồn điện mặt trời mái nhà vào vận hành, tổ chức, cá nhân phải GỬI THÔNG TIN đến cơ quan đã tiếp nhận Thông báo (Ủy ban nhân dân cấp xã đối với hạ áp hoặc cấp tỉnh đối với trung áp trở lên) hoặc cơ quan đã cấp Giấy chứng nhận đăng ký phát triển. Đây là nghĩa vụ bắt buộc, giúp cơ quan quản lý nhà nước theo dõi tình hình phát triển ĐMTMN trên địa bàn. Trường hợp hệ thống có bán điện dư, Anh/Chị tiếp tục thực hiện hồ sơ bán điện dư với bên mua điện theo quy định.\n\n📖 Điểm a khoản 2 Điều 37 Văn bản hợp nhất số 52/VBHN-BCT ngày 30/6/2026.",
+      buttons: [
+        { label: "Hồ sơ bán điện dư", action: { type: "goto", nodeId: "surplus.dossier" } },
         { label: "🔙 Quay lại Thủ tục", action: { type: "goto", nodeId: "docs" } },
         BACK_TO_ROOT,
       ],
