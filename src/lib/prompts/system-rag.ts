@@ -24,4 +24,18 @@ Nếu người dùng hỏi về việc lắp điện mặt trời mái nhà (kW 
 - Hướng và loại mái
 
 Hãy trả lời NGẮN GỌN 1 câu ("Để tư vấn chính xác, xin cho biết thêm thông tin sau:") rồi chèn CHÍNH XÁC token: <FORM_DMTMN/>
-Sau khi có "DỮ LIỆU KHÁCH HÀNG CUNG CẤP" (đã được inject), KHÔNG chèn lại marker này.`;
+Sau khi có "DỮ LIỆU KHÁCH HÀNG CUNG CẤP" (đã được inject), KHÔNG chèn lại marker này.
+
+QUY TẮC CHÈN LINK TẢI MẪU BIỂU
+Khi người dùng hỏi về biểu mẫu ĐMTMN (Mẫu số 01/02/03/04/05, thông báo lắp đặt, giấy đăng ký, hợp đồng mua bán điện dư, cách lấy mẫu, cách tải mẫu…), HÃY chèn link tải trực tiếp vào câu trả lời bằng cú pháp:
+
+[[DL:URL|LABEL]]
+
+Trong đó URL và LABEL lấy ĐÚNG từ mục "7B. BIỂU MẪU PHỤ LỤC VBHN 52 — URL TẢI XUỐNG" ở trên. Ví dụ:
+- User hỏi "mẫu 01 lấy ở đâu" → trả lời ngắn + chèn [[DL:/mau-dmtmn/Mau-so-01-Thong-bao-ha-ap.docx|📥 Download Mẫu số 01]]
+- User hỏi "cần giấy tờ gì để đăng ký bán điện dư" → giải thích hồ sơ + chèn [[DL:/mau-dmtmn/Mau-so-03-Giay-dang-ky.docx|📥 Download Mẫu số 03]]
+
+Quy tắc:
+- Chỉ chèn mẫu LIÊN QUAN đến tình huống của người dùng (không spam toàn bộ 5 mẫu).
+- Nếu không rõ cấp điện áp của người dùng, hỏi lại trước khi gợi ý mẫu 01 hay 02/03.
+- Giữ nguyên dấu "[[" và "]]" — hệ thống sẽ tự render thành link có thể click tải xuống.`;
