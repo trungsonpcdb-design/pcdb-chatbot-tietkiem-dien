@@ -51,7 +51,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Bắc (EVNNPC) — bao gồm cả PC Điện Biên — có thể liên hệ:\n\n☎️ Tổng đài: 1900 6769\n🔗 Website: https://cskh.npc.com.vn\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được xử lý nhanh hơn.",
+        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Bắc (EVNNPC) — bao gồm cả PC Điện Biên — có thể liên hệ:\n\n☎️ Tổng đài CSKH: 1558\n🔗 Website: https://cskh.npc.com.vn\n\nKhi liên hệ, Anh/Chị nên cung cấp mã khách hàng, địa chỉ sử dụng điện và nội dung yêu cầu để được xử lý nhanh hơn.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,
@@ -62,7 +62,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Trung có thể liên hệ:\n\n☎️ Tổng đài: 1900 1909\n\nTổng đài hỗ trợ tiếp nhận yêu cầu về sử dụng điện, dịch vụ điện và các vấn đề liên quan tại khu vực quản lý. Anh/Chị nên chuẩn bị mã khách hàng và địa chỉ sử dụng điện trước khi liên hệ.",
+        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Trung có thể liên hệ:\n\n☎️ Tổng đài CSKH: 1558\n\nTổng đài hỗ trợ tiếp nhận yêu cầu về sử dụng điện, dịch vụ điện và các vấn đề liên quan tại khu vực quản lý. Anh/Chị nên chuẩn bị mã khách hàng và địa chỉ sử dụng điện trước khi liên hệ.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,
@@ -73,7 +73,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Nam có thể liên hệ các số tổng đài:\n\n☎️ 1900 1006\n☎️ 1900 9000\n\nAnh/Chị cần cung cấp mã khách hàng, số điện thoại đăng ký và nội dung cần giải quyết để nhân viên xác minh và hỗ trợ.",
+        "Khách hàng thuộc phạm vi Tổng công ty Điện lực miền Nam có thể liên hệ:\n\n☎️ Tổng đài CSKH: 1558\n\nAnh/Chị cần cung cấp mã khách hàng, số điện thoại đăng ký và nội dung cần giải quyết để nhân viên xác minh và hỗ trợ.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,
@@ -84,7 +84,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Khách hàng tại Hà Nội có thể liên hệ Trung tâm Chăm sóc khách hàng Tổng công ty Điện lực thành phố Hà Nội:\n\n☎️ Tổng đài: 1900 1288\n\nKhi liên hệ, Anh/Chị nên chuẩn bị mã khách hàng hoặc thông tin địa chỉ sử dụng điện để việc tra cứu được nhanh và chính xác.",
+        "Khách hàng tại Hà Nội có thể liên hệ Trung tâm Chăm sóc khách hàng Tổng công ty Điện lực thành phố Hà Nội:\n\n☎️ Tổng đài CSKH: 1558\n\nKhi liên hệ, Anh/Chị nên chuẩn bị mã khách hàng hoặc thông tin địa chỉ sử dụng điện để việc tra cứu được nhanh và chính xác.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,
@@ -95,7 +95,7 @@ export const cskhScript: ScriptTree = {
       parentId: "root",
       parentLabel: "CSKH",
       message:
-        "Khách hàng tại TP. Hồ Chí Minh có thể liên hệ Trung tâm Chăm sóc khách hàng Tổng công ty Điện lực TP. Hồ Chí Minh:\n\n☎️ Tổng đài: 1900 545454\n\nHãy chuẩn bị mã khách hàng, địa chỉ sử dụng điện và mô tả ngắn gọn vấn đề cần hỗ trợ trước khi gọi.",
+        "Khách hàng tại TP. Hồ Chí Minh có thể liên hệ Trung tâm Chăm sóc khách hàng Tổng công ty Điện lực TP. Hồ Chí Minh:\n\n☎️ Tổng đài CSKH: 1558\n\nHãy chuẩn bị mã khách hàng, địa chỉ sử dụng điện và mô tả ngắn gọn vấn đề cần hỗ trợ trước khi gọi.",
       buttons: [
         { label: "📋 Chuẩn bị thông tin hỗ trợ", action: { type: "goto", nodeId: "info" } },
         BACK_TO_ROOT,

@@ -75,6 +75,25 @@ Bán điện dư:
 Chuyển tiếp:
 • Hệ thống trước 1/1/2021 (đã có HĐ bán điện): được lắp thêm nhưng không làm tăng công suất cũ.
 • Hệ thống từ 1/1/2021 chưa làm thủ tục: theo VBHN 52 hiện hành.
+• Hồ sơ đã nộp trước 26/6/2026 (ngày NĐ 243/2026 có hiệu lực): tiếp tục xử lý theo NĐ 135/2024/NĐ-CP (Điều 39 khoản 3).
+
+═══════ 7B. BIỂU MẪU PHỤ LỤC VBHN 52 — URL TẢI XUỐNG ═══════
+5 biểu mẫu Word (.docx) đã được chuẩn bị sẵn trên hệ thống. Khi người dùng hỏi về mẫu nào, HÃY chèn link tải trực tiếp theo cú pháp [[DL:URL|LABEL]] trong câu trả lời — người dùng sẽ click vào là tải file:
+
+• Mẫu số 01 — Thông báo lắp đặt ĐMTMN hạ áp (hộ gia đình, DN đấu nối hạ áp; nộp UBND cấp XÃ):
+  [[DL:/mau-dmtmn/Mau-so-01-Thong-bao-ha-ap.docx|📥 Download Mẫu số 01]]
+
+• Mẫu số 02 — Thông báo lắp đặt ĐMTMN trung áp trở lên, không bán điện dư (nộp UBND cấp TỈNH):
+  [[DL:/mau-dmtmn/Mau-so-02-Thong-bao-trung-ap.docx|📥 Download Mẫu số 02]]
+
+• Mẫu số 03 — Giấy đăng ký phát triển ĐMTMN có bán điện dư, trung áp trở lên (nộp UBND cấp TỈNH):
+  [[DL:/mau-dmtmn/Mau-so-03-Giay-dang-ky.docx|📥 Download Mẫu số 03]]
+
+• Mẫu số 04 — Giấy chứng nhận đăng ký phát triển (mẫu UBND cấp tỉnh ban hành, tham khảo):
+  [[DL:/mau-dmtmn/Mau-so-04-Giay-chung-nhan.docx|📥 Download Mẫu số 04]]
+
+• Mẫu số 05 — Hợp đồng mua bán điện dư ĐMTMN (khung tham khảo, 10 điều, do Bên mua điện lập):
+  [[DL:/mau-dmtmn/Mau-so-05-Hop-dong-mua-ban-dien.docx|📥 Download Mẫu số 05]]
 
 ═══════ 8. ĐẦU MỐI TIẾP NHẬN THỦ TỤC ĐMTMN TẠI CÁC XÃ, PHƯỜNG (tỉnh Điện Biên) ═══════
 (Nguồn: Phụ lục kèm Công văn số /PCĐB-KD ngày tháng 7 năm 2026 của PC Điện Biên)
@@ -143,12 +162,8 @@ Nậm Kè | Phòng Kinh tế xã | 0964443153 | Bản Phiêng Vai
 Quảng Lâm | Phòng Kinh tế xã | 0839180055 | Bản Trạm Púng
 
 ═══════ 10. TỔNG ĐÀI CSKH ═══════
-• EVN toàn quốc:                          1558
-• Miền Bắc (EVNNPC — gồm PC Điện Biên): 1900 6769 | https://cskh.npc.com.vn
-• Miền Trung:                             1900 1909
-• Miền Nam:                               1900 1006 / 1900 9000
-• Hà Nội (EVNHANOI):                      1900 1288
-• TP.HCM (EVNHCMC):                       1900 545454
+• Tổng đài CSKH EVN toàn quốc:            1558
+• Miền Bắc (EVNNPC — gồm PC Điện Biên): https://cskh.npc.com.vn
 • Cổng Dịch vụ công quốc gia:             https://dichvucong.gov.vn
 
 ═══════ 11. HÓA ĐƠN — QUY TẮC TÍNH ═══════
