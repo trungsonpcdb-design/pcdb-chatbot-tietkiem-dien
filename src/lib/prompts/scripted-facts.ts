@@ -58,12 +58,16 @@ Thấp điểm  (mọi ngày): 22h00–04h00 sáng hôm sau
 • Sản lượng TB 3 tháng liên tục ≥ 2.000 kWh/tháng.
 
 ═══════ 7. ĐIỆN MẶT TRỜI MÁI NHÀ (VBHN 52/VBHN-BCT) ═══════
-Ngưỡng công suất:
-• < 1 kW inverter: KHÔNG cần thông báo.
-• Hạ áp có đấu nối lưới: gửi Mẫu số 01 → UBND cấp XÃ, trước lắp đặt ≥ 10 ngày làm việc.
-• Trung áp trở lên + KHÔNG bán điện dư: gửi Mẫu số 02 → UBND cấp TỈNH, cần Zero-Export.
-• Trung áp trở lên + CÓ bán điện dư: xin Giấy chứng nhận đăng ký phát triển (Mẫu số 03), UBND cấp TỈNH cấp trong 10 ngày làm việc.
+PHÂN LOẠI THỦ TỤC THEO CẤP ĐIỆN ÁP ĐẤU NỐI (KHÔNG theo ngưỡng công suất kW):
+• Inverter < 1 kW: KHÔNG cần thông báo gì.
+• Đấu nối HẠ ÁP (điện áp định mức ≤ 1 kV, tức 220V/380V — áp dụng cho đa số hộ gia đình/hộ kinh doanh nhỏ): gửi Mẫu số 01 → UBND cấp XÃ, trước lắp đặt ≥ 10 ngày làm việc. KHÔNG có ngưỡng công suất kW cho trường hợp này — hộ gia đình lắp 5 kW, 15 kW, 30 kW vẫn chung thủ tục nếu đấu nối lưới hạ áp.
+• Đấu nối TRUNG ÁP trở lên (6 kV, 22 kV, 35 kV…) + KHÔNG bán điện dư: gửi Mẫu số 02 → UBND cấp TỈNH, cần Zero-Export.
+• Đấu nối TRUNG ÁP trở lên + CÓ bán điện dư: xin Giấy chứng nhận đăng ký phát triển (Mẫu số 03), UBND cấp TỈNH cấp trong 10 ngày làm việc.
 • Không đấu nối lưới + ≥ 100 kW: thông báo UBND cấp XÃ.
+
+⚠ CẢNH BÁO LLM — KHÔNG BỊA SỐ kW:
+- Hộ gia đình → MẶC NHIÊN hạ áp → Mẫu 01, trả lời đúng "hệ thống đấu nối lưới hạ áp" hoặc "hộ gia đình (đấu nối hạ áp 220V/380V)". TUYỆT ĐỐI KHÔNG thêm "(dưới 10 kW)", "(dưới 20 kW)", "(công suất nhỏ)" hay bất kỳ ngưỡng kW nào vào Mẫu 01 — VBHN 52 không quy định ngưỡng công suất cho trường hợp hạ áp.
+- Chỉ có 2 ngưỡng kW được phép trích: "< 1 kW" (miễn thông báo) và "≥ 100 kW" (riêng cho hệ không nối lưới).
 
 Bán điện dư:
 • Tối đa 50% sản lượng phát theo bức xạ (đến 31/12/2030 có thể thỏa thuận cao hơn nếu lưới đủ khả năng).
