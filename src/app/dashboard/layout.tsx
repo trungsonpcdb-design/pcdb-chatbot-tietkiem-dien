@@ -20,6 +20,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   if (isAdmin) {
     items.push({ href: "/dashboard/admin/users", label: "Quản lý nhân viên", icon: "🛡️" });
+    items.push({
+      href: "/dashboard/admin/upload-customers",
+      label: "Nạp DS KH ≥500 kWh",
+      icon: "📤",
+    });
   }
 
   return (
