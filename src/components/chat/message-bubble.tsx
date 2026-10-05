@@ -9,6 +9,7 @@ import { useSpeechSynthesis } from "@/lib/hooks/use-speech-synthesis";
 import type { Citation } from "./citation-popover";
 import { FeedbackButtons } from "./feedback-buttons";
 import { FormDmtmn, type FormDmtmnData } from "./form-dmtmn";
+import { SolarCalcCard } from "./solar-calc-card";
 import { QuickReplyButtons } from "./quick-reply-buttons";
 import type { ScriptButton } from "@/lib/scripts";
 
@@ -24,6 +25,7 @@ export interface ChatMessage {
 }
 
 const FORM_MARKER = "<FORM_DMTMN/>";
+const SOLAR_CALC_MARKER = "<SOLAR_CALC/>";
 const DL_REGEX = /\[\[DL:([^|\]]+)\|([^\]]+)\]\]/g;
 
 function renderWithDownloads(text: string): ReactNode[] {
@@ -67,7 +69,10 @@ export function MessageBubble({
 }) {
   const isUser = message.role === "user";
   const hasForm = !isUser && message.content.includes(FORM_MARKER);
-  const textOnly = hasForm ? message.content.replace(FORM_MARKER, "").trim() : message.content;
+  const hasSolarCalc = !isUser && message.content.includes(SOLAR_CALC_MARKER);
+  let textOnly = message.content;
+  if (hasForm) textOnly = textOnly.replace(FORM_MARKER, "").trim();
+  if (hasSolarCalc) textOnly = textOnly.replace(SOLAR_CALC_MARKER, "").trim();
   const {
     supported: ttsSupported,
     hasVietnameseVoice,
@@ -137,6 +142,7 @@ export function MessageBubble({
       {hasForm && onFormSubmit && (
         <FormDmtmn onSubmit={onFormSubmit} disabled={disabled ?? false} />
       )}
+      {hasSolarCalc && <SolarCalcCard />}
       {!isUser && message.quickReplies && message.quickReplies.length > 0 && onQuickReply && (
         <QuickReplyButtons
           buttons={message.quickReplies}

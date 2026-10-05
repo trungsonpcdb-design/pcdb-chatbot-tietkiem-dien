@@ -161,6 +161,49 @@ Mường Toong | Phòng Kinh tế xã | 0335489200 | Bản Mường Toong
 Nậm Kè | Phòng Kinh tế xã | 0964443153 | Bản Phiêng Vai
 Quảng Lâm | Phòng Kinh tế xã | 0839180055 | Bản Trạm Púng
 
+═══════ 9. ƯỚC TÍNH CHI PHÍ ĐẦU TƯ ĐMTMN THEO DIỆN TÍCH MÁI (năm 2026, Điện Biên) ═══════
+(Nguồn: Bảng ước tính của PC Điện Biên, năm 2026. Đơn giá tham khảo, CHƯA gồm VAT và chưa gồm khung sắt gia cố mái. Giá thực tế do nhà cung cấp báo.)
+
+Hệ số kỹ thuật (dùng để tra nhanh mọi diện tích mái, kể cả không có trong bảng mốc):
+• Công suất pin dự kiến: 1 kWp ≈ 6 m² mái → kWp = diện_tích_m² ÷ 6 (làm tròn số nguyên).
+• Dung lượng pin lưu trữ (BESS) tương ứng: BESS_kWh = số kWp (tỷ lệ 1:1).
+• Đơn giá pin mặt trời:        9.800.000 đồng/kWp.
+• Đơn giá pin lưu trữ (BESS):  2.800.000 đồng/kWh.
+• Suất đầu tư GỘP (pin + BESS): 12.600.000 đồng/kWp.
+
+CÔNG THỨC NHANH khi user cho diện tích mái X (m²):
+  1) kWp = round(X ÷ 6)
+  2) Chi phí pin        = kWp × 9.800.000 đ
+  3) Chi phí BESS       = kWp × 2.800.000 đ   (với BESS_kWh = kWp)
+  4) TỔNG đầu tư trọn gói = kWp × 12.600.000 đ
+  (Nếu user KHÔNG lắp lưu trữ BESS, chỉ lấy bước 2.)
+
+Bảng mốc tiêu biểu (để tham chiếu nhanh):
+Mái (m²) | kWp | Pin (triệu đ) | BESS kWh | BESS (triệu đ) | Tổng (triệu đ)
+   30    |  5  |     49,0      |    5     |     14,0       |     63,0
+   60    | 10  |     98,0      |   10     |     28,0       |    126,0
+  100    | 16  |    156,8      |   16     |     44,8       |    201,6
+  150    | 25  |    245,0      |   25     |     70,0       |    315,0
+  200    | 33  |    323,4      |   33     |     92,4       |    415,8
+  300    | 50  |    490,0      |   50     |    140,0       |    630,0
+  500    | 83  |    813,4      |   83     |    232,4       |  1.045,8
+  600    |100  |    980,0      |  100     |    280,0       |  1.260,0
+ 1.000   |166  |  1.626,8      |  166     |    464,8       |  2.091,6
+ 1.500   |250  |  2.450,0      |  250     |    700,0       |  3.150,0
+ 2.000   |333  |  3.263,4      |  333     |    932,4       |  4.195,8
+
+Ví dụ áp dụng công thức (user hỏi "nhà tôi mái 80m²"):
+  1) kWp = round(80 ÷ 6) = 13 kWp
+  2) Pin  = 13 × 9,8 tr   = 127,4 triệu đ
+  3) BESS = 13 × 2,8 tr   = 36,4 triệu đ (BESS 13 kWh)
+  4) TỔNG trọn gói = 13 × 12,6 tr = 163,8 triệu đ.
+
+Lưu ý luôn nhắc user:
+• Đây là ƯỚC TÍNH, giá thực tế do nhà cung cấp báo (có thể dao động theo thương hiệu pin, inverter, công nghệ BESS).
+• Chưa gồm chi phí khung sắt gia cố mái, hệ thống chống sét/giám sát, vận chuyển vùng cao.
+• Chưa gồm thuế VAT.
+• User có thể chọn KHÔNG lắp BESS để giảm ~22% tổng đầu tư, nhưng khi đó không tích trữ được điện ban đêm/mất lưới.
+
 ═══════ 10. TỔNG ĐÀI CSKH ═══════
 • Tổng đài CSKH EVN toàn quốc:            1558
 • Miền Bắc (EVNNPC — gồm PC Điện Biên): https://cskh.npc.com.vn
@@ -177,5 +220,15 @@ Giá đổi giữa kỳ: phân bổ theo thời gian hoặc chốt chỉ số, K
 • Khi user hỏi thủ tục điện mặt trời → tra bảng ngưỡng công suất + mẫu số.
 • Khi user hỏi khung giờ TOU → dùng khung "hiện hành", nhắc "khung mới QĐ 963 CHƯA áp dụng".
 • Khi user hỏi đầu mối/số điện thoại liên hệ đăng ký, hướng dẫn thủ tục ĐMTMN tại 1 xã/phường cụ thể (hoặc hỏi theo tên Điện lực/huyện) → tra đúng dòng trong bảng mục 8, trả lời tên xã/phường + bộ phận tiếp nhận + SĐT. Nếu user chỉ nêu tên huyện/khu vực mà không rõ xã/phường, liệt kê TẤT CẢ xã/phường thuộc Điện lực khu vực đó. KHÔNG suy diễn hay bịa số điện thoại nếu xã/phường không có trong bảng — khi đó hướng dẫn gọi tổng đài CSKH (mục 10) để được nối máy đúng đầu mối.
+• Khi user hỏi chi phí/giá/ước tính đầu tư ĐMTMN, xử lý theo 2 trường hợp:
+
+  — TRƯỜNG HỢP A (user hỏi CHUNG CHUNG, chưa cho diện tích/công suất, ví dụ: "chi phí lắp điện mặt trời bao nhiêu", "giá lắp ĐMT thế nào", "tôi muốn biết chi phí đầu tư", "lắp pin mặt trời hết nhiêu tiền"):
+    Trả lời NGẮN GỌN 1-2 câu giới thiệu rằng chi phí tùy diện tích mái và lựa chọn có/không có pin lưu trữ, rồi KẾT THÚC bằng marker đúng cú pháp: <SOLAR_CALC/>
+    TUYỆT ĐỐI KHÔNG tự liệt kê bảng mốc, không ra con số trong text — marker sẽ hiển thị form để khách tự nhập và tự tính. Ví dụ phản hồi tốt:
+      "Chi phí lắp ĐMTMN phụ thuộc diện tích mái và có lắp pin lưu trữ (BESS) hay không. Anh/chị nhập thông số vào bảng dưới đây, hệ thống tính ngay giúp mình nhé.
+      <SOLAR_CALC/>"
+
+  — TRƯỜNG HỢP B (user ĐÃ cho diện tích mái hoặc công suất kWp cụ thể, ví dụ "nhà tôi mái 100m² lắp hết bao nhiêu", "lắp 20kWp giá bao nhiêu"):
+    DÙNG mục 9: áp công thức X÷6 ra kWp (hoặc dùng kWp user cho) rồi tính 3 số (pin, BESS, tổng); nếu rơi vào mốc 30/60/100/.../2000 m² có thể trích thẳng từ bảng mốc. Luôn trình bày từng dòng (kWp → pin → BESS → tổng), kèm 4 LƯU Ý ở cuối mục 9. KHÔNG chèn marker <SOLAR_CALC/> trong trường hợp này — đã có số rồi, không cần form nữa.
 • Nếu user hỏi ngoài phạm vi các mục trên → tham chiếu "TÀI LIỆU THAM KHẢO" như bình thường.
 `;
