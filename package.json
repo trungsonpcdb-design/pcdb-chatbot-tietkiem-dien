@@ -9,7 +9,8 @@
     "db:generate": "prisma generate",
     "db:migrate:dev": "prisma migrate dev",
     "db:seed": "node scripts/seed-units.mjs",
-    "db:seed:kb": "node scripts/seed-kb.mjs"
+    "db:seed:kb": "node scripts/seed-kb.mjs",
+    "db:seed:customers": "python scripts/export-customers-500kwh.py && node scripts/seed-customers-500kwh.mjs"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.6.1",

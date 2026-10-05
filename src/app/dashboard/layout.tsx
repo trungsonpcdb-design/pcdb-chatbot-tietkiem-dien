@@ -15,6 +15,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     { href: "/dashboard/documents", label: "Tài liệu (KB)", icon: "📚" },
     { href: "/dashboard/unanswered", label: "Câu hỏi chưa trả lời", icon: "❓" },
     { href: "/dashboard/stats", label: "Thống kê chi tiết", icon: "📈" },
+    { href: "/dashboard/customers-500kwh", label: "KH tiềm năng ĐMTMN", icon: "☀️" },
   ];
 
   if (isAdmin) {

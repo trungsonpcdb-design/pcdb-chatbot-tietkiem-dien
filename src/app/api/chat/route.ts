@@ -4,6 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { getOpenAI, CHAT_MODEL, MAX_OUTPUT_TOKENS } from "@/lib/openai";
 import { SYSTEM_PROMPT_MVP } from "@/lib/prompts/system-mvp";
 import { SCRIPTED_FACTS } from "@/lib/prompts/scripted-facts";
+import {
+  buildCustomerStatsSection,
+  CUSTOMER_STATS_GUIDANCE,
+} from "@/lib/prompts/customer-stats";
 import { getOrCreateAnonymousId } from "@/lib/anonymous-id";
 import { checkRateLimit, hashIp } from "@/lib/rate-limit";
 import { moderate } from "@/lib/moderation";
@@ -99,7 +103,10 @@ export async function POST(req: NextRequest) {
   let systemPrompt: string;
   let citationMap: CitationRef[] = [];
 
-  const hasDocuments = (await prisma.document.count({ where: { isActive: true } })) > 0;
+  const [hasDocuments, customerStats] = await Promise.all([
+    prisma.document.count({ where: { isActive: true } }).then((n) => n > 0),
+    buildCustomerStatsSection(),
+  ]);
 
   if (!hasDocuments) {
     systemPrompt = SYSTEM_PROMPT_MVP + "\n\n" + SCRIPTED_FACTS;
@@ -124,6 +131,10 @@ export async function POST(req: NextRequest) {
     const built = buildPromptWithContext(useable);
     systemPrompt = built.system;
     citationMap = built.citationMap;
+  }
+
+  if (customerStats) {
+    systemPrompt += "\n\n" + customerStats + "\n\n" + CUSTOMER_STATS_GUIDANCE;
   }
 
   systemPrompt += getUserMemoryBlock(await listUserMemoryNotes(owner));

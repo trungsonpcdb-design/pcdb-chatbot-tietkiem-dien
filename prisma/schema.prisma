@@ -162,3 +162,26 @@ model UserMemoryNote {
   @@index([anonymousId])
   @@index([clerkUserId])
 }
+
+/// Khách hàng có sản lượng điện ≥ 500 kWh/tháng — danh sách tiềm năng
+/// để tư vấn lắp đặt ĐMTMN. CHỈ xem được qua /dashboard sau khi login
+/// (dữ liệu cá nhân theo NĐ 13/2023/NĐ-CP).
+model HighConsumptionCustomer {
+  id             String   @id @default(cuid())
+  dviqlyCode     String   // Mã Điện lực khu vực, VD "PA1901"
+  customerCode   String   @unique // Mã khách hàng, VD "PA19010001997"
+  customerName   String
+  address        String
+  commune        String?  // Xã/phường trích từ địa chỉ (phục vụ filter)
+  consumptionKwh Int      // kWh TB/tháng
+  totalAmount    Int      // đồng
+  phone          String?
+  customerType   String   // "INDIVIDUAL" | "ORG"
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+
+  @@index([dviqlyCode])
+  @@index([commune])
+  @@index([customerType])
+  @@index([consumptionKwh])
+}

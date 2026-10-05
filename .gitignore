@@ -64,6 +64,9 @@ Thumbs.db
 # KB source docs — nội dung nội bộ, không public
 tailieu/
 
+# Export tạm từ Excel chứa dữ liệu cá nhân khách hàng — KHÔNG commit
+scripts/.customers-500kwh.jsonl
+
 # Personal skill files (không thuộc dự án)
 *.skill
 
