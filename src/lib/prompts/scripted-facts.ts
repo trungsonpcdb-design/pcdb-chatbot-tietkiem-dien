@@ -1,6 +1,24 @@
 export const SCRIPTED_FACTS = `DỮ LIỆU CHÍNH THỨC — dùng để tính toán và trả lời trực tiếp, KHÔNG cần "TÀI LIỆU THAM KHẢO":
 (Nguồn: Quyết định 1279/QĐ-BCT ngày 09/5/2025, cập nhật 27/07/2026. Mọi mức giá dưới đây CHƯA gồm VAT.)
 
+═══════ 0. ⚠ METARULE BẮT BUỘC — ÁP DỤNG CHO MỌI CÂU TRẢ LỜI ═══════
+
+Với MỌI câu hỏi liên quan đến thủ tục, quy trình, hồ sơ, điều kiện, hạn mức, bán điện dư, giấy phép, nghiệm thu, chuyển tiếp, hợp đồng, giá bán, ngưỡng kỹ thuật — trước khi gửi câu trả lời, LLM BẮT BUỘC tự rà soát theo 4 tiêu chí sau. Thiếu bất kỳ tiêu chí nào = câu trả lời SAI, phải viết lại.
+
+  TIÊU CHÍ 1 — ĐỦ BƯỚC / ĐỦ ĐIỂM:
+  Khi mục dữ liệu liệt kê N điểm (bullet •), N bước, N trường hợp, N điều kiện, N ngưỡng → câu trả lời PHẢI nhắc đủ N, KHÔNG được rút gọn còn N-1 hay N-2 "vì câu đã dài". Nếu câu dài quá, dùng gạch đầu dòng, KHÔNG bỏ bớt điểm.
+
+  TIÊU CHÍ 2 — TRÍCH ĐIỀU/KHOẢN:
+  Mỗi claim pháp lý (ngưỡng, thủ tục, hồ sơ, thời hạn, ưu đãi, ngoại lệ) PHẢI đi kèm số Điều/Khoản gốc đã xuất hiện trong DỮ LIỆU CHÍNH THỨC bên dưới. Format: "theo Điều X" hoặc "(Điều X Khoản Y)". Không nhớ chính xác Điều/Khoản → không trích chứ KHÔNG được chế số Điều mới.
+
+  TIÊU CHÍ 3 — NGOẠI LỆ / ƯU ĐÃI:
+  Nếu mục dữ liệu có từ "MIỄN", "KHÔNG bị giới hạn", "ƯU ĐÃI", "trừ trường hợp", "ngoại lệ", "chưa áp dụng" liên quan trực tiếp đến câu hỏi → BẮT BUỘC nhắc trong câu trả lời. Đây là điểm có lợi/bất lợi quan trọng cho khách, KHÔNG được giấu đi.
+
+  TIÊU CHÍ 4 — THỜI HẠN / NGƯỠNG SỐ:
+  Nếu mục dữ liệu liên quan có số ngày (3/5/10 ngày làm việc), số năm (5 năm hợp đồng), tỷ lệ (50%, 10%), ngưỡng công suất (<1 kW, ≥100 kW), ngưỡng tiêu thụ (≥2.000 kWh/tháng) → BẮT BUỘC trích đúng con số, KHÔNG viết "khoảng vài ngày", "một thời gian". Nếu có 2 mốc thời hạn khác nhau (vd: 3 ngày thông báo thiếu hồ sơ vs 10 ngày cấp giấy chứng nhận) → PHẢI phân biệt, không gộp.
+
+Quy tắc nhận diện: nếu câu hỏi chứa "thủ tục", "quy trình", "cần làm", "cần giấy tờ gì", "có được không", "điều kiện", "bán điện dư", "giấy phép", "chuyển tiếp", "nghiệm thu", "trong KCN", "miền núi", "đất đa mục đích", "pin lưu trữ bán được không" → mặc nhiên kích hoạt 4 tiêu chí trên.
+
 ═══════ 1. GIÁ ĐIỆN SINH HOẠT 6 BẬC (đồng/kWh) ═══════
 • Bậc 1 (0–50 kWh):   1.984
 • Bậc 2 (51–100 kWh): 2.050
@@ -71,18 +89,73 @@ PHÂN LOẠI THỦ TỤC THEO CẤP ĐIỆN ÁP ĐẤU NỐI (KHÔNG theo ngư�
 - "Trung áp" là CẤP ĐIỆN ÁP (6/22/35 kV), KHÔNG phải "công suất". Diễn đạt đúng: "đấu nối ở cấp điện áp trung áp trở lên", KHÔNG viết "công suất trung áp".
 
 QUY TRÌNH 4 BƯỚC CHUẨN cho HỘ GIA ĐÌNH (dùng khi user hỏi "thủ tục gì", "quy trình lắp", "cần làm gì" cho hộ gia đình):
-  Bước 1 — Thông báo (Mẫu 01): nộp UBND cấp xã trước lắp đặt ≥10 ngày làm việc. Nếu inverter < 1 kW thì MIỄN. (Điều 15)
-  Bước 2 — Kỹ thuật: công suất không được vượt Pmax theo thông số công tơ (Điều 11); trước lắp phải kiểm tra khả năng chịu lực của mái + sơ đồ đấu nối (Điều 13).
-  Bước 3 — An toàn: tuân thủ ĐỦ 3 nhóm — an toàn ĐIỆN, an toàn XÂY DỰNG, phòng cháy chữa cháy (PCCC). KHÔNG được bỏ sót "an toàn xây dựng" (vì đây là kết cấu mái chịu tải). (Điều 13, Điều 21)
-  Bước 4 — Nếu CÓ bán điện dư: phối hợp Điện lực nghiệm thu công tơ 2 chiều + ký hợp đồng mua bán điện dư theo khung Mẫu 05, thời hạn 5 năm (Điều 24). ƯU ĐÃI: hộ gia đình bán điện dư ở cấp hạ áp được MIỄN đăng ký hộ kinh doanh (Khoản 2 Điều 13) — cần nhắc rõ.
-  → KHÔNG được chèn Mẫu 02 hay Mẫu 03 vào câu trả lời cho hộ gia đình (các mẫu đó chỉ áp dụng khi đấu nối trung áp trở lên — không áp dụng cho hộ gia đình đấu lưới hạ áp 220V/380V).
 
-Bán điện dư:
-• Tối đa 50% sản lượng phát theo bức xạ (đến 31/12/2030 có thể thỏa thuận cao hơn nếu lưới đủ khả năng).
-• Miền núi, biên giới, hải đảo chưa có lưới quốc gia: KHÔNG bị giới hạn tỷ lệ.
-• Giá mua = giá điện năng thị trường bình quân năm trước, giới hạn bởi khung giá phát điện mặt trời mặt đất.
-• Hợp đồng thời hạn 5 năm. Xử lý hồ sơ trong 5 ngày làm việc kể từ khi nhận đủ.
-• Hộ gia đình bán điện dư (hạ áp) MIỄN đăng ký hộ kinh doanh.
+  ⚠ CHECKLIST BẮT BUỘC — mỗi lần trả lời đều PHẢI đủ các dấu ✓ bên dưới. Thiếu bất kỳ ✓ nào = câu trả lời SAI, phải viết lại.
+
+  Bước 1 — Thông báo (Mẫu 01):
+    ✓ Nộp UBND cấp XÃ (KHÔNG phải tỉnh).
+    ✓ Trước lắp đặt ≥10 ngày làm việc.
+    ✓ Nếu inverter < 1 kW thì MIỄN thông báo.
+    ✓ TRÍCH NGUỒN: "Điều 15 VBHN 52/VBHN-BCT".
+    ✓ Chèn link tải cuối trả lời: [[DL:/mau-dmtmn/Mau-so-01-Thong-bao-ha-ap.docx|📥 Download Mẫu số 01]].
+
+  Bước 2 — Kỹ thuật:
+    ✓ Công suất không được vượt Pmax theo thông số công tơ.
+    ✓ Trước lắp phải kiểm tra khả năng chịu lực của mái + sơ đồ đấu nối.
+    ✓ TRÍCH NGUỒN: "Điều 11, Điều 13".
+
+  Bước 3 — An toàn:
+    ✓ Liệt kê ĐỦ 3 NHÓM, KHÔNG được rút gọn còn 2: (1) an toàn ĐIỆN, (2) an toàn XÂY DỰNG, (3) phòng cháy chữa cháy (PCCC).
+    ⚠ CẤM: bỏ "an toàn xây dựng" (đây là kết cấu mái chịu tải tấm pin, rất quan trọng).
+    ⚠ CẤM: bỏ "PCCC".
+    ✓ TRÍCH NGUỒN: "Điều 13, Điều 21".
+
+  Bước 4 — Nếu CÓ bán điện dư:
+    ✓ Phối hợp Điện lực nghiệm thu công tơ 2 chiều.
+    ✓ Ký hợp đồng mua bán điện dư theo khung Mẫu 05, thời hạn 5 năm.
+    ✓ BẮT BUỘC NHẮC RÕ ƯU ĐÃI: "Hộ gia đình bán điện dư ở cấp hạ áp được MIỄN đăng ký hộ kinh doanh" — đây là ưu đãi quan trọng, KHÔNG được bỏ qua ngay cả khi câu trả lời đã dài.
+    ✓ TRÍCH NGUỒN: "Khoản 2 Điều 13, Điều 24".
+
+  ⚠ CẤM TUYỆT ĐỐI với hộ gia đình: chèn Mẫu 02 hay Mẫu 03 vào câu trả lời. 2 mẫu này CHỈ áp dụng khi đấu nối trung áp trở lên — hộ gia đình đấu lưới hạ áp 220V/380V không bao giờ dùng.
+
+QUY TRÌNH CHUẨN cho DOANH NGHIỆP/TỔ CHỨC ĐẤU NỐI TRUNG ÁP TRỞ LÊN (6/22/35 kV) — dùng khi user hỏi "doanh nghiệp lắp cần làm gì", "quy định với trung áp", "nhà xưởng lắp ĐMT":
+
+  ⚠ CHECKLIST BẮT BUỘC — mỗi lần trả lời đều PHẢI đủ các dấu ✓ bên dưới.
+
+  TRƯỚC KHI TRẢ LỜI: xác định user KHÔNG bán điện dư (Mẫu 02) hay CÓ bán điện dư (Mẫu 03). Nếu user chưa nói rõ, trình bày CẢ 2 trường hợp rõ ràng, KHÔNG gộp chung "Mẫu 02 cần Zero-Export, nếu có bán điện dư thì Mẫu 03" — gộp như vậy LLM dễ gây hiểu sai Zero-Export là mặc định cho cả 2.
+
+  TRƯỜNG HỢP A — KHÔNG bán điện dư:
+    ✓ Thông báo bằng Mẫu số 02, nộp UBND cấp TỈNH.
+    ✓ Trước lắp đặt ≥10 ngày làm việc.
+    ✓ BẮT BUỘC trang bị thiết bị Zero-Export (bật/tắt phát ngược) — vận hành theo yêu cầu cấp điều độ.
+    ✓ TRÍCH NGUỒN: "Điều 10, Điều 15".
+    ✓ Chèn link: [[DL:/mau-dmtmn/Mau-so-02-Thong-bao-trung-ap.docx|📥 Download Mẫu số 02]].
+
+  TRƯỜNG HỢP B — CÓ bán điện dư:
+    ✓ Phải XIN GIẤY CHỨNG NHẬN ĐĂNG KÝ PHÁT TRIỂN trước khi lắp đặt, bằng Mẫu số 03 nộp UBND cấp TỈNH.
+    ✓ UBND tỉnh cấp giấy trong 10 ngày làm việc kể từ khi nhận đủ hồ sơ hợp lệ.
+    ✓ KHÔNG cần Zero-Export (vì có bán điện dư).
+    ✓ Phải lắp công tơ 2 chiều + ký hợp đồng theo khung Mẫu 05, thời hạn 5 năm.
+    ✓ TRÍCH NGUỒN: "Điều 10, Điều 16, Điều 17, Điều 18, Điều 24".
+    ✓ Chèn link: [[DL:/mau-dmtmn/Mau-so-03-Giay-dang-ky.docx|📥 Download Mẫu số 03]].
+
+  Bước An toàn — ÁP DỤNG CHO CẢ A VÀ B:
+    ✓ Liệt kê ĐỦ 3 NHÓM, KHÔNG được rút gọn: (1) an toàn ĐIỆN, (2) an toàn XÂY DỰNG, (3) phòng cháy chữa cháy (PCCC).
+    ✓ Doanh nghiệp phải NGHIỆM THU đầu tư xây dựng trước khi khai thác.
+    ✓ TRÍCH NGUỒN: "Điều 21, Điều 23".
+
+  ⚠ CẤM với doanh nghiệp trung áp: chèn Mẫu 01 (Mẫu 01 chỉ dành cho đấu nối hạ áp 220V/380V).
+
+BÁN ĐIỆN DƯ — CHECKLIST BẮT BUỘC khi user hỏi "bán điện dư có quy định gì", "được bán bao nhiêu", "giá bán điện dư", "có bị giới hạn không", "hộ gia đình bán điện có cần đăng ký không":
+  ✓ (1) Trần sản lượng: tối đa 50% sản lượng phát theo bức xạ. Đến hết 31/12/2030 hai bên có thể thỏa thuận tỷ lệ CAO HƠN 50% nếu lưới khu vực đủ khả năng tiếp nhận. (Khoản 2 Điều 14)
+  ✓ (2) NGOẠI LỆ miền núi/biên giới/hải đảo chưa có lưới quốc gia: KHÔNG bị giới hạn tỷ lệ, mua toàn bộ điện phát lên lưới của Bên mua điện dư. Khi khu vực được cấp điện từ lưới quốc gia thì quay về áp 50% (hoặc tỷ lệ cao hơn theo thời điểm). (Khoản 2 Điều 14)
+  ✓ (3) Giá mua: giá điện năng thị trường điện bình quân năm trước (do đơn vị điều hành thị trường điện công bố), giới hạn trần = giá tối đa khung giá phát điện mặt trời mặt đất không có pin lưu trữ (chưa gồm VAT). (Khoản 5 Điều 14)
+  ✓ (4) Hợp đồng theo khung Mẫu số 05, THỜI HẠN 5 NĂM kể từ ngày hệ thống được nghiệm thu và bên bán đã cung cấp đủ hồ sơ. (Điều 24)
+  ✓ (5) THỜI HẠN XỬ LÝ: trong 5 ngày làm việc kể từ ngày nhận đủ hồ sơ, bên mua điện phải phối hợp kiểm tra hiện trạng, lắp công tơ, chốt chỉ số và ký hợp đồng. (Khoản 2, 3, 4 Điều 24)
+  ✓ (6) ƯU ĐÃI hộ gia đình đấu nối HẠ ÁP có bán điện dư: MIỄN đăng ký hộ kinh doanh. (Khoản 2 Điều 13) — luôn nhắc rõ khi câu hỏi liên quan hộ gia đình.
+  ✓ (7) ĐIỆN TỪ PIN LƯU TRỮ (BESS) chỉ được tính vào sản lượng mua bán NẾU pin được nạp từ CHÍNH nguồn ĐMTMN. Điện nạp từ nguồn khác KHÔNG thuộc sản lượng điện dư. (Khoản 2 Điều 14)
+  ✓ (8) ĐIỆN LỰC CÓ QUYỀN TỪ CHỐI mua điện dư nếu việc mua gây quá tải lưới điện hạ áp hoặc trung áp tại khu vực. (Điều 36, Điều 14)
+  ⚠ Khi user hỏi chung "bán điện dư có quy định gì" → PHẢI liệt kê đủ ít nhất 6 điểm đầu (1→6). Chỉ bỏ (7), (8) khi câu hỏi quá hẹp (vd chỉ hỏi về công suất).
 
 Chuyển tiếp:
 • Hệ thống trước 1/1/2021 (đã có HĐ bán điện): được lắp thêm nhưng không làm tăng công suất cũ.
@@ -230,7 +303,17 @@ Giá đổi giữa kỳ: phân bổ theo thời gian hoặc chốt chỉ số, K
 • Khi user hỏi tính tiền điện với sản lượng cụ thể → DÙNG bảng bậc để tính, hiển thị chi tiết từng bậc.
 • Khi user hỏi số hotline/URL → trích chính xác từ bảng trên.
 • Khi user hỏi thủ tục điện mặt trời → tra bảng ngưỡng công suất + mẫu số.
-• Khi user hỏi "thủ tục gì", "quy trình lắp", "cần làm những gì" cho HỘ GIA ĐÌNH → BẮT BUỘC trả lời theo đúng khung 4 BƯỚC trong mục 7 (Thông báo → Kỹ thuật → An toàn → Bán điện dư nếu có), đánh số 1-2-3-4 rõ ràng, mỗi bước trích đúng Điều/Khoản. KHÔNG được chỉ trả lời bước 1 rồi dừng, KHÔNG được bỏ sót "an toàn xây dựng" ở bước 3, KHÔNG được chèn Mẫu 02/Mẫu 03 (chỉ dành cho trung áp). Cuối trả lời đính kèm link tải Mẫu 01 theo cú pháp [[DL:...]] (mục 7B).
+• Khi user hỏi "thủ tục gì", "quy trình lắp", "cần làm những gì" cho HỘ GIA ĐÌNH → BẮT BUỘC chạy đủ CHECKLIST ✓ trong mục 7 phần "QUY TRÌNH 4 BƯỚC CHUẨN cho HỘ GIA ĐÌNH". Mỗi dấu ✓ là 1 claim phải xuất hiện trong câu trả lời cuối cùng. Đặc biệt KHÔNG được bỏ qua:
+    (1) 3 nhóm an toàn ở bước 3 (điện + xây dựng + PCCC) — luôn liệt kê đủ, không rút gọn còn 2.
+    (2) Ưu đãi "MIỄN đăng ký hộ kinh doanh" ở bước 4 — luôn nhắc rõ khi user có khả năng bán điện dư, kể cả câu trả lời đã dài.
+    (3) Trích Điều/Khoản cuối mỗi bước (Điều 15 cho bước 1, Điều 11/13 cho bước 2, Điều 13/21 cho bước 3, Khoản 2 Điều 13 + Điều 24 cho bước 4).
+    (4) KHÔNG chèn Mẫu 02/Mẫu 03; cuối trả lời đính kèm link Mẫu 01 theo cú pháp [[DL:...]] (mục 7B).
+• Khi user hỏi về đấu nối TRUNG ÁP (6/22/35 kV), doanh nghiệp lắp ĐMT, nhà xưởng, cơ quan → BẮT BUỘC chạy đủ CHECKLIST ✓ trong mục 7 phần "QUY TRÌNH CHUẨN cho DOANH NGHIỆP/TỔ CHỨC". Phải:
+    (1) Phân biệt rõ TRƯỜNG HỢP A (không bán điện dư → Mẫu 02 + Zero-Export) với TRƯỜNG HỢP B (có bán điện dư → Mẫu 03 + KHÔNG Zero-Export). KHÔNG gộp chung Zero-Export như yêu cầu mặc định cho cả 2.
+    (2) Liệt kê ĐỦ 3 nhóm an toàn (điện + xây dựng + PCCC) + nghiệm thu đầu tư xây dựng.
+    (3) Trích Điều/Khoản (Điều 10, 15, 16, 17, 18, 21, 23, 24 theo bước).
+    (4) Nhắc thời hạn ≥10 ngày làm việc trước lắp (Mẫu 02) hoặc 10 ngày cấp giấy (Mẫu 03).
+    (5) KHÔNG chèn Mẫu 01 (chỉ dành cho hạ áp).
 • Khi user hỏi khung giờ TOU → dùng khung "hiện hành", nhắc "khung mới QĐ 963 CHƯA áp dụng".
 • Khi user hỏi đầu mối/số điện thoại liên hệ đăng ký, hướng dẫn thủ tục ĐMTMN tại 1 xã/phường cụ thể (hoặc hỏi theo tên Điện lực/huyện) → tra đúng dòng trong bảng mục 8, trả lời tên xã/phường + bộ phận tiếp nhận + SĐT. Nếu user chỉ nêu tên huyện/khu vực mà không rõ xã/phường, liệt kê TẤT CẢ xã/phường thuộc Điện lực khu vực đó. KHÔNG suy diễn hay bịa số điện thoại nếu xã/phường không có trong bảng — khi đó hướng dẫn gọi tổng đài CSKH (mục 10) để được nối máy đúng đầu mối.
 • Khi user hỏi chi phí/giá/ước tính đầu tư ĐMTMN, xử lý theo 2 trường hợp:
