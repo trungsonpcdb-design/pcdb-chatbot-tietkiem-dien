@@ -57,8 +57,8 @@ export function ChatContainer({
 
   useEffect(() => {
     if (greetingSpokenRef.current) return;
-    const greeting = messages[0];
-    if (!greeting || greeting.role !== "assistant" || !greeting.content) return;
+    const firstAssistantGreeting = messages[0]?.role === "assistant" && !!messages[0]?.content;
+    if (!showHero && !firstAssistantGreeting) return;
 
     const spokenGreeting =
       "Xin chào! Tôi là trợ lý Ây Ai ảo của Công ty Điện lực Điện Biên. Anh chị quan tâm chủ đề nào ạ?";
@@ -84,7 +84,7 @@ export function ChatContainer({
     window.addEventListener("touchstart", onInteract, { once: false });
 
     return detach;
-  }, [messages, hasVietnameseVoice, speak]);
+  }, [messages, hasVietnameseVoice, speak, showHero]);
 
   useEffect(() => {
     const detach = attachSessionEndListeners(() => {
