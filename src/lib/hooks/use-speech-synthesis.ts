@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { normalizeForTts } from "@/lib/tts/normalize-vi";
 
 export interface UseSpeechSynthesisResult {
   supported: boolean;
@@ -45,7 +46,7 @@ export function useSpeechSynthesis(): UseSpeechSynthesisResult {
   const speak = useCallback((text: string): boolean => {
     if (typeof window === "undefined" || !window.speechSynthesis) return false;
     if (!voiceRef.current) return false;
-    const cleaned = text.replace(/[*_`#>~\[\]]/g, "").trim();
+    const cleaned = normalizeForTts(text);
     if (!cleaned) return false;
     try {
       window.speechSynthesis.cancel();
