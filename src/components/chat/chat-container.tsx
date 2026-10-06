@@ -34,11 +34,17 @@ export function ChatContainer({
 }) {
   const [currentScriptId, setCurrentScriptId] = useState<string>(initialScriptId);
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    // Nếu initialScriptId KHÁC picker (user mở ?kb=solar chẳng hạn),
+    // vẫn load thẳng script đó như trước, bỏ qua hero.
+    if (initialScriptId === PICKER_SCRIPT_ID) return [];
     const script = getScript(initialScriptId);
     if (!script) return [];
     const rootNode = script.nodes[script.rootId];
     return rootNode ? [buildScriptMessage(rootNode)] : [];
   });
+  const [showHero, setShowHero] = useState<boolean>(
+    initialScriptId === PICKER_SCRIPT_ID
+  );
   const [busy, setBusy] = useState(false);
   const sessionIdRef = useRef<string | null>(null);
   const [ratingOpen, setRatingOpen] = useState(false);
@@ -177,6 +183,7 @@ export function ChatContainer({
   );
 
   const send = useCallback(async (text: string) => {
+    setShowHero(false);
     setBusy(true);
     const userMsg: ChatMessage = {
       id: crypto.randomUUID(),
@@ -228,6 +235,7 @@ export function ChatContainer({
 
   const handleQuickReply = useCallback(
     (btn: ScriptButton) => {
+      setShowHero(false);
       const currentScript = getScript(currentScriptId);
       if (!currentScript) return;
 
@@ -290,8 +298,20 @@ export function ChatContainer({
     [currentScriptId]
   );
 
+  const handleHeroPick = useCallback(
+    (scriptId: string, label: string) => {
+      const syntheticBtn: ScriptButton = {
+        label,
+        action: { type: "switch", scriptId },
+      };
+      handleQuickReply(syntheticBtn);
+    },
+    [handleQuickReply]
+  );
+
   const sendForm = useCallback(
     async (data: FormDmtmnData) => {
+      setShowHero(false);
       setBusy(true);
       const summary = `[Form ĐMTMN] Diện tích ${data.areaM2}m², hướng ${data.orientation}, ${data.roofType}, hóa đơn ${data.monthlyBillVnd.toLocaleString("vi-VN")}đ/tháng.`;
       const userMsg: ChatMessage = {
@@ -333,6 +353,8 @@ export function ChatContainer({
         messages={messages}
         onFormSubmit={sendForm}
         onQuickReply={handleQuickReply}
+        onHeroPick={handleHeroPick}
+        showHero={showHero}
         busy={busy}
       />
       <MessageInput onSend={send} disabled={busy} />
