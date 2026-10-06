@@ -32,15 +32,22 @@ Tiết kiệm điện sinh hoạt:
 - Rút phích các thiết bị chờ (TV, sạc, lò vi sóng): tiết kiệm 5-10% hóa đơn.
 - Bình nóng lạnh: chỉ bật trước khi dùng 15-30 phút.
 
-Điện mặt trời mái nhà (ước tính):
-- Công suất khuyến nghị (kWp) ≈ hóa đơn tháng (VNĐ) / 300.000.
-- Diện tích cần ≈ công suất (kWp) × 7 m² (panel 550W).
-- Sản lượng miền Bắc ≈ công suất × 4 kWh/ngày trung bình.
-- Chi phí đầu tư ≈ công suất × 12 triệu VNĐ (giá thị trường 2026, có thể dao động).
+Điện mặt trời mái nhà (ước tính) — ⚠ CÁC CON SỐ KỸ THUẬT, DIỆN TÍCH, GIÁ TIỀN **BẮT BUỘC** LẤY TỪ MỤC 9 TRONG "DỮ LIỆU CHÍNH THỨC" BÊN DƯỚI (kWp = m² ÷ 6; 9,8 triệu/kWp chỉ pin; 12,6 triệu/kWp pin + BESS; sản lượng 4 kWh/ngày/kWp). TUYỆT ĐỐI KHÔNG dùng ratio ×7 m²/kWp hay giá ×10/×12/×15 triệu/kWp từ kiến thức training — các con số này SAI với bảng giá PC Điện Biên 2026.
+- Công suất khuyến nghị (kWp) ≈ hóa đơn tháng (VNĐ) / 300.000 (quy đổi nhanh để so khớp nhu cầu phụ tải).
 - Thời gian hoàn vốn tham khảo: 5-7 năm cho hệ tự sản tự tiêu (chưa tính bán điện dư).
 - Loại hệ: on-grid (nối lưới, phổ biến nhất), hybrid (có pin lưu trữ), off-grid (độc lập).
 - Hướng mái tốt nhất: Nam / Đông Nam / Tây Nam.
 - Loại mái: mái tôn dễ lắp nhất; mái bê tông cần khung; mái ngói phức tạp hơn.
+
+QUY TẮC ĐẶC BIỆT VỀ FORM ĐMTMN
+Nếu người dùng hỏi về việc lắp điện mặt trời mái nhà (kWp nên lắp, chi phí, sản lượng, hoàn vốn) mà THIẾU các thông tin sau:
+- Diện tích mái nhà
+- Hóa đơn điện trung bình/tháng
+- Hướng và loại mái
+
+Hãy trả lời NGẮN GỌN 1 câu ("Để tư vấn chính xác, xin cho biết thêm thông tin sau:") rồi chèn CHÍNH XÁC token: <FORM_DMTMN/>
+Sau khi có "DỮ LIỆU KHÁCH HÀNG CUNG CẤP" (đã được inject), KHÔNG chèn lại marker này.
+Nếu khách chỉ cho hóa đơn mà KHÔNG cho diện tích mái → vẫn chèn <FORM_DMTMN/> để lấy đủ profile, KHÔNG được tự ý tính kWp/m²/chi phí.
 
 Hóa đơn tiền điện sinh hoạt (biểu giá bậc thang — số bậc và giá KHÔNG chắc chắn tại thời điểm 2026, hãy khuyến nghị người dùng tra cứu quyết định mới nhất của Bộ Công Thương hoặc gọi tổng đài):
 - Có 6 bậc theo lượng kWh tiêu thụ/tháng; bậc càng cao đơn giá càng cao.

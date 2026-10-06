@@ -20,6 +20,7 @@ import { shouldSuggestLead } from "@/lib/lead-intent";
 import { isMemoryCommandCandidate } from "@/lib/memory/keyword-filter";
 import { handleMemoryCommand } from "@/lib/memory/handle-memory-command";
 import { listUserMemoryNotes, getUserMemoryBlock, type OwnerKey } from "@/lib/memory/user-memory-store";
+import { estimateFromForm } from "@/lib/solar-constants";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -141,23 +142,37 @@ export async function POST(req: NextRequest) {
 
   if (body.formData) {
     const f = body.formData;
-    const suggestedKw = Math.round((f.monthlyBillVnd / 300000) * 10) / 10;
-    const area = Math.round(suggestedKw * 7);
-    const dailyKwh = Math.round(suggestedKw * 4);
-    const capitalM = Math.round(suggestedKw * 12);
+    const est = estimateFromForm({ areaM2: f.areaM2, monthlyBillVnd: f.monthlyBillVnd });
+    const pinOnlyM = Math.round(est.pinOnlyCostVnd / 1_000_000);
+    const withBessM = Math.round(est.withBessCostVnd / 1_000_000);
+    const bottleneckNote = est.isRoofBottleneck
+      ? `⚠ Mái của khách (${f.areaM2} m²) KHÔNG đủ chỗ để bù toàn bộ hóa đơn hiện tại (cần ~${est.kwpByBill} kWp = ~${Math.round(est.kwpByBill * 6)} m²). Khuyến nghị lắp tối đa theo mái = ${est.recommendedKw} kWp, phần còn lại vẫn dùng điện lưới.`
+      : est.extraKwpCapacity >= 2
+        ? `✅ Mái của khách (${f.areaM2} m²) THỪA capacity: lắp đủ bù hóa đơn chỉ cần ${est.recommendedKw} kWp (~${est.recommendedAreaM2} m²), còn dư ~${est.extraKwpCapacity} kWp (~${est.extraKwpCapacity * 6} m² mái). Có thể gợi ý khách lắp thêm để BÁN ĐIỆN DƯ (tối đa 50% sản lượng, tham chiếu mục 7 Bán điện dư trong dữ liệu chính thức).`
+        : `✅ Mái của khách (${f.areaM2} m²) vừa đủ để lắp ${est.recommendedKw} kWp bù hóa đơn.`;
+
     systemPrompt += `\n\nDỮ LIỆU KHÁCH HÀNG CUNG CẤP:
 - Diện tích mái: ${f.areaM2} m²
 - Hướng mái: ${f.orientation}
 - Loại mái: ${f.roofType}
 - Hóa đơn TB/tháng: ${f.monthlyBillVnd.toLocaleString("vi-VN")} VNĐ
 
-ƯỚC TÍNH SƠ BỘ (dùng để tư vấn, luôn nhấn mạnh cần khảo sát thực tế):
-- Công suất khuyến nghị: ~${suggestedKw} kWp
-- Diện tích cần: ~${area} m²
-- Sản lượng: ~${dailyKwh} kWh/ngày
-- Chi phí đầu tư tham khảo: ~${capitalM} triệu VNĐ
+ƯỚC TÍNH ĐÃ TÍNH SẴN BẰNG CÔNG THỨC CHÍNH THỨC (kWp = m² ÷ 6, đơn giá PC Điện Biên 2026) — HÃY DÙNG ĐÚNG CÁC CON SỐ NÀY, KHÔNG TỰ TÍNH LẠI:
+- Công suất mái cho phép tối đa: ${est.kwpByRoof} kWp (= ${f.areaM2} ÷ 6, làm tròn)
+- Công suất đủ để bù hóa đơn: ~${est.kwpByBill} kWp
+- **CÔNG SUẤT KHUYẾN NGHỊ LẮP: ${est.recommendedKw} kWp** (chiếm ~${est.recommendedAreaM2} m² mái)
+- Sản lượng điện dự kiến: ~${est.dailyKwh} kWh/ngày (~${est.monthlyKwh} kWh/tháng)
+- Chi phí (chưa VAT, chưa khung sắt gia cố mái):
+  • Chỉ pin mặt trời: ~${pinOnlyM} triệu VNĐ (${est.recommendedKw} × 9,8 triệu)
+  • Pin mặt trời + lưu trữ BESS ${est.bessKwh} kWh: ~${withBessM} triệu VNĐ (${est.recommendedKw} × 12,6 triệu)
 
-Hãy tư vấn dựa trên các thông số trên + tài liệu tham khảo. So sánh diện tích cần với diện tích khách có (${f.areaM2} m²) để đánh giá khả thi. KHÔNG chèn <FORM_DMTMN/> vào câu trả lời lần này.`;
+Ghi chú tư vấn: ${bottleneckNote}
+
+YÊU CẦU TRÌNH BÀY:
+1. Trình bày đủ 2 phương án chi phí (chỉ pin / pin + BESS) để khách lựa chọn.
+2. Nhắc rõ ghi chú tư vấn ở trên (mái dư, mái vừa đủ, hay mái không đủ).
+3. Luôn nhấn mạnh "giá tham khảo, chưa VAT, giá thực tế do nhà cung cấp báo + cần khảo sát hiện trạng mái".
+4. KHÔNG chèn <FORM_DMTMN/> vào câu trả lời lần này.`;
   }
 
   const openai = getOpenAI();

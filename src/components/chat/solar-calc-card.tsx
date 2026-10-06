@@ -3,39 +3,10 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-const PRICE_PER_KWP = 9_800_000;
-const PRICE_PER_KWH_BESS = 2_800_000;
-const M2_PER_KWP = 6;
+import { estimateByArea, type SolarEstimate } from "@/lib/solar-constants";
 
 function formatVnd(n: number): string {
   return n.toLocaleString("vi-VN") + " đ";
-}
-
-interface SolarEstimate {
-  areaM2: number;
-  kwp: number;
-  pinCost: number;
-  bessKwh: number;
-  bessCost: number;
-  total: number;
-  withBess: boolean;
-}
-
-function estimate(areaM2: number, withBess: boolean): SolarEstimate {
-  const kwp = Math.max(1, Math.round(areaM2 / M2_PER_KWP));
-  const pinCost = kwp * PRICE_PER_KWP;
-  const bessKwh = withBess ? kwp : 0;
-  const bessCost = bessKwh * PRICE_PER_KWH_BESS;
-  return {
-    areaM2,
-    kwp,
-    pinCost,
-    bessKwh,
-    bessCost,
-    total: pinCost + bessCost,
-    withBess,
-  };
 }
 
 export function SolarCalcCard() {
@@ -53,7 +24,7 @@ export function SolarCalcCard() {
       return;
     }
     setErr(null);
-    setResult(estimate(area, withBess));
+    setResult(estimateByArea(area, withBess));
   }
 
   return (
