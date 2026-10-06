@@ -12,6 +12,7 @@ import { FormDmtmn, type FormDmtmnData } from "./form-dmtmn";
 import { SolarCalcCard } from "./solar-calc-card";
 import { QuickReplyButtons } from "./quick-reply-buttons";
 import type { ScriptButton } from "@/lib/scripts";
+import { TypingIndicator } from "./typing-indicator";
 
 export interface ChatMessage {
   id: string;
@@ -106,7 +107,7 @@ export function MessageBubble({
     !isUser && !message.pending && !message.scripted && message.serverMessageId;
 
   return (
-    <div className={cn("flex flex-col", isUser ? "items-end" : "items-start")}>
+    <div className={cn("flex flex-col animate-bubble-in", isUser ? "items-end" : "items-start")}>
       <div
         className={cn(
           "flex w-full gap-2",
@@ -114,29 +115,37 @@ export function MessageBubble({
         )}
       >
         {!isUser && (
-          <div className="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden bg-white ring-1 ring-slate-200 shadow-sm">
-            <Image
-              src="/bot-avatar.png"
-              alt="Trợ lý AI"
-              width={72}
-              height={72}
-              className="w-full h-full object-cover"
-            />
+          <div className="relative flex-shrink-0 w-9 h-9">
+            {message.pending && (
+              <span
+                aria-hidden
+                className="absolute inset-[-4px] rounded-full bg-[color:var(--color-evn-cyan-glow)] opacity-30 blur-md animate-pulse pointer-events-none"
+              />
+            )}
+            <div className="relative z-10 w-9 h-9 rounded-full overflow-hidden bg-white ring-1 ring-slate-200 shadow-sm">
+              <Image
+                src="/bot-avatar.png"
+                alt="Trợ lý AI"
+                width={72}
+                height={72}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         )}
         <div
           className={cn(
-            "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap",
+            "max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap",
             isUser
-              ? "bg-[color:var(--color-evn-blue)] text-white rounded-br-md"
-              : "bg-slate-100 text-slate-900 rounded-bl-md"
+              ? "bg-gradient-to-br from-[color:var(--color-evn-blue)] to-[color:var(--color-evn-blue-dark)] text-white shadow-md rounded-br-md"
+              : "bg-white border border-slate-200 text-slate-800 shadow-sm rounded-bl-md"
           )}
         >
           {textOnly
             ? isUser
               ? textOnly
               : renderWithDownloads(textOnly)
-            : (message.pending ? "…" : "")}
+            : (message.pending ? <TypingIndicator /> : "")}
         </div>
       </div>
       {hasForm && onFormSubmit && (
@@ -159,9 +168,9 @@ export function MessageBubble({
               className={cn(
                 "inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs transition-colors",
                 speaking
-                  ? "text-[color:var(--color-evn-blue)] bg-slate-100"
+                  ? "text-[color:var(--color-evn-blue)] bg-[color:var(--color-evn-blue-light)]"
                   : hasVietnameseVoice
-                    ? "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
+                    ? "text-slate-500 hover:text-slate-800 hover:bg-[color:var(--color-evn-blue-light)]"
                     : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
               )}
               aria-label={
