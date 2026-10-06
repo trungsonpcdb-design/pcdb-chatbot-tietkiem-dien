@@ -28,7 +28,7 @@ export function MessageList({
 
   if (showHero && messages.length === 0) {
     return (
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex flex-1 flex-col overflow-y-auto">
         <HeroWelcome onPickTopic={onHeroPick} />
       </div>
     );
