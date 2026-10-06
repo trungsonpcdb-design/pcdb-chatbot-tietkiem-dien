@@ -6,6 +6,9 @@
   --color-evn-orange: #f58220;
   --color-evn-orange-dark: #c8681a;
   --color-bg-page: #f8fafc;
+  --color-evn-blue-light: #e0f2fe;
+  --color-evn-cyan-glow: #22d3ee;
+  --color-chat-surface: #ffffff;
 }
 
 :root {
@@ -21,4 +24,23 @@ body {
   color: #0f172a;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+@keyframes bounce-dot {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
+.typing-dot {
+  animation: bounce-dot 1s infinite;
+  display: inline-block;
+}
+
+@keyframes fade-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-bubble-in {
+  animation: fade-slide-up 250ms ease-out;
 }
