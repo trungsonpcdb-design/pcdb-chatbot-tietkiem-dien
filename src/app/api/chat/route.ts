@@ -21,6 +21,13 @@ import { isMemoryCommandCandidate } from "@/lib/memory/keyword-filter";
 import { handleMemoryCommand } from "@/lib/memory/handle-memory-command";
 import { listUserMemoryNotes, getUserMemoryBlock, type OwnerKey } from "@/lib/memory/user-memory-store";
 import { estimateFromForm } from "@/lib/solar-constants";
+import {
+  searchCache,
+  saveCache,
+  bumpHit,
+  shouldSkipCache,
+  CACHE_SIMILARITY_THRESHOLD,
+} from "@/lib/rag/cache-store";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -101,6 +108,59 @@ export async function POST(req: NextRequest) {
   const rewritten =
     priorTurns.length > 0 ? await rewriteQuery(body.message, priorTurns) : body.message;
 
+  // Semantic cache: embed sớm để dùng cho cả cache lookup và RAG retrieval.
+  const skipCache = shouldSkipCache({ message: body.message, formData: body.formData });
+  const queryEmbedding = !skipCache ? await embedQuery(rewritten) : null;
+
+  if (queryEmbedding) {
+    const hit = await searchCache(queryEmbedding, CACHE_SIMILARITY_THRESHOLD);
+    if (hit) {
+      const saved = await prisma.message.create({
+        data: {
+          sessionId,
+          role: "assistant",
+          content: hit.answer,
+          citations: hit.citations,
+          topicTag: hit.topicTag,
+        },
+      });
+
+      await prisma.chatSession.update({
+        where: { id: sessionId },
+        data: { lastMessageAt: new Date(), messageCount: { increment: 2 } },
+      });
+
+      bumpHit(hit.id).catch((err) => console.error("[cache] bumpHit failed", err));
+
+      const encoder = new TextEncoder();
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(
+            encoder.encode(`event: session\ndata: ${JSON.stringify({ sessionId })}\n\n`)
+          );
+          controller.enqueue(
+            encoder.encode(`event: delta\ndata: ${JSON.stringify({ text: hit.answer })}\n\n`)
+          );
+          controller.enqueue(
+            encoder.encode(
+              `event: message_saved\ndata: ${JSON.stringify({ id: saved.id })}\n\n`
+            )
+          );
+          controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
+          controller.close();
+        },
+      });
+      return new Response(stream, {
+        headers: {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+          "X-Accel-Buffering": "no",
+        },
+      });
+    }
+  }
+
   let systemPrompt: string;
   let citationMap: CitationRef[] = [];
 
@@ -112,7 +172,7 @@ export async function POST(req: NextRequest) {
   if (!hasDocuments) {
     systemPrompt = SYSTEM_PROMPT_MVP + "\n\n" + SCRIPTED_FACTS;
   } else {
-    const queryVec = await embedQuery(rewritten);
+    const queryVec = queryEmbedding ?? (await embedQuery(rewritten));
     const topChunks = await searchTopK(queryVec, 5);
     const highest = topChunks[0]?.score ?? 0;
     const useable = topChunks.filter((c) => c.score >= MIN_SCORE_USE);
@@ -232,6 +292,19 @@ YÊU CẦU TRÌNH BÀY:
           where: { id: sessionId },
           data: { lastMessageAt: new Date(), messageCount: { increment: 2 } },
         });
+
+        if (queryEmbedding && !skipCache && fullText.trim().length > 0) {
+          const mode: "MVP" | "RAG" = citationMap.length > 0 ? "RAG" : "MVP";
+          saveCache({
+            question: rewritten,
+            embedding: queryEmbedding,
+            answer: fullText,
+            citations: citationsJson,
+            topicTag: null,
+            mode,
+            sourceMessageId: savedMessage.id,
+          }).catch((err) => console.error("[cache] saveCache failed", err));
+        }
 
         classifyTopic(body.message)
           .then((tag) =>
