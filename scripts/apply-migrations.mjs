@@ -28,6 +28,7 @@ const MIGRATIONS = [
   { id: "20260730024550_add_user_memory_notes", file: "prisma/migrations/20260730024550_add_user_memory_notes/migration.sql" },
   { id: "20261005120000_add_high_consumption_customers", file: "prisma/migrations/20261005120000_add_high_consumption_customers/migration.sql" },
   { id: "20261007120000_add_semantic_cache", file: "prisma/migrations/20261007120000_add_semantic_cache/migration.sql" },
+  { id: "20261008120000_add_message_from_cache_id", file: "prisma/migrations/20261008120000_add_message_from_cache_id/migration.sql" },
 ];
 
 async function run() {

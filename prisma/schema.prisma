@@ -54,6 +54,7 @@ model Message {
   citations  String?
   formData   String?
   topicTag   String?
+  fromCacheId String?
   tokensIn   Int?
   tokensOut  Int?
   latencyMs  Int?
