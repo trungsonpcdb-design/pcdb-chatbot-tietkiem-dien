@@ -108,8 +108,13 @@ export async function POST(req: NextRequest) {
   const rewritten =
     priorTurns.length > 0 ? await rewriteQuery(body.message, priorTurns) : body.message;
 
+  // Fetch user memory notes before cache decision — if user has personal
+  // memory, skip cache to prevent cross-user leaks via injected memory block.
+  const userMemoryNotes = await listUserMemoryNotes(owner);
+  const hasUserMemory = userMemoryNotes.length > 0;
+
   // Semantic cache: embed sớm để dùng cho cả cache lookup và RAG retrieval.
-  const skipCache = shouldSkipCache({ message: body.message, formData: body.formData });
+  const skipCache = shouldSkipCache({ message: body.message, formData: body.formData, hasUserMemory });
   const queryEmbedding = !skipCache ? await embedQuery(rewritten) : null;
 
   let cacheHit: Awaited<ReturnType<typeof searchCache>> = null;
@@ -129,6 +134,7 @@ export async function POST(req: NextRequest) {
         content: cacheHit.answer,
         citations: cacheHit.citations,
         topicTag: cacheHit.topicTag,
+        fromCacheId: cacheHit.id,
       },
     });
 
@@ -207,7 +213,7 @@ export async function POST(req: NextRequest) {
     systemPrompt += "\n\n" + customerStats + "\n\n" + CUSTOMER_STATS_GUIDANCE;
   }
 
-  systemPrompt += getUserMemoryBlock(await listUserMemoryNotes(owner));
+  systemPrompt += getUserMemoryBlock(userMemoryNotes);
 
   if (body.formData) {
     const f = body.formData;
