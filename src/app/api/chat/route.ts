@@ -112,53 +112,62 @@ export async function POST(req: NextRequest) {
   const skipCache = shouldSkipCache({ message: body.message, formData: body.formData });
   const queryEmbedding = !skipCache ? await embedQuery(rewritten) : null;
 
+  let cacheHit: Awaited<ReturnType<typeof searchCache>> = null;
   if (queryEmbedding) {
-    const hit = await searchCache(queryEmbedding, CACHE_SIMILARITY_THRESHOLD);
-    if (hit) {
-      const saved = await prisma.message.create({
-        data: {
-          sessionId,
-          role: "assistant",
-          content: hit.answer,
-          citations: hit.citations,
-          topicTag: hit.topicTag,
-        },
-      });
-
-      await prisma.chatSession.update({
-        where: { id: sessionId },
-        data: { lastMessageAt: new Date(), messageCount: { increment: 2 } },
-      });
-
-      bumpHit(hit.id).catch((err) => console.error("[cache] bumpHit failed", err));
-
-      const encoder = new TextEncoder();
-      const stream = new ReadableStream({
-        start(controller) {
-          controller.enqueue(
-            encoder.encode(`event: session\ndata: ${JSON.stringify({ sessionId })}\n\n`)
-          );
-          controller.enqueue(
-            encoder.encode(`event: delta\ndata: ${JSON.stringify({ text: hit.answer })}\n\n`)
-          );
-          controller.enqueue(
-            encoder.encode(
-              `event: message_saved\ndata: ${JSON.stringify({ id: saved.id })}\n\n`
-            )
-          );
-          controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
-          controller.close();
-        },
-      });
-      return new Response(stream, {
-        headers: {
-          "Content-Type": "text/event-stream; charset=utf-8",
-          "Cache-Control": "no-cache, no-transform",
-          Connection: "keep-alive",
-          "X-Accel-Buffering": "no",
-        },
-      });
+    try {
+      cacheHit = await searchCache(queryEmbedding, CACHE_SIMILARITY_THRESHOLD);
+    } catch (err) {
+      console.error("[cache] searchCache failed, falling through to LLM", err);
+      cacheHit = null;
     }
+  }
+  if (cacheHit) {
+    const saved = await prisma.message.create({
+      data: {
+        sessionId,
+        role: "assistant",
+        content: cacheHit.answer,
+        citations: cacheHit.citations,
+        topicTag: cacheHit.topicTag,
+      },
+    });
+
+    await prisma.chatSession.update({
+      where: { id: sessionId },
+      data: { lastMessageAt: new Date(), messageCount: { increment: 2 } },
+    });
+
+    bumpHit(cacheHit.id).catch((err) => console.error("[cache] bumpHit failed", err));
+
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(
+          encoder.encode(`event: session\ndata: ${JSON.stringify({ sessionId })}\n\n`)
+        );
+        controller.enqueue(
+          encoder.encode(`event: delta\ndata: ${JSON.stringify({ text: cacheHit.answer })}\n\n`)
+        );
+        controller.enqueue(
+          encoder.encode(`event: citations\ndata: ${cacheHit.citations ?? "[]"}\n\n`)
+        );
+        controller.enqueue(
+          encoder.encode(
+            `event: message_saved\ndata: ${JSON.stringify({ id: saved.id })}\n\n`
+          )
+        );
+        controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
+        controller.close();
+      },
+    });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+        "X-Accel-Buffering": "no",
+      },
+    });
   }
 
   let systemPrompt: string;

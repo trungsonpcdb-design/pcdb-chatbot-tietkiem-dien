@@ -31,6 +31,8 @@ export async function searchCache(
   embedding: Float32Array,
   threshold: number = CACHE_SIMILARITY_THRESHOLD
 ): Promise<CacheHit | null> {
+  // TODO (MVP scale ~<5k rows): currently loads entire cache into memory for cosine scoring.
+  // If cache grows large, add topicTag/mode filter and/or move cosine computation to SQL.
   const rows = await prisma.semanticCache.findMany({
     select: {
       id: true,
