@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { invalidateByMessage } from "@/lib/rag/cache-store";
 
 export const runtime = "nodejs";
 
@@ -41,6 +42,14 @@ export async function POST(req: NextRequest) {
       reason: body.reason ?? null,
     },
   });
+
+  if (body.rating === "DOWN") {
+    try {
+      await invalidateByMessage(body.messageId);
+    } catch (err) {
+      console.error("[cache] invalidateByMessage failed", err);
+    }
+  }
 
   return NextResponse.json({ ok: true });
 }
