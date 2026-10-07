@@ -59,6 +59,7 @@ model Message {
   latencyMs  Int?
   createdAt  DateTime     @default(now())
   feedback   MessageFeedback?
+  semanticCache SemanticCache?
 
   @@index([sessionId, createdAt])
 }
@@ -184,4 +185,22 @@ model HighConsumptionCustomer {
   @@index([commune])
   @@index([customerType])
   @@index([consumptionKwh])
+}
+
+model SemanticCache {
+  id                String    @id @default(cuid())
+  question          String
+  questionEmbedding Bytes
+  answer            String
+  citations         String?
+  topicTag          String?
+  mode              String
+  sourceMessageId   String    @unique
+  sourceMessage     Message   @relation(fields: [sourceMessageId], references: [id], onDelete: Cascade)
+  hitCount          Int       @default(0)
+  lastHitAt         DateTime?
+  createdAt         DateTime  @default(now())
+
+  @@index([topicTag])
+  @@index([createdAt])
 }
