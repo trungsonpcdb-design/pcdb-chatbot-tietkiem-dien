@@ -91,7 +91,17 @@ export async function saveCache(input: {
 }
 
 export async function invalidateByMessage(messageId: string): Promise<void> {
-  await prisma.semanticCache.deleteMany({ where: { sourceMessageId: messageId } });
+  const msg = await prisma.message.findUnique({
+    where: { id: messageId },
+    select: { fromCacheId: true },
+  });
+  if (msg?.fromCacheId) {
+    // This Message was served from cache — delete that cache row by its id.
+    await prisma.semanticCache.deleteMany({ where: { id: msg.fromCacheId } });
+  } else {
+    // This Message was a fresh LLM response — delete cache row that was created from it.
+    await prisma.semanticCache.deleteMany({ where: { sourceMessageId: messageId } });
+  }
 }
 
 export async function bumpHit(id: string): Promise<void> {
@@ -104,8 +114,10 @@ export async function bumpHit(id: string): Promise<void> {
 export function shouldSkipCache(input: {
   message: string;
   formData?: unknown;
+  hasUserMemory?: boolean;
 }): boolean {
   if (input.formData) return true;
+  if (input.hasUserMemory) return true;
   if (isMemoryCommandCandidate(input.message)) return true;
   return false;
 }
