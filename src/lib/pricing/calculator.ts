@@ -173,15 +173,15 @@ export function calcResidentialRealistic(
   const sections: BillSection[] = [];
 
   if (!straddles) {
-    // Toàn kỳ cùng 1 biểu giá
+    // Toàn kỳ cùng 1 biểu giá — scale ngưỡng bậc theo kỳDays/30 (công thức EVN)
     const tariff = oldDays === totalDays ? RESIDENTIAL_OLD : RESIDENTIAL_NEW;
-    const scale = households * 1; // full kỳ: tính như định mức đầy đủ
+    const scale = households * (totalDays / 30);
     const lines = allocateToResidentialTiers(totalKwh, tariff, scale);
     sections.push({
       heading:
         tariff === RESIDENTIAL_OLD
-          ? "Chi tiết theo biểu giá cũ (QĐ 1279/QĐ-BCT)"
-          : "Chi tiết theo biểu giá mới (QĐ 2892/QĐ-BCT)",
+          ? `Chi tiết theo biểu giá cũ (QĐ 1279) — ${totalDays} ngày`
+          : `Chi tiết theo biểu giá mới (QĐ 2892) — ${totalDays} ngày`,
       decision: tariff.decision,
       lines,
       subtotal: sum(lines),
