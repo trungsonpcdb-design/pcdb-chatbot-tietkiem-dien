@@ -216,13 +216,19 @@ export function calcResidentialRealistic(
   return makeBillResult(sections);
 }
 
-// Hypothetical: toàn kỳ áp cùng 1 biểu giá
+// Hypothetical: toàn kỳ áp cùng 1 biểu giá.
+// Scale ngưỡng bậc = min(kỳDays, 30) / 30:
+//   • Kỳ ngắn (< 30 ngày): prorate xuống theo số ngày (vd 8 ngày → 8/30).
+//   • Kỳ ≥ 30 ngày: giữ nguyên định mức chuẩn (scale = 1), KHÔNG upscale.
+// Phản ánh đúng kỳ vọng: cột "nếu 100% áp giá cũ" dùng định mức bậc chuẩn
+// QĐ 1279 (50/50/100/100/100/∞) cho tháng đủ 30 ngày trở lên.
 export function calcResidentialHypothetical(input: ResidentialInput, decision: Decision): BillResult {
   const tariff = decision === "QD2892" ? RESIDENTIAL_NEW : RESIDENTIAL_OLD;
   const households = Math.max(1, Math.floor(input.households || 1));
   const split = splitBillingPeriod(input.fromISO, input.toISO);
   const days = split.totalDays || 30;
-  const scale = households * (days / 30);
+  const scaleFactor = Math.min(days, 30) / 30;
+  const scale = households * scaleFactor;
   const lines = allocateToResidentialTiers(Math.max(0, input.totalKwh), tariff, scale);
   const sections: BillSection[] = [
     {
