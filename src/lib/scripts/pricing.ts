@@ -13,6 +13,7 @@ export const pricingScript: ScriptTree = {
       message:
         "Xin chào! Tôi là Trợ lý tư vấn giá bán điện.\nĐể tra cứu chính xác, Anh/Chị vui lòng chọn nhóm nội dung:\n\n📅 Biểu giá áp dụng TỪ 01/11/2026 theo Quyết định 2892/QĐ-BCT ngày 31/10/2026 của Bộ Công Thương. Khung giờ TOU theo Quyết định 963/QĐ-BCT (áp dụng từ 22/4/2026). Các mức giá chưa gồm thuế GTGT.",
       buttons: [
+        { label: "🧮 Tính thử tiền điện (so sánh giá mới/cũ)", action: { type: "goto", nodeId: "calculator" } },
         { label: "🏠 Điện sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         { label: "🏭 Điện sản xuất", action: { type: "goto", nodeId: "production" } },
         { label: "🏪 Điện kinh doanh", action: { type: "goto", nodeId: "business" } },
@@ -24,6 +25,19 @@ export const pricingScript: ScriptTree = {
         { label: "📅 Giá hiện hành & cập nhật", action: { type: "goto", nodeId: "current" } },
         { label: "👨‍💼 Gặp nhân viên tư vấn", action: { type: "goto", nodeId: "escalate" } },
         SWITCH_TOPIC,
+      ],
+    },
+
+    // ===== TIỆN ÍCH: TÍNH THỬ TIỀN ĐIỆN =====
+    calculator: {
+      id: "calculator",
+      parentId: "root",
+      parentLabel: "Menu giá điện",
+      message:
+        "🧮 Tiện ích tính tiền điện so sánh biểu giá mới QĐ 2892/QĐ-BCT (áp dụng 01/11/2026) và biểu giá cũ QĐ 1279/QĐ-BCT. Mời Anh/Chị nhập thông số bên dưới — hệ thống sẽ tính và hiển thị 2 cột để so sánh chênh lệch.\n\n<BILL_CALC/>",
+      buttons: [
+        { label: "🔙 Quay lại menu giá điện", action: { type: "root" } },
+        BACK_TO_ROOT,
       ],
     },
 
