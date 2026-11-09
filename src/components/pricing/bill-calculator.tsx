@@ -388,7 +388,6 @@ function KwhField({
 function TwoColumnResult({ output }: { output: Output }) {
   const { bills, context, split } = output;
   const diff = bills.diffTotal;
-  const diffColor = diff === 0 ? "slate" : diff < 0 ? "green" : "red";
 
   return (
     <div className="mt-2">
@@ -409,14 +408,7 @@ function TwoColumnResult({ output }: { output: Output }) {
           result={bills.allOld}
         />
       </div>
-      <div
-        className={cn(
-          "mt-3 rounded-lg px-3 py-2 text-sm font-medium",
-          diffColor === "red" && "bg-red-50 text-red-700 border border-red-200",
-          diffColor === "green" && "bg-green-50 text-green-700 border border-green-200",
-          diffColor === "slate" && "bg-slate-50 text-slate-700 border border-slate-200",
-        )}
-      >
+      <div className="mt-3 rounded-lg px-3 py-2 text-sm font-medium bg-red-50 text-red-700 border border-red-200">
         Chênh lệch (thực tế − 100% giá cũ):{" "}
         <strong className="tabular-nums">
           {diff > 0 ? "+" : ""}
