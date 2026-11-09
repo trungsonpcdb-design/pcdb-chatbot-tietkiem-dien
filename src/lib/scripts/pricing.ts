@@ -11,7 +11,7 @@ export const pricingScript: ScriptTree = {
     root: {
       id: "root",
       message:
-        "Xin chào! Tôi là Trợ lý tư vấn giá bán điện.\nĐể tra cứu chính xác, Anh/Chị vui lòng chọn nhóm nội dung:\n\n📅 Dữ liệu cập nhật đến 27/07/2026 theo Quyết định 1279/QĐ-BCT. Các mức giá chưa gồm thuế GTGT.",
+        "Xin chào! Tôi là Trợ lý tư vấn giá bán điện.\nĐể tra cứu chính xác, Anh/Chị vui lòng chọn nhóm nội dung:\n\n📅 Biểu giá áp dụng TỪ 01/11/2026 theo Quyết định 2892/QĐ-BCT ngày 31/10/2026 của Bộ Công Thương. Khung giờ TOU theo Quyết định 963/QĐ-BCT (áp dụng từ 22/4/2026). Các mức giá chưa gồm thuế GTGT.",
       buttons: [
         { label: "🏠 Điện sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         { label: "🏭 Điện sản xuất", action: { type: "goto", nodeId: "production" } },
@@ -32,13 +32,13 @@ export const pricingScript: ScriptTree = {
       id: "residential",
       message: "Anh/Chị muốn tra cứu nội dung nào về giá điện sinh hoạt?",
       buttons: [
-        { label: "Bảng giá 6 bậc", action: { type: "goto", nodeId: "residential.tiers" } },
+        { label: "Bảng giá 5 bậc (mới)", action: { type: "goto", nodeId: "residential.tiers" } },
         { label: "Cách tính theo bậc", action: { type: "goto", nodeId: "residential.calc" } },
         { label: "Công tơ trả trước", action: { type: "goto", nodeId: "residential.prepaid" } },
         { label: "Giá đã có VAT chưa?", action: { type: "goto", nodeId: "residential.vat" } },
         { label: "Giá bình quân là gì?", action: { type: "goto", nodeId: "residential.average" } },
         { label: "Ví dụ: dùng 100 kWh", action: { type: "goto", nodeId: "residential.use100" } },
-        { label: "Ví dụ: dùng 200 kWh", action: { type: "goto", nodeId: "residential.use200" } },
+        { label: "Ví dụ: dùng 300 kWh", action: { type: "goto", nodeId: "residential.use300" } },
         { label: "Người thuê nhà", action: { type: "goto", nodeId: "renter" } },
         { label: "Hóa đơn tăng cao", action: { type: "goto", nodeId: "residential.increase" } },
         BACK_TO_ROOT,
@@ -49,9 +49,9 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "Giá điện sinh hoạt được tính theo 6 bậc, KHÔNG áp dụng một mức duy nhất cho toàn bộ sản lượng:\n\n• Bậc 1 (0–50 kWh): 1.984 đồng/kWh\n• Bậc 2 (51–100 kWh): 2.050 đồng/kWh\n• Bậc 3 (101–200 kWh): 2.380 đồng/kWh\n• Bậc 4 (201–300 kWh): 2.998 đồng/kWh\n• Bậc 5 (301–400 kWh): 3.350 đồng/kWh\n• Bậc 6 (từ 401 kWh trở lên): 3.460 đồng/kWh\n\nCác mức giá chưa bao gồm thuế GTGT.\n\n📖 Mục 4.1 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Giá điện sinh hoạt áp dụng từ 01/11/2026 được tính theo 5 BẬC (thay cho biểu 6 bậc cũ của QĐ 1279/QĐ-BCT), KHÔNG áp dụng một mức duy nhất cho toàn bộ sản lượng:\n\n• Bậc 1 (0–100 kWh): 1.901 đồng/kWh\n• Bậc 2 (101–200 kWh): 2.289 đồng/kWh\n• Bậc 3 (201–400 kWh): 2.894 đồng/kWh\n• Bậc 4 (401–700 kWh): 3.456 đồng/kWh\n• Bậc 5 (từ 701 kWh trở lên): 3.844 đồng/kWh\n\nCác mức giá chưa bao gồm thuế GTGT.\n\n📖 Phụ lục kèm Quyết định 2892/QĐ-BCT ngày 31/10/2026 của Bộ Công Thương.",
       buttons: [
-        { label: "Cách tính 6 bậc", action: { type: "goto", nodeId: "residential.calc" } },
+        { label: "Cách tính 5 bậc", action: { type: "goto", nodeId: "residential.calc" } },
         { label: "Ví dụ tính hóa đơn", action: { type: "goto", nodeId: "residential.use100" } },
         { label: "Giá có VAT chưa?", action: { type: "goto", nodeId: "residential.vat" } },
         { label: "Người thuê nhà", action: { type: "goto", nodeId: "renter" } },
@@ -64,8 +64,10 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "Sản lượng được chia lần lượt vào từng bậc. Với 250 kWh:\n\n• 50 kWh đầu tính theo bậc 1\n• 50 kWh tiếp theo bậc 2\n• 100 kWh tiếp theo bậc 3\n• 50 kWh còn lại bậc 4\n\nTiền điện trước thuế bằng tổng tiền của các phần sản lượng. Sau đó hóa đơn cộng thuế GTGT theo mức áp dụng tại thời điểm lập hóa đơn.\n\n📖 Cơ cấu giá bán lẻ điện sinh hoạt tại Quyết định 1279/QĐ-BCT.",
+        "Sản lượng được chia lần lượt vào từng bậc theo biểu 5 bậc mới. Ví dụ dùng 250 kWh trong tháng:\n\n• 100 kWh đầu tính theo bậc 1 (1.901 đồng/kWh)\n• 100 kWh tiếp theo bậc 2 (2.289 đồng/kWh)\n• 50 kWh còn lại bậc 3 (2.894 đồng/kWh)\n\nTiền điện trước thuế bằng tổng tiền của các phần sản lượng. Sau đó hóa đơn cộng thuế GTGT theo mức áp dụng tại thời điểm lập hóa đơn.\n\n📖 Phụ lục kèm Quyết định 2892/QĐ-BCT ngày 31/10/2026.",
       buttons: [
+        { label: "Ví dụ 100 kWh", action: { type: "goto", nodeId: "residential.use100" } },
+        { label: "Ví dụ 300 kWh", action: { type: "goto", nodeId: "residential.use300" } },
         { label: "🔙 Quay lại Sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         BACK_TO_ROOT,
       ],
@@ -75,7 +77,7 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "Giá bán lẻ điện sinh hoạt dùng công tơ thẻ trả trước là 2.909 đồng/kWh, chưa bao gồm thuế GTGT. Mức giá này áp dụng cho hình thức công tơ thẻ trả trước theo quy định, không phải giá bậc 3 của biểu giá sinh hoạt thông thường. Khách hàng cần xác nhận hợp đồng và loại công tơ đang sử dụng trước khi đối chiếu hóa đơn.\n\n📖 Mục 4.2 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Giá điện cho công tơ thẻ trả trước áp dụng theo Phụ lục Quyết định 2892/QĐ-BCT (mục riêng cho hình thức trả trước). Mức giá cụ thể được PC Điện Biên công bố kèm hợp đồng.\n\nĐể có đơn giá chính xác tại thời điểm hiện tại, Anh/Chị vui lòng liên hệ tổng đài CSKH EVNNPC 19006769 hoặc 1558, hoặc tra cứu tại Điện lực nơi ký hợp đồng.",
       buttons: [
         { label: "🔙 Quay lại Sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         BACK_TO_ROOT,
@@ -86,7 +88,7 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "Chưa. Quyết định 1279/QĐ-BCT quy định các mức giá trong biểu giá chưa bao gồm thuế GTGT. Khi lập hóa đơn, tiền thuế được tính thêm theo chính sách thuế đang áp dụng tại thời điểm xuất hóa đơn. Vì mức thuế có thể thay đổi theo quy định pháp luật, không nên tự mặc định một tỷ lệ thuế nếu chưa kiểm tra dữ liệu hóa đơn hoặc văn bản hiện hành.\n\n📖 Điều 1 và Điều 2 Quyết định 1279/QĐ-BCT.",
+        "Chưa. Quyết định 2892/QĐ-BCT quy định các mức giá trong biểu giá chưa bao gồm thuế GTGT. Khi lập hóa đơn, tiền thuế được tính thêm theo chính sách thuế đang áp dụng tại thời điểm xuất hóa đơn. Vì mức thuế có thể thay đổi theo quy định pháp luật, không nên tự mặc định một tỷ lệ thuế nếu chưa kiểm tra dữ liệu hóa đơn hoặc văn bản hiện hành.\n\n📖 Điều 1 Quyết định 2892/QĐ-BCT ngày 31/10/2026.",
       buttons: [
         { label: "🔙 Quay lại Sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         BACK_TO_ROOT,
@@ -97,7 +99,7 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "Không. 2.204,0655 đồng/kWh là mức giá bán lẻ điện bình quân của toàn hệ thống, chưa bao gồm thuế GTGT. Hộ gia đình vẫn được tính tiền theo 6 bậc sinh hoạt dựa trên sản lượng thực tế. Giá bình quân được sử dụng trong cơ chế điều hành giá, không phải mức giá cố định áp dụng cho mọi kWh của từng hộ.\n\n📖 Điều 2 Quyết định 1279/QĐ-BCT và Quyết định 599/QĐ-EVN.",
+        "Không. 2.159,9037 đồng/kWh là mức giá bán lẻ điện bình quân toàn hệ thống, chưa bao gồm thuế GTGT, áp dụng từ 01/11/2026 (giảm 2% so với mức 2.204,0655 đồng/kWh trước đó). Hộ gia đình vẫn được tính tiền theo 5 bậc sinh hoạt dựa trên sản lượng thực tế. Giá bình quân được sử dụng trong cơ chế điều hành giá, không phải mức giá cố định áp dụng cho mọi kWh của từng hộ.\n\nChính sách giảm 2% này có thời hạn 5 tháng, từ 01/11/2026 đến 30/3/2027.\n\n📖 Quyết định 2892/QĐ-BCT ngày 31/10/2026.",
       buttons: [
         { label: "🔙 Quay lại Sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         BACK_TO_ROOT,
@@ -108,19 +110,19 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "100 kWh được chia thành hai phần:\n\n• 50 kWh đầu: 50 × 1.984 = 99.200 đồng\n• 50 kWh tiếp theo: 50 × 2.050 = 102.500 đồng\n\nTiền điện trước thuế: 201.700 đồng.\nSau đó cộng thuế GTGT theo mức áp dụng trên hóa đơn.",
+        "100 kWh nằm trọn trong bậc 1 (0–100 kWh):\n\n• 100 kWh × 1.901 = 190.100 đồng\n\nTiền điện trước thuế: 190.100 đồng.\nSau đó cộng thuế GTGT theo mức áp dụng trên hóa đơn.\n\n📖 Phụ lục Quyết định 2892/QĐ-BCT.",
       buttons: [
-        { label: "Ví dụ 200 kWh", action: { type: "goto", nodeId: "residential.use200" } },
+        { label: "Ví dụ 300 kWh", action: { type: "goto", nodeId: "residential.use300" } },
         { label: "🔙 Quay lại Sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         BACK_TO_ROOT,
       ],
     },
-    "residential.use200": {
-      id: "residential.use200",
+    "residential.use300": {
+      id: "residential.use300",
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "200 kWh chỉ được tính đến bậc 3 (chưa vào bậc 4):\n\n• 50 kWh × 1.984 = 99.200 đồng\n• 50 kWh × 2.050 = 102.500 đồng\n• 100 kWh × 2.380 = 238.000 đồng\n\nTiền điện trước thuế: 439.700 đồng.\nBậc 4 chỉ bắt đầu áp dụng cho phần sản lượng từ kWh thứ 201. Hóa đơn cuối còn cộng thuế GTGT và có thể điều chỉnh nếu kỳ ghi chỉ số không đủ hoặc vượt số ngày thông thường.",
+        "300 kWh được chia theo 3 bậc đầu của biểu mới:\n\n• 100 kWh × 1.901 = 190.100 đồng (bậc 1)\n• 100 kWh × 2.289 = 228.900 đồng (bậc 2)\n• 100 kWh × 2.894 = 289.400 đồng (bậc 3)\n\nTiền điện trước thuế: 708.400 đồng.\nSau đó cộng thuế GTGT theo mức áp dụng. Phần sản lượng từ 401 kWh trở đi sẽ vào bậc 4 (3.456 đồng/kWh); từ 701 kWh trở đi vào bậc 5 (3.844 đồng/kWh).\n\n📖 Phụ lục Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "🔙 Quay lại Sinh hoạt", action: { type: "goto", nodeId: "residential" } },
         BACK_TO_ROOT,
@@ -131,7 +133,7 @@ export const pricingScript: ScriptTree = {
       parentId: "residential",
       parentLabel: "Điện sinh hoạt",
       message:
-        "Biểu giá sinh hoạt có đơn giá tăng dần theo bậc. Khi tổng sản lượng tăng, nhiều kWh hơn được tính ở các bậc cao như bậc 4, 5 hoặc 6, làm đơn giá bình quân của cả hóa đơn tăng. Ngoài ra, hóa đơn còn chịu ảnh hưởng của số ngày trong kỳ, thời tiết, thiết bị làm mát, thiết bị rò điện và thuế. Anh/Chị nên so sánh sản lượng kWh trước khi chỉ so sánh tổng tiền.",
+        "Biểu giá sinh hoạt có đơn giá tăng dần theo bậc. Khi tổng sản lượng tăng, nhiều kWh hơn được tính ở các bậc cao như bậc 3, 4 hoặc 5, làm đơn giá bình quân của cả hóa đơn tăng. Ngoài ra, hóa đơn còn chịu ảnh hưởng của số ngày trong kỳ, thời tiết, thiết bị làm mát, thiết bị rò điện và thuế. Anh/Chị nên so sánh sản lượng kWh trước khi chỉ so sánh tổng tiền.",
       buttons: [
         { label: "Vì sao hóa đơn tăng dù giá không đổi?", action: { type: "goto", nodeId: "bill.increase" } },
         { label: "Gặp nhân viên tư vấn", action: { type: "goto", nodeId: "escalate" } },
@@ -156,7 +158,7 @@ export const pricingScript: ScriptTree = {
       parentId: "renter",
       parentLabel: "Người thuê nhà",
       message:
-        "Nếu thời hạn thuê dưới 12 tháng và chủ nhà không kê khai đầy đủ số người sử dụng điện, giá bán lẻ điện sinh hoạt BẬC 3 được áp dụng cho toàn bộ sản lượng tại công tơ. Mức giá bậc 3 hiện hành là 2.380 đồng/kWh, chưa bao gồm thuế GTGT. Trường hợp chủ nhà kê khai đầy đủ số người, bên bán điện có thể cấp định mức theo số người thực tế.\n\n📖 Hướng dẫn áp dụng biểu giá sinh hoạt được EVN công bố cùng Quyết định 1279/QĐ-BCT.",
+        "Nếu thời hạn thuê dưới 12 tháng và chủ nhà không kê khai đầy đủ số người sử dụng điện, giá bán lẻ điện sinh hoạt BẬC 3 được áp dụng cho toàn bộ sản lượng tại công tơ. Theo biểu mới (QĐ 2892/QĐ-BCT áp dụng từ 01/11/2026), mức giá bậc 3 là 2.894 đồng/kWh, chưa bao gồm thuế GTGT. Trường hợp chủ nhà kê khai đầy đủ số người, bên bán điện có thể cấp định mức theo số người thực tế.\n\n📖 Phụ lục Quyết định 2892/QĐ-BCT và hướng dẫn áp dụng biểu giá sinh hoạt của EVN.",
       buttons: [
         { label: "Cách kê khai số người", action: { type: "goto", nodeId: "renter.quota" } },
         { label: "🔙 Quay lại Người thuê nhà", action: { type: "goto", nodeId: "renter" } },
@@ -187,62 +189,63 @@ export const pricingScript: ScriptTree = {
       ],
     },
 
-    // ===== NHÁNH 3: SẢN XUẤT =====
+    // ===== NHÁNH 3: SẢN XUẤT (QĐ 2892 chia 4 cấp theo mốc 220/35/1 kV) =====
     production: {
       id: "production",
-      message: "Doanh nghiệp sử dụng điện ở cấp điện áp nào?",
+      message: "Doanh nghiệp sử dụng điện ở cấp điện áp nào? (QĐ 2892/QĐ-BCT chia 4 cấp theo mốc 220 kV / 35 kV / 1 kV)",
       buttons: [
-        { label: "Từ 110 kV trở lên", action: { type: "goto", nodeId: "production.110kv" } },
-        { label: "Từ 22 đến dưới 110 kV", action: { type: "goto", nodeId: "production.22kv" } },
-        { label: "Từ 6 đến dưới 22 kV", action: { type: "goto", nodeId: "production.6kv" } },
-        { label: "Dưới 6 kV", action: { type: "goto", nodeId: "production.under6" } },
+        { label: "Từ 220 kV trở lên", action: { type: "goto", nodeId: "production.220kv" } },
+        { label: "Trên 35 kV đến dưới 220 kV", action: { type: "goto", nodeId: "production.35kv" } },
+        { label: "Trên 1 kV đến 35 kV (trung áp)", action: { type: "goto", nodeId: "production.1kv" } },
+        { label: "Hạ áp (đến 1 kV)", action: { type: "goto", nodeId: "production.under1" } },
         { label: "Giá theo giờ là gì?", action: { type: "goto", nodeId: "tou.who" } },
         { label: "Chưa biết cấp điện áp", action: { type: "goto", nodeId: "escalate" } },
         { label: "Vì sao giá khác nhau?", action: { type: "goto", nodeId: "production.why" } },
         BACK_TO_ROOT,
       ],
     },
-    "production.110kv": {
-      id: "production.110kv",
+    "production.220kv": {
+      id: "production.220kv",
       parentId: "production",
       parentLabel: "Điện sản xuất",
       message:
-        "Giá bán lẻ điện cho ngành sản xuất ở cấp điện áp TỪ 110 kV TRỞ LÊN:\n\n• Giờ bình thường: 1.811 đồng/kWh\n• Giờ thấp điểm: 1.146 đồng/kWh\n• Giờ cao điểm: 3.266 đồng/kWh\n\nCác mức giá chưa bao gồm thuế GTGT. Tiền điện thực tế được tính theo sản lượng công tơ ghi nhận tại từng khung giờ.\n\n📖 Mục 1.1 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Giá bán lẻ điện cho ngành sản xuất ở cấp điện áp TỪ 220 kV TRỞ LÊN:\n\n• Giờ bình thường: 1.771 đồng/kWh\n• Giờ thấp điểm: 1.101 đồng/kWh\n• Giờ cao điểm: 3.110 đồng/kWh\n\nCác mức giá chưa bao gồm thuế GTGT. Tiền điện thực tế được tính theo sản lượng công tơ ghi nhận tại từng khung giờ.\n\n📖 Mục 1.1.1 Phụ lục kèm Quyết định 2892/QĐ-BCT ngày 31/10/2026.",
       buttons: [
         { label: "Xem khung giờ cao/thấp điểm", action: { type: "goto", nodeId: "tou.peak" } },
         { label: "🔙 Quay lại Sản xuất", action: { type: "goto", nodeId: "production" } },
         BACK_TO_ROOT,
       ],
     },
-    "production.22kv": {
-      id: "production.22kv",
+    "production.35kv": {
+      id: "production.35kv",
       parentId: "production",
       parentLabel: "Điện sản xuất",
       message:
-        "Giá bán lẻ điện sản xuất ở cấp điện áp TỪ 22 kV ĐẾN DƯỚI 110 kV:\n\n• Giờ bình thường: 1.833 đồng/kWh\n• Giờ thấp điểm: 1.190 đồng/kWh\n• Giờ cao điểm: 3.398 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 1.2 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Giá bán lẻ điện sản xuất ở cấp điện áp TRÊN 35 kV ĐẾN DƯỚI 220 kV:\n\n• Giờ bình thường: 1.792 đồng/kWh\n• Giờ thấp điểm: 1.123 đồng/kWh\n• Giờ cao điểm: 3.218 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 1.1.2 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "Xem khung giờ cao/thấp điểm", action: { type: "goto", nodeId: "tou.peak" } },
         { label: "🔙 Quay lại Sản xuất", action: { type: "goto", nodeId: "production" } },
         BACK_TO_ROOT,
       ],
     },
-    "production.6kv": {
-      id: "production.6kv",
+    "production.1kv": {
+      id: "production.1kv",
       parentId: "production",
       parentLabel: "Điện sản xuất",
       message:
-        "Cấp điện áp TỪ 6 kV ĐẾN DƯỚI 22 kV (áp dụng cho 10 kV, 15 kV...):\n\n• Giờ bình thường: 1.899 đồng/kWh\n• Giờ thấp điểm: 1.234 đồng/kWh\n• Giờ cao điểm: 3.508 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Cấp điện áp áp dụng cần được xác định theo điểm giao nhận điện và hợp đồng mua bán điện.\n\n📖 Mục 1.3 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Giá bán lẻ điện sản xuất ở cấp điện áp TRÊN 1 kV ĐẾN 35 kV (trung áp — áp dụng cho 6 kV, 10 kV, 15 kV, 22 kV, 35 kV):\n\n• Giờ bình thường: 1.814 đồng/kWh\n• Giờ thấp điểm: 1.166 đồng/kWh\n• Giờ cao điểm: 3.348 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Cấp điện áp áp dụng cần được xác định theo điểm giao nhận điện và hợp đồng mua bán điện.\n\n📖 Mục 1.2 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
       buttons: [
+        { label: "Xem khung giờ cao/thấp điểm", action: { type: "goto", nodeId: "tou.peak" } },
         { label: "🔙 Quay lại Sản xuất", action: { type: "goto", nodeId: "production" } },
         BACK_TO_ROOT,
       ],
     },
-    "production.under6": {
-      id: "production.under6",
+    "production.under1": {
+      id: "production.under1",
       parentId: "production",
       parentLabel: "Điện sản xuất",
       message:
-        "Giá bán lẻ điện sản xuất ở cấp điện áp DƯỚI 6 kV:\n\n• Giờ bình thường: 1.987 đồng/kWh\n• Giờ thấp điểm: 1.300 đồng/kWh\n• Giờ cao điểm: 3.640 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 1.4 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Giá bán lẻ điện sản xuất ở CẤP HẠ ÁP (đến 1 kV, tức 220V/380V):\n\n• Giờ bình thường: 1.966 đồng/kWh\n• Giờ thấp điểm: 1.274 đồng/kWh\n• Giờ cao điểm: 3.586 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 1.3 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "🔙 Quay lại Sản xuất", action: { type: "goto", nodeId: "production" } },
         BACK_TO_ROOT,
@@ -253,7 +256,7 @@ export const pricingScript: ScriptTree = {
       parentId: "production",
       parentLabel: "Điện sản xuất",
       message:
-        "Giá điện sản xuất phụ thuộc cấp điện áp tại điểm giao nhận và sản lượng sử dụng trong từng khung giờ. Khách hàng nhận điện ở cấp điện áp cao thường có đơn giá thấp hơn vì tự đầu tư, quản lý một phần thiết bị hạ áp hoặc trạm biến áp. Ngoài ra, tỷ lệ điện dùng vào giờ cao điểm, bình thường và thấp điểm làm tổng chi phí của từng nhà máy khác nhau.",
+        "Giá điện sản xuất phụ thuộc cấp điện áp tại điểm giao nhận và sản lượng sử dụng trong từng khung giờ. Khách hàng nhận điện ở cấp điện áp cao thường có đơn giá thấp hơn vì tự đầu tư, quản lý một phần thiết bị hạ áp hoặc trạm biến áp. Ngoài ra, tỷ lệ điện dùng vào giờ cao điểm, bình thường và thấp điểm làm tổng chi phí của từng nhà máy khác nhau.\n\nTừ 01/11/2026, QĐ 2892/QĐ-BCT chia ngưỡng theo 220 kV, 35 kV và 1 kV (thay cho các ngưỡng 110 kV, 22 kV, 6 kV của biểu cũ).",
       buttons: [
         { label: "Xem khung giờ hiện hành", action: { type: "goto", nodeId: "tou.peak" } },
         { label: "Mẹo tối ưu ca sản xuất", action: { type: "goto", nodeId: "tou.tips" } },
@@ -262,51 +265,128 @@ export const pricingScript: ScriptTree = {
       ],
     },
 
-    // ===== NHÁNH 4: KINH DOANH =====
+    // ===== NHÁNH 4: KINH DOANH (QĐ 2892 chia 3 nhóm: lưu trú du lịch / sạc xe điện / kinh doanh khác) =====
     business: {
       id: "business",
-      message: "Cơ sở kinh doanh sử dụng điện ở cấp điện áp nào?",
+      message:
+        "Theo Quyết định 2892/QĐ-BCT (áp dụng từ 01/11/2026), giá bán lẻ điện kinh doanh chia 3 NHÓM với chính sách khác nhau:\n\nAnh/Chị thuộc nhóm nào?",
       buttons: [
-        { label: "Từ 22 kV trở lên", action: { type: "goto", nodeId: "business.22kv" } },
-        { label: "Từ 6 đến dưới 22 kV", action: { type: "goto", nodeId: "business.6kv" } },
-        { label: "Dưới 6 kV", action: { type: "goto", nodeId: "business.under6" } },
+        { label: "🏨 Cơ sở lưu trú du lịch", action: { type: "goto", nodeId: "business.tourism" } },
+        { label: "🔌 Trạm sạc xe điện", action: { type: "goto", nodeId: "business.ev" } },
+        { label: "🏪 Kinh doanh khác (NH, cửa hàng...)", action: { type: "goto", nodeId: "business.other" } },
+        { label: "Vì sao chia 3 nhóm?", action: { type: "goto", nodeId: "business.why" } },
         { label: "Giá theo giờ là gì?", action: { type: "goto", nodeId: "tou.who" } },
-        { label: "Vì sao giá kinh doanh cao hơn sản xuất?", action: { type: "goto", nodeId: "business.why" } },
-        { label: "Chưa biết cấp điện áp", action: { type: "goto", nodeId: "escalate" } },
         BACK_TO_ROOT,
       ],
     },
-    "business.22kv": {
-      id: "business.22kv",
+
+    // ----- 4.1 Lưu trú du lịch -----
+    "business.tourism": {
+      id: "business.tourism",
       parentId: "business",
       parentLabel: "Điện kinh doanh",
       message:
-        "Giá bán lẻ điện cho kinh doanh ở cấp điện áp TỪ 22 kV TRỞ LÊN:\n\n• Giờ bình thường: 2.887 đồng/kWh\n• Giờ thấp điểm: 1.609 đồng/kWh\n• Giờ cao điểm: 5.025 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 3.1 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Cơ sở lưu trú du lịch (khách sạn, nhà nghỉ, homestay, resort…) được áp dụng ƯU ĐÃI chính sách: giá bán điện BẰNG giá sản xuất cùng cấp điện áp (không còn bị xếp chung nhóm kinh doanh như trước).\n\nAnh/Chị tra cứu theo cấp điện áp nào?",
       buttons: [
+        { label: "Trung áp (trên 1 kV)", action: { type: "goto", nodeId: "business.tourism.mid" } },
+        { label: "Hạ áp (đến 1 kV)", action: { type: "goto", nodeId: "business.tourism.low" } },
         { label: "🔙 Quay lại Kinh doanh", action: { type: "goto", nodeId: "business" } },
         BACK_TO_ROOT,
       ],
     },
-    "business.6kv": {
-      id: "business.6kv",
+    "business.tourism.mid": {
+      id: "business.tourism.mid",
+      parentId: "business.tourism",
+      parentLabel: "Lưu trú du lịch",
+      message:
+        "Cơ sở LƯU TRÚ DU LỊCH ở cấp điện áp TRUNG ÁP TRỞ LÊN (trên 1 kV):\n\n• Giờ bình thường: 1.814 đồng/kWh\n• Giờ thấp điểm: 1.166 đồng/kWh\n• Giờ cao điểm: 3.348 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Mức giá này BẰNG nhóm sản xuất cùng cấp điện áp — đây là chính sách hỗ trợ ngành du lịch theo QĐ 2892.\n\n📖 Mục 3.1.1 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
+      buttons: [
+        { label: "🔙 Quay lại Lưu trú du lịch", action: { type: "goto", nodeId: "business.tourism" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "business.tourism.low": {
+      id: "business.tourism.low",
+      parentId: "business.tourism",
+      parentLabel: "Lưu trú du lịch",
+      message:
+        "Cơ sở LƯU TRÚ DU LỊCH ở cấp HẠ ÁP (đến 1 kV):\n\n• Giờ bình thường: 1.966 đồng/kWh\n• Giờ thấp điểm: 1.274 đồng/kWh\n• Giờ cao điểm: 3.586 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Mức giá này BẰNG nhóm sản xuất cùng cấp điện áp.\n\n📖 Mục 3.1.2 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
+      buttons: [
+        { label: "🔙 Quay lại Lưu trú du lịch", action: { type: "goto", nodeId: "business.tourism" } },
+        BACK_TO_ROOT,
+      ],
+    },
+
+    // ----- 4.2 Trạm sạc xe điện -----
+    "business.ev": {
+      id: "business.ev",
       parentId: "business",
       parentLabel: "Điện kinh doanh",
       message:
-        "Giá bán lẻ điện kinh doanh ở cấp điện áp TỪ 6 kV ĐẾN DƯỚI 22 kV:\n\n• Giờ bình thường: 3.108 đồng/kWh\n• Giờ thấp điểm: 1.829 đồng/kWh\n• Giờ cao điểm: 5.202 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 3.2 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Trạm/trụ sạc xe điện có khung giá riêng (ưu đãi hạ tầng xe điện), khác giá kinh doanh thông thường. Anh/Chị tra cứu theo cấp điện áp nào?",
       buttons: [
+        { label: "Trung áp (trên 1 kV)", action: { type: "goto", nodeId: "business.ev.mid" } },
+        { label: "Hạ áp (đến 1 kV)", action: { type: "goto", nodeId: "business.ev.low" } },
         { label: "🔙 Quay lại Kinh doanh", action: { type: "goto", nodeId: "business" } },
         BACK_TO_ROOT,
       ],
     },
-    "business.under6": {
-      id: "business.under6",
+    "business.ev.mid": {
+      id: "business.ev.mid",
+      parentId: "business.ev",
+      parentLabel: "Trạm sạc xe điện",
+      message:
+        "Trạm sạc XE ĐIỆN ở cấp điện áp TRUNG ÁP TRỞ LÊN (trên 1 kV):\n\n• Giờ bình thường: 2.549 đồng/kWh\n• Giờ thấp điểm: 1.534 đồng/kWh\n• Giờ cao điểm: 3.758 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 3.2.1 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
+      buttons: [
+        { label: "🔙 Quay lại Trạm sạc", action: { type: "goto", nodeId: "business.ev" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "business.ev.low": {
+      id: "business.ev.low",
+      parentId: "business.ev",
+      parentLabel: "Trạm sạc xe điện",
+      message:
+        "Trạm sạc XE ĐIỆN ở cấp HẠ ÁP (đến 1 kV):\n\n• Giờ bình thường: 2.700 đồng/kWh\n• Giờ thấp điểm: 1.620 đồng/kWh\n• Giờ cao điểm: 4.212 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 3.2.2 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
+      buttons: [
+        { label: "🔙 Quay lại Trạm sạc", action: { type: "goto", nodeId: "business.ev" } },
+        BACK_TO_ROOT,
+      ],
+    },
+
+    // ----- 4.3 Kinh doanh khác -----
+    "business.other": {
+      id: "business.other",
       parentId: "business",
       parentLabel: "Điện kinh doanh",
+      message: "Kinh doanh khác (nhà hàng, cửa hàng, dịch vụ thương mại thông thường). Anh/Chị tra cứu theo cấp điện áp nào?",
+      buttons: [
+        { label: "Trung áp (trên 1 kV)", action: { type: "goto", nodeId: "business.other.mid" } },
+        { label: "Hạ áp (đến 1 kV)", action: { type: "goto", nodeId: "business.other.low" } },
+        { label: "🔙 Quay lại Kinh doanh", action: { type: "goto", nodeId: "business" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "business.other.mid": {
+      id: "business.other.mid",
+      parentId: "business.other",
+      parentLabel: "Kinh doanh khác",
       message:
-        "Giá bán lẻ điện kinh doanh ở cấp điện áp DƯỚI 6 kV:\n\n• Giờ bình thường: 3.152 đồng/kWh\n• Giờ thấp điểm: 1.918 đồng/kWh\n• Giờ cao điểm: 5.422 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Mức giá thực tế phụ thuộc việc khách hàng có thuộc đối tượng áp dụng ba giá hay không.\n\n📖 Mục 3.3 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "KINH DOANH KHÁC ở cấp điện áp TRUNG ÁP TRỞ LÊN (trên 1 kV):\n\n• Giờ bình thường: 2.829 đồng/kWh\n• Giờ thấp điểm: 1.577 đồng/kWh\n• Giờ cao điểm: 4.924 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 3.3.1 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
+      buttons: [
+        { label: "🔙 Quay lại Kinh doanh khác", action: { type: "goto", nodeId: "business.other" } },
+        BACK_TO_ROOT,
+      ],
+    },
+    "business.other.low": {
+      id: "business.other.low",
+      parentId: "business.other",
+      parentLabel: "Kinh doanh khác",
+      message:
+        "KINH DOANH KHÁC ở cấp HẠ ÁP (đến 1 kV):\n\n• Giờ bình thường: 3.089 đồng/kWh\n• Giờ thấp điểm: 1.880 đồng/kWh\n• Giờ cao điểm: 5.313 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Mức giá thực tế phụ thuộc việc khách hàng có thuộc đối tượng áp dụng ba giá hay không.\n\n📖 Mục 3.3.2 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "Đối tượng bắt buộc ba giá", action: { type: "goto", nodeId: "tou.who" } },
-        { label: "🔙 Quay lại Kinh doanh", action: { type: "goto", nodeId: "business" } },
+        { label: "🔙 Quay lại Kinh doanh khác", action: { type: "goto", nodeId: "business.other" } },
         BACK_TO_ROOT,
       ],
     },
@@ -315,7 +395,7 @@ export const pricingScript: ScriptTree = {
       parentId: "business",
       parentLabel: "Điện kinh doanh",
       message:
-        "Biểu giá được xây dựng theo từng nhóm mục đích sử dụng điện. Hoạt động kinh doanh, thương mại và dịch vụ áp dụng nhóm giá kinh doanh, trong khi hoạt động trực tiếp sản xuất hàng hóa thuộc nhóm sản xuất nếu đáp ứng điều kiện và hồ sơ. Khi một địa điểm sử dụng điện cho nhiều mục đích, việc phân bổ sản lượng hoặc xác định giá phải thực hiện theo quy định và hợp đồng mua bán điện, không chỉ dựa vào tên đăng ký doanh nghiệp.",
+        "Từ 01/11/2026 theo QĐ 2892/QĐ-BCT, giá kinh doanh chia thành 3 nhóm riêng:\n\n1️⃣ CƠ SỞ LƯU TRÚ DU LỊCH: giá bằng sản xuất cùng cấp điện áp — ưu đãi hỗ trợ ngành du lịch (áp dụng cho khách sạn, nhà nghỉ, homestay, resort).\n\n2️⃣ TRẠM SẠC XE ĐIỆN: khung giá riêng thấp hơn kinh doanh khác — ưu đãi phát triển hạ tầng xe điện.\n\n3️⃣ KINH DOANH KHÁC: nhà hàng, cửa hàng, siêu thị, dịch vụ thương mại thông thường — áp dụng giá kinh doanh chuẩn.\n\nKhi một địa điểm sử dụng điện cho nhiều mục đích, việc phân bổ sản lượng hoặc xác định giá phải thực hiện theo quy định và hợp đồng mua bán điện, không chỉ dựa vào tên đăng ký doanh nghiệp.\n\n📖 Mục 3 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "Kiểm tra áp sai nhóm giá", action: { type: "goto", nodeId: "bill.wrong_group" } },
         { label: "🔙 Quay lại Kinh doanh", action: { type: "goto", nodeId: "business" } },
@@ -328,7 +408,7 @@ export const pricingScript: ScriptTree = {
       id: "admin",
       message: "Đơn vị thuộc nhóm nào?",
       buttons: [
-        { label: "Bệnh viện, nhà trẻ, mẫu giáo, trường phổ thông", action: { type: "goto", nodeId: "admin.school" } },
+        { label: "Cơ sở y tế, giáo dục (bệnh viện, nhà trẻ, trường)", action: { type: "goto", nodeId: "admin.school" } },
         { label: "Chiếu sáng công cộng, hành chính sự nghiệp", action: { type: "goto", nodeId: "admin.public" } },
         BACK_TO_ROOT,
       ],
@@ -338,7 +418,7 @@ export const pricingScript: ScriptTree = {
       parentId: "admin",
       parentLabel: "Hành chính, sự nghiệp",
       message:
-        "Đối với bệnh viện, nhà trẻ, mẫu giáo và trường phổ thông:\n\n• Cấp điện áp TỪ 6 kV TRỞ LÊN: 1.940 đồng/kWh\n• Cấp điện áp DƯỚI 6 kV: 2.072 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Nhóm giá này KHÔNG chia theo giờ cao điểm, bình thường và thấp điểm trong biểu giá được công bố.\n\n📖 Mục 2.1 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Cơ sở khám bệnh, chữa bệnh; cơ sở giáo dục (bệnh viện, nhà trẻ, mẫu giáo, trường phổ thông, trường đại học):\n\n• Cấp điện áp TRUNG ÁP TRỞ LÊN (trên 1 kV): 1.901 đồng/kWh\n• Cấp điện áp HẠ ÁP (đến 1 kV): 2.030 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT. Nhóm giá này KHÔNG chia theo giờ cao điểm, bình thường và thấp điểm.\n\n📖 Mục 2.1 Phụ lục kèm Quyết định 2892/QĐ-BCT ngày 31/10/2026.",
       buttons: [
         { label: "🔙 Quay lại Hành chính", action: { type: "goto", nodeId: "admin" } },
         BACK_TO_ROOT,
@@ -349,24 +429,22 @@ export const pricingScript: ScriptTree = {
       parentId: "admin",
       parentLabel: "Hành chính, sự nghiệp",
       message:
-        "Đối với chiếu sáng công cộng và đơn vị hành chính sự nghiệp:\n\n• Cấp điện áp TỪ 6 kV TRỞ LÊN: 2.138 đồng/kWh\n• Cấp điện áp DƯỚI 6 kV: 2.226 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 2.2 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "Chiếu sáng công cộng và đơn vị hành chính sự nghiệp:\n\n• Cấp điện áp TRUNG ÁP TRỞ LÊN (trên 1 kV): 2.095 đồng/kWh\n• Cấp điện áp HẠ ÁP (đến 1 kV): 2.181 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 2.2 Phụ lục kèm Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "🔙 Quay lại Hành chính", action: { type: "goto", nodeId: "admin" } },
         BACK_TO_ROOT,
       ],
     },
 
-    // ===== NHÁNH 6: GIÁ THEO GIỜ =====
+    // ===== NHÁNH 6: GIÁ THEO GIỜ (QĐ 963 đã áp dụng) =====
     tou: {
       id: "tou",
       message: "Anh/Chị cần tra cứu nội dung nào về giá điện theo giờ?",
       buttons: [
         { label: "Ai phải áp dụng ba giá?", action: { type: "goto", nodeId: "tou.who" } },
-        { label: "Giờ cao điểm hiện hành", action: { type: "goto", nodeId: "tou.peak" } },
-        { label: "Giờ bình thường hiện hành", action: { type: "goto", nodeId: "tou.normal" } },
-        { label: "Giờ thấp điểm hiện hành", action: { type: "goto", nodeId: "tou.offpeak" } },
-        { label: "Khung giờ mới 2026", action: { type: "goto", nodeId: "tou.new" } },
-        { label: "Khung giờ mới đã áp dụng chưa?", action: { type: "goto", nodeId: "tou.new_applied" } },
+        { label: "Giờ cao điểm", action: { type: "goto", nodeId: "tou.peak" } },
+        { label: "Giờ bình thường", action: { type: "goto", nodeId: "tou.normal" } },
+        { label: "Giờ thấp điểm", action: { type: "goto", nodeId: "tou.offpeak" } },
         { label: "Cách giảm chi phí giờ cao điểm", action: { type: "goto", nodeId: "tou.tips" } },
         BACK_TO_ROOT,
       ],
@@ -376,7 +454,7 @@ export const pricingScript: ScriptTree = {
       parentId: "tou",
       parentLabel: "Giá điện theo giờ",
       message:
-        "Đối tượng bắt buộc áp dụng giá theo thời gian sử dụng trong ngày gồm:\n\n• Khách hàng sản xuất hoặc kinh doanh được cấp điện qua máy biến áp CHUYÊN DÙNG TỪ 25 kVA TRỞ LÊN\n• Hoặc có sản lượng điện trung bình 3 tháng liên tục TỪ 2.000 kWh/THÁNG TRỞ LÊN\n• Đơn vị bán lẻ điện tại khu công nghiệp, cụm công nghiệp\n• Đơn vị mua điện để bán lẻ ngoài mục đích sinh hoạt tại tổ hợp thương mại, dịch vụ, sinh hoạt\n\n📖 Thông tư 60/2025/TT-BCT và thông tin chính thức của EVN.",
+        "Đối tượng bắt buộc áp dụng giá theo thời gian sử dụng trong ngày (TOU) gồm:\n\n• Khách hàng sản xuất hoặc kinh doanh được cấp điện qua máy biến áp CHUYÊN DÙNG TỪ 25 kVA TRỞ LÊN\n• Hoặc có sản lượng điện trung bình 3 tháng liên tục TỪ 2.000 kWh/THÁNG TRỞ LÊN\n• Đơn vị bán lẻ điện tại khu công nghiệp, cụm công nghiệp\n• Đơn vị mua điện để bán lẻ ngoài mục đích sinh hoạt tại tổ hợp thương mại, dịch vụ, sinh hoạt\n\n📖 Thông tư 60/2025/TT-BCT và thông tin chính thức của EVN.",
       buttons: [
         { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
         BACK_TO_ROOT,
@@ -387,11 +465,10 @@ export const pricingScript: ScriptTree = {
       parentId: "tou",
       parentLabel: "Giá điện theo giờ",
       message:
-        "⚠️ Tại thời điểm cập nhật 27/07/2026, khung giờ cao điểm ĐANG ÁP DỤNG THỰC TẾ vẫn là:\n\nTừ thứ Hai đến thứ Bảy:\n• 09h30 – 11h30\n• 17h00 – 20h00\n\nNgày Chủ nhật KHÔNG có giờ cao điểm.\n\nNếu Anh/Chị hỏi sau ngày cập nhật, vui lòng kiểm tra lại thông báo chính thức của Bộ Công Thương hoặc EVN.\n\n📖 Thông tin của Bộ Công Thương tại họp báo quý II/2026.",
+        "Khung giờ CAO ĐIỂM áp dụng từ 22/4/2026 theo Quyết định 963/QĐ-BCT:\n\nTừ thứ Hai đến thứ Bảy: 17h30 – 22h30 (05 giờ/ngày)\n\nNgày Chủ nhật KHÔNG có giờ cao điểm.\n\n⚠️ Khung cũ (09h30–11h30 và 17h00–20h00) đã HẾT hiệu lực.\n\n📖 Điều 1 Quyết định 963/QĐ-BCT ngày 22/4/2026.",
       buttons: [
         { label: "Giờ bình thường", action: { type: "goto", nodeId: "tou.normal" } },
         { label: "Giờ thấp điểm", action: { type: "goto", nodeId: "tou.offpeak" } },
-        { label: "Khung giờ mới 2026", action: { type: "goto", nodeId: "tou.new" } },
         { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
         BACK_TO_ROOT,
       ],
@@ -401,7 +478,7 @@ export const pricingScript: ScriptTree = {
       parentId: "tou",
       parentLabel: "Giá điện theo giờ",
       message:
-        "Khung giờ bình thường ĐANG ÁP DỤNG:\n\nTừ thứ Hai đến thứ Bảy:\n• 04h00 – 09h30\n• 11h30 – 17h00\n• 20h00 – 22h00\n\nNgày Chủ nhật:\n• 04h00 – 22h00\n\nKhung giờ này cần được cập nhật khi có thông báo chính thức áp dụng Quyết định 963/QĐ-BCT.",
+        "Khung giờ BÌNH THƯỜNG theo Quyết định 963/QĐ-BCT (áp dụng từ 22/4/2026):\n\nTừ thứ Hai đến thứ Bảy:\n• 06h00 – 17h30\n• 22h30 – 24h00\n(Tổng 13 giờ/ngày)\n\nNgày Chủ nhật:\n• 06h00 – 24h00 (18 giờ/ngày — cả ngày không có cao điểm)\n\n📖 Điều 1 Quyết định 963/QĐ-BCT.",
       buttons: [
         { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
         BACK_TO_ROOT,
@@ -412,33 +489,9 @@ export const pricingScript: ScriptTree = {
       parentId: "tou",
       parentLabel: "Giá điện theo giờ",
       message:
-        "Giờ thấp điểm ĐANG ÁP DỤNG: từ 22h00 đến 04h00 sáng hôm sau, áp dụng TẤT CẢ CÁC NGÀY TRONG TUẦN.\n\nKhách hàng sản xuất hoặc kinh doanh có thể cân nhắc chuyển các phụ tải phù hợp sang khung giờ này, nhưng phải bảo đảm an toàn lao động, yêu cầu công nghệ, chất lượng sản phẩm và quy định vận hành.",
+        "Khung giờ THẤP ĐIỂM theo Quyết định 963/QĐ-BCT (áp dụng từ 22/4/2026):\n\n00h00 – 06h00, áp dụng TẤT CẢ CÁC NGÀY TRONG TUẦN (06 giờ/ngày).\n\n⚠️ Khung cũ (22h00 – 04h00 sáng hôm sau) đã HẾT hiệu lực.\n\nKhách hàng sản xuất hoặc kinh doanh có thể cân nhắc chuyển các phụ tải phù hợp sang khung giờ này, nhưng phải bảo đảm an toàn lao động, yêu cầu công nghệ, chất lượng sản phẩm và quy định vận hành.\n\n📖 Điều 1 Quyết định 963/QĐ-BCT.",
       buttons: [
         { label: "Mẹo tối ưu chi phí", action: { type: "goto", nodeId: "tou.tips" } },
-        { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "tou.new": {
-      id: "tou.new",
-      parentId: "tou",
-      parentLabel: "Giá điện theo giờ",
-      message:
-        "⚠️ CHƯA ÁP DỤNG. Quyết định 963/QĐ-BCT quy định khung giờ mới như sau:\n\nTừ thứ Hai đến thứ Bảy:\n• Giờ cao điểm: 17h30 – 22h30\n• Giờ bình thường: 06h00 – 17h30 và 22h30 – 24h00\n\nTất cả các ngày:\n• Giờ thấp điểm: 00h00 – 06h00\n\nNgày Chủ nhật KHÔNG có giờ cao điểm; từ 06h00 – 24h00 là giờ bình thường.\n\n📖 Quyết định 963/QĐ-BCT ngày 22/4/2026.",
-      buttons: [
-        { label: "Đã áp dụng chưa?", action: { type: "goto", nodeId: "tou.new_applied" } },
-        { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "tou.new_applied": {
-      id: "tou.new_applied",
-      parentId: "tou",
-      parentLabel: "Giá điện theo giờ",
-      message:
-        "❌ CHƯA áp dụng trên thực tế tại thời điểm cập nhật 27/07/2026. Bộ Công Thương cho biết khung giờ cao điểm hiện hành vẫn là 09h30 – 11h30 và 17h00 – 20h00. Quyết định 963/QĐ-BCT đã ban hành khung giờ mới, nhưng việc áp dụng phải chờ điều kiện pháp lý và triển khai chính thức.\n\nVui lòng kiểm tra thông báo mới nhất của Bộ Công Thương hoặc EVN trước khi đối chiếu hóa đơn.\n\n📖 Họp báo thường kỳ quý II/2026 của Bộ Công Thương.",
-      buttons: [
-        { label: "Khung giờ đang áp dụng", action: { type: "goto", nodeId: "tou.peak" } },
         { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
         BACK_TO_ROOT,
       ],
@@ -448,102 +501,22 @@ export const pricingScript: ScriptTree = {
       parentId: "tou",
       parentLabel: "Giá điện theo giờ",
       message:
-        "Doanh nghiệp có thể:\n\n• Rà soát biểu đồ phụ tải, tránh khởi động đồng thời nhiều thiết bị lớn\n• Chuyển công đoạn linh hoạt sang giờ bình thường hoặc thấp điểm\n• Sử dụng hệ thống lưu trữ điện\n• Tối ưu vận hành điều hòa\n• Giảm thiết bị chạy không tải\n\nKhông nên dịch chuyển phụ tải nếu ảnh hưởng an toàn hoặc chất lượng sản phẩm. Trước khi thay đổi ca sản xuất, cần mô phỏng chi phí theo sản lượng thực tế từng khung giờ.",
+        "Doanh nghiệp có thể:\n\n• Rà soát biểu đồ phụ tải, tránh khởi động đồng thời nhiều thiết bị lớn trong khung 17h30–22h30\n• Chuyển công đoạn linh hoạt sang giờ bình thường hoặc thấp điểm (00h00–06h00)\n• Sử dụng hệ thống lưu trữ điện\n• Tối ưu vận hành điều hòa\n• Giảm thiết bị chạy không tải\n\nKhông nên dịch chuyển phụ tải nếu ảnh hưởng an toàn hoặc chất lượng sản phẩm. Trước khi thay đổi ca sản xuất, cần mô phỏng chi phí theo sản lượng thực tế từng khung giờ.",
       buttons: [
         { label: "🔙 Quay lại Giá theo giờ", action: { type: "goto", nodeId: "tou" } },
         BACK_TO_ROOT,
       ],
     },
 
-    // ===== NHÁNH 7: BÁN BUÔN =====
+    // ===== NHÁNH 7: BÁN BUÔN (đang cập nhật theo QĐ 2892) =====
     wholesale: {
       id: "wholesale",
-      message: "Anh/Chị muốn tra cứu nhóm giá bán buôn nào?",
-      buttons: [
-        { label: "Nông thôn", action: { type: "goto", nodeId: "wholesale.rural" } },
-        { label: "Khu tập thể, cụm dân cư (thành phố)", action: { type: "goto", nodeId: "wholesale.urban" } },
-        { label: "Khu tập thể (thị trấn, huyện lỵ)", action: { type: "goto", nodeId: "wholesale.town" } },
-        { label: "Tổ hợp thương mại, dịch vụ", action: { type: "goto", nodeId: "wholesale.complex" } },
-        { label: "Khu công nghiệp — 110 kV", action: { type: "goto", nodeId: "wholesale.ind_110" } },
-        { label: "Khu công nghiệp — trung áp", action: { type: "goto", nodeId: "wholesale.ind_mid" } },
-        { label: "Chợ", action: { type: "goto", nodeId: "wholesale.market" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.rural": {
-      id: "wholesale.rural",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
+      parentId: "root",
+      parentLabel: "Menu chính",
       message:
-        "Giá bán buôn điện SINH HOẠT NÔNG THÔN theo 6 bậc:\n\n• Bậc 1: 1.658 đồng/kWh\n• Bậc 2: 1.724 đồng/kWh\n• Bậc 3: 1.876 đồng/kWh\n• Bậc 4: 2.327 đồng/kWh\n• Bậc 5: 2.635 đồng/kWh\n• Bậc 6: 2.744 đồng/kWh\n\nGiá bán buôn cho mục đích khác tại nông thôn: 1.735 đồng/kWh.\n\nCác mức giá chưa bao gồm thuế GTGT.\n\n📖 Mục 5 biểu giá kèm Quyết định 1279/QĐ-BCT.",
+        "📦 Giá BÁN BUÔN điện áp dụng từ 01/11/2026 được quy định tại Phụ lục kèm Quyết định 2892/QĐ-BCT ngày 31/10/2026 (cho đơn vị bán lẻ điện nông thôn, xã, thị trấn, khu tập thể, tổ hợp thương mại, khu công nghiệp, chợ…).\n\nĐể tra cứu đúng mức giá bán buôn chi tiết theo đối tượng và cấp điện áp, Anh/Chị vui lòng:\n\n• Gọi tổng đài CSKH EVN: 1558\n• Hoặc liên hệ Điện lực nơi ký hợp đồng mua bán điện\n\nĐầu mối ký hợp đồng bán buôn luôn cần đối chiếu hợp đồng gốc và biên bản hiện trạng điểm đo trước khi áp giá.",
       buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.urban": {
-      id: "wholesale.urban",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
-      message:
-        "Khu tập thể, cụm dân cư TẠI THÀNH PHỐ, THỊ XÃ — giá sinh hoạt 6 bậc:\n\n📌 Trạm biến áp do BÊN BÁN đầu tư:\n1.853 / 1.919 / 2.172 / 2.750 / 3.102 / 3.206 đồng/kWh\n\n📌 Trạm biến áp do BÊN MUA đầu tư:\n1.826 / 1.892 / 2.109 / 2.667 / 2.999 / 3.134 đồng/kWh\n\nGiá bán buôn cho mục đích khác: 1.750 đồng/kWh.\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 6.1 biểu giá kèm Quyết định 1279/QĐ-BCT.",
-      buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.town": {
-      id: "wholesale.town",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
-      message:
-        "Khu tập thể, cụm dân cư TẠI THỊ TRẤN, HUYỆN LỴ — giá sinh hoạt 6 bậc:\n\n📌 Trạm biến áp do BÊN BÁN đầu tư:\n1.790 / 1.856 / 2.062 / 2.611 / 2.937 / 3.035 đồng/kWh\n\n📌 Trạm biến áp do BÊN MUA đầu tư:\n1.762 / 1.828 / 2.017 / 2.503 / 2.834 / 2.929 đồng/kWh\n\nGiá bán buôn cho mục đích khác: 1.750 đồng/kWh.\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 6.2 biểu giá kèm Quyết định 1279/QĐ-BCT.",
-      buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.complex": {
-      id: "wholesale.complex",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
-      message:
-        "Tổ hợp thương mại, dịch vụ, sinh hoạt:\n\n📌 Phần điện SINH HOẠT — 6 bậc:\n1.947 / 2.011 / 2.334 / 2.941 / 3.286 / 3.393 đồng/kWh\n\n📌 Phần điện cho MỤC ĐÍCH KHÁC:\n• Giờ bình thường: 2.989 đồng/kWh\n• Giờ thấp điểm: 1.818 đồng/kWh\n• Giờ cao điểm: 5.140 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 7 biểu giá kèm Quyết định 1279/QĐ-BCT.",
-      buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.ind_110": {
-      id: "wholesale.ind_110",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
-      message:
-        "Khu công nghiệp — tại THANH CÁI 110 kV, giá phụ thuộc tổng công suất đặt của các máy biến áp:\n\n📌 TRÊN 100 MVA:\n• Bình thường: 1.744 đồng/kWh\n• Thấp điểm: 1.117 đồng/kWh\n• Cao điểm: 3.197 đồng/kWh\n\n📌 TỪ 50 ĐẾN 100 MVA:\n• Bình thường: 1.737 / Thấp điểm: 1.084 / Cao điểm: 3.183 đồng/kWh\n\n📌 DƯỚI 50 MVA:\n• Bình thường: 1.728 / Thấp điểm: 1.079 / Cao điểm: 3.164 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 8.1 biểu giá kèm Quyết định 1279/QĐ-BCT.",
-      buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.ind_mid": {
-      id: "wholesale.ind_mid",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
-      message:
-        "Khu công nghiệp — phía TRUNG ÁP của trạm 110 kV:\n\n📌 Cấp điện áp TỪ 22 kV ĐẾN DƯỚI 110 kV:\n• Bình thường: 1.800 / Thấp điểm: 1.168 / Cao điểm: 3.334 đồng/kWh\n\n📌 Cấp điện áp TỪ 6 kV ĐẾN DƯỚI 22 kV:\n• Bình thường: 1.865 / Thấp điểm: 1.210 / Cao điểm: 3.441 đồng/kWh\n\nGiá chưa bao gồm thuế GTGT.\n\n📖 Mục 8.2 biểu giá kèm Quyết định 1279/QĐ-BCT.",
-      buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
-        BACK_TO_ROOT,
-      ],
-    },
-    "wholesale.market": {
-      id: "wholesale.market",
-      parentId: "wholesale",
-      parentLabel: "Giá bán buôn",
-      message:
-        "Giá bán buôn điện cho CHỢ: 2.818 đồng/kWh, chưa bao gồm thuế GTGT.\n\nViệc bán lại điện cho các hộ sử dụng trong chợ phải tuân thủ quy định về giá, đo đếm và hợp đồng bán lẻ điện. Nếu Anh/Chị đang hỏi giá bán trực tiếp cho một quầy kinh doanh, vui lòng kiểm tra loại hợp đồng.\n\n📖 Mục 9 biểu giá kèm Quyết định 1279/QĐ-BCT.",
-      buttons: [
-        { label: "🔙 Quay lại Bán buôn", action: { type: "goto", nodeId: "wholesale" } },
+        { label: "Gặp nhân viên tư vấn", action: { type: "goto", nodeId: "escalate" } },
         BACK_TO_ROOT,
       ],
     },
@@ -566,10 +539,10 @@ export const pricingScript: ScriptTree = {
       parentId: "bill",
       parentLabel: "Cách tính hóa đơn",
       message:
-        "Quy trình tính hóa đơn sinh hoạt:\n\n1️⃣ Nhận tổng sản lượng điện trong kỳ\n2️⃣ Chia sản lượng lần lượt vào 6 bậc\n3️⃣ Nhân sản lượng mỗi bậc với đơn giá tương ứng\n4️⃣ Cộng tiền của tất cả các bậc → tiền điện TRƯỚC thuế\n5️⃣ Tính thuế GTGT theo mức áp dụng\n6️⃣ Cộng các khoản điều chỉnh hợp lệ nếu có\n\nHãy yêu cầu hiển thị rõ sản lượng và tiền của từng bậc để dễ kiểm tra.",
+        "Quy trình tính hóa đơn sinh hoạt (theo biểu 5 bậc mới — QĐ 2892/QĐ-BCT):\n\n1️⃣ Nhận tổng sản lượng điện trong kỳ\n2️⃣ Chia sản lượng lần lượt vào 5 bậc (0–100, 101–200, 201–400, 401–700, từ 701+)\n3️⃣ Nhân sản lượng mỗi bậc với đơn giá tương ứng\n4️⃣ Cộng tiền của tất cả các bậc → tiền điện TRƯỚC thuế\n5️⃣ Tính thuế GTGT theo mức áp dụng\n6️⃣ Cộng các khoản điều chỉnh hợp lệ nếu có\n\nHãy yêu cầu hiển thị rõ sản lượng và tiền của từng bậc để dễ kiểm tra.",
       buttons: [
         { label: "Xem ví dụ 100 kWh", action: { type: "goto", nodeId: "residential.use100" } },
-        { label: "Xem ví dụ 200 kWh", action: { type: "goto", nodeId: "residential.use200" } },
+        { label: "Xem ví dụ 300 kWh", action: { type: "goto", nodeId: "residential.use300" } },
         { label: "🔙 Quay lại Cách tính hóa đơn", action: { type: "goto", nodeId: "bill" } },
         BACK_TO_ROOT,
       ],
@@ -579,7 +552,7 @@ export const pricingScript: ScriptTree = {
       parentId: "bill",
       parentLabel: "Cách tính hóa đơn",
       message:
-        "Tiền điện trước thuế của công tơ ba giá được tính riêng theo từng khung giờ:\n\n• Sản lượng giờ bình thường × giá giờ bình thường\n• Sản lượng giờ thấp điểm × giá giờ thấp điểm\n• Sản lượng giờ cao điểm × giá giờ cao điểm\n\nSau đó cộng ba khoản và tính thuế theo quy định.\n\nCần thông tin: mục đích sử dụng, cấp điện áp và sản lượng tại từng khung giờ; KHÔNG được dùng tổng sản lượng chung để ước tính nếu Anh/Chị cần kết quả chính xác.",
+        "Tiền điện trước thuế của công tơ ba giá được tính riêng theo từng khung giờ (theo khung mới QĐ 963/QĐ-BCT):\n\n• Sản lượng giờ bình thường × giá giờ bình thường\n• Sản lượng giờ thấp điểm (00h00–06h00) × giá giờ thấp điểm\n• Sản lượng giờ cao điểm (17h30–22h30, T2–T7) × giá giờ cao điểm\n\nSau đó cộng ba khoản và tính thuế theo quy định.\n\nCần thông tin: mục đích sử dụng, cấp điện áp và sản lượng tại từng khung giờ; KHÔNG được dùng tổng sản lượng chung để ước tính nếu Anh/Chị cần kết quả chính xác.",
       buttons: [
         { label: "Khung giờ hiện hành", action: { type: "goto", nodeId: "tou.peak" } },
         { label: "🔙 Quay lại Cách tính hóa đơn", action: { type: "goto", nodeId: "bill" } },
@@ -603,7 +576,7 @@ export const pricingScript: ScriptTree = {
       parentId: "bill",
       parentLabel: "Cách tính hóa đơn",
       message:
-        "Anh/Chị cần kiểm tra:\n\n• Hợp đồng mua bán điện\n• Mục đích sử dụng thực tế\n• Cấp điện áp tại điểm giao nhận\n• Thông tin trên hóa đơn\n\nNếu một địa điểm có nhiều mục đích, cần kiểm tra việc lắp công tơ riêng hoặc tỷ lệ phân bổ sản lượng.\n\nHãy gửi mã khách hàng, ảnh hóa đơn và mô tả hoạt động cho đơn vị điện lực để được đối chiếu. Chatbot không tự kết luận sai giá khi chưa có hồ sơ.",
+        "Anh/Chị cần kiểm tra:\n\n• Hợp đồng mua bán điện\n• Mục đích sử dụng thực tế\n• Cấp điện áp tại điểm giao nhận\n• Thông tin trên hóa đơn\n\nLưu ý từ 01/11/2026 có 3 nhóm giá kinh doanh riêng (lưu trú du lịch / sạc xe điện / kinh doanh khác) — khách sạn, nhà nghỉ, homestay thuộc nhóm LƯU TRÚ DU LỊCH với giá ưu đãi bằng sản xuất cùng cấp điện áp. Nếu bị áp sai sang \"kinh doanh khác\" thì cần kiến nghị điều chỉnh.\n\nNếu một địa điểm có nhiều mục đích, cần kiểm tra việc lắp công tơ riêng hoặc tỷ lệ phân bổ sản lượng.\n\nHãy gửi mã khách hàng, ảnh hóa đơn và mô tả hoạt động cho đơn vị điện lực để được đối chiếu. Chatbot không tự kết luận sai giá khi chưa có hồ sơ.",
       buttons: [
         { label: "Gặp nhân viên tư vấn", action: { type: "goto", nodeId: "escalate" } },
         { label: "🔙 Quay lại Cách tính hóa đơn", action: { type: "goto", nodeId: "bill" } },
@@ -615,7 +588,7 @@ export const pricingScript: ScriptTree = {
       parentId: "bill",
       parentLabel: "Cách tính hóa đơn",
       message:
-        "Khi có điều chỉnh giá trong kỳ ghi chỉ số, sản lượng thường được phân bổ theo thời gian hoặc chốt chỉ số theo quy định thực hiện giá điện. Cách xử lý cụ thể phụ thuộc loại công tơ, dữ liệu đo xa và hướng dẫn tại thời điểm điều chỉnh.\n\nKhông được áp toàn bộ sản lượng theo giá mới chỉ dựa vào ngày xuất hóa đơn.",
+        "Hóa đơn cho KỲ ĐO BẮC CẦU ngày 01/11/2026 (ngày QĐ 2892/QĐ-BCT có hiệu lực): sản lượng được tách thành 2 phần theo thời gian — phần tiêu thụ TRƯỚC 01/11/2026 áp giá cũ (QĐ 1279), phần tiêu thụ TỪ 01/11/2026 áp giá mới (QĐ 2892). Cách phân bổ cụ thể phụ thuộc loại công tơ, dữ liệu đo xa và hướng dẫn tại thời điểm điều chỉnh.\n\nKHÔNG được áp toàn bộ sản lượng theo giá mới chỉ dựa vào ngày xuất hóa đơn.\n\n📖 Thông tư 60/2025/TT-BCT về quy định thực hiện giá bán lẻ điện.",
       buttons: [
         { label: "🔙 Quay lại Cách tính hóa đơn", action: { type: "goto", nodeId: "bill" } },
         BACK_TO_ROOT,
@@ -639,7 +612,7 @@ export const pricingScript: ScriptTree = {
       parentId: "current",
       parentLabel: "Giá hiện hành & cập nhật",
       message:
-        "Biểu giá trong kịch bản được ban hành kèm QUYẾT ĐỊNH SỐ 1279/QĐ-BCT ngày 09/5/2025 của Bộ Công Thương và áp dụng TỪ NGÀY 10/5/2025.\n\nTại thời điểm kiểm tra 27/07/2026, trang thông tin giá điện chính thức của EVN vẫn đang công bố biểu giá bán lẻ và bán buôn theo quyết định này.\n\n📖 Quyết định 1279/QĐ-BCT và chuyên mục Giá điện của EVN.",
+        "Biểu giá đang áp dụng được ban hành kèm QUYẾT ĐỊNH SỐ 2892/QĐ-BCT ngày 31/10/2026 của Bộ Công Thương, hiệu lực TỪ NGÀY 01/11/2026. Quyết định này THAY THẾ biểu giá 6 bậc cũ của QĐ 1279/QĐ-BCT ngày 09/5/2025.\n\nKhung giờ TOU (cao điểm / bình thường / thấp điểm) theo Quyết định 963/QĐ-BCT ngày 22/4/2026, đã có hiệu lực từ 22/4/2026.\n\n📖 Quyết định 2892/QĐ-BCT và Quyết định 963/QĐ-BCT.",
       buttons: [
         { label: "🔙 Quay lại Giá hiện hành", action: { type: "goto", nodeId: "current" } },
         BACK_TO_ROOT,
@@ -650,7 +623,7 @@ export const pricingScript: ScriptTree = {
       parentId: "current",
       parentLabel: "Giá hiện hành & cập nhật",
       message:
-        "Mức giá bán lẻ điện bình quân là 2.204,0655 đồng/kWh, chưa bao gồm thuế GTGT, áp dụng từ 10/5/2025.\n\nĐây là mức giá bình quân dùng trong điều hành giá điện, KHÔNG thay thế các mức giá chi tiết của từng nhóm khách hàng.\n\n📖 Quyết định 599/QĐ-EVN và Điều 2 Quyết định 1279/QĐ-BCT.",
+        "Mức giá bán lẻ điện bình quân áp dụng từ 01/11/2026 là 2.159,9037 đồng/kWh, chưa bao gồm thuế GTGT (giảm 2% so với mức 2.204,0655 đồng/kWh trước đây).\n\nChính sách giảm 2% có thời hạn 5 tháng — từ 01/11/2026 đến hết 30/3/2027, sau đó Bộ Công Thương sẽ xem xét điều chỉnh tiếp.\n\nĐây là mức giá bình quân dùng trong điều hành giá điện, KHÔNG thay thế các mức giá chi tiết của từng nhóm khách hàng.\n\n📖 Quyết định 2892/QĐ-BCT ngày 31/10/2026.",
       buttons: [
         { label: "🔙 Quay lại Giá hiện hành", action: { type: "goto", nodeId: "current" } },
         BACK_TO_ROOT,
@@ -661,7 +634,7 @@ export const pricingScript: ScriptTree = {
       parentId: "current",
       parentLabel: "Giá hiện hành & cập nhật",
       message:
-        "Có. Chính phủ đã ban hành Nghị định số 278/2026/NĐ-CP ngày 09/7/2026 sửa đổi cơ chế và thời gian điều chỉnh giá bán lẻ điện bình quân; Bộ Công Thương đã ban hành văn bản hợp nhất số 68/2026/VBHN-BCT.\n\nTuy nhiên, VĂN BẢN VỀ CƠ CHẾ ĐIỀU CHỈNH KHÔNG TỰ ĐỘNG LÀM THAY ĐỔI CÁC MỨC GIÁ CHI TIẾT. Chỉ cập nhật biểu giá khi có quyết định giá mới được cơ quan có thẩm quyền công bố.\n\n📖 Nghị định 278/2026/NĐ-CP và Văn bản hợp nhất 68/2026/VBHN-BCT.",
+        "Có. Chính phủ đã ban hành Nghị định số 278/2026/NĐ-CP ngày 09/7/2026 sửa đổi cơ chế và thời gian điều chỉnh giá bán lẻ điện bình quân; Bộ Công Thương đã ban hành văn bản hợp nhất số 68/2026/VBHN-BCT.\n\nQuyết định 2892/QĐ-BCT ngày 31/10/2026 là lần điều chỉnh gần nhất theo cơ chế mới, với các thay đổi quan trọng: chuyển biểu sinh hoạt từ 6 bậc sang 5 bậc, tách nhóm \"cơ sở lưu trú du lịch\" và \"trạm sạc xe điện\" thành nhóm riêng, giảm giá bình quân 2% trong 5 tháng.\n\n📖 Nghị định 278/2026/NĐ-CP, Văn bản hợp nhất 68/2026/VBHN-BCT, Quyết định 2892/QĐ-BCT.",
       buttons: [
         { label: "🔙 Quay lại Giá hiện hành", action: { type: "goto", nodeId: "current" } },
         BACK_TO_ROOT,

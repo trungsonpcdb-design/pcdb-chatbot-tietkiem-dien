@@ -1,5 +1,5 @@
 export const SCRIPTED_FACTS = `DỮ LIỆU CHÍNH THỨC — dùng để tính toán và trả lời trực tiếp, KHÔNG cần "TÀI LIỆU THAM KHẢO":
-(Nguồn: Quyết định 1279/QĐ-BCT ngày 09/5/2025, cập nhật 27/07/2026. Mọi mức giá dưới đây CHƯA gồm VAT.)
+(Nguồn: Quyết định 2892/QĐ-BCT ngày 31/10/2026 của Bộ Công Thương về giá bán điện, áp dụng từ 01/11/2026; khung giờ theo Quyết định 963/QĐ-BCT ngày 22/4/2026. Mọi mức giá dưới đây CHƯA gồm VAT.)
 
 ═══════ 0. ⚠ METARULE BẮT BUỘC — ÁP DỤNG CHO MỌI CÂU TRẢ LỜI ═══════
 
@@ -11,11 +11,12 @@ Với MỌI câu hỏi liên quan đến thủ tục, quy trình, hồ sơ, đi�
   TIÊU CHÍ 2 — TRÍCH ĐIỀU/KHOẢN GẮN VỚI TÊN VĂN BẢN:
   Mỗi claim pháp lý (ngưỡng, thủ tục, hồ sơ, thời hạn, ưu đãi, ngoại lệ) PHẢI đi kèm số Điều/Khoản gốc đã xuất hiện trong DỮ LIỆU CHÍNH THỨC bên dưới. CẤM TUYỆT ĐỐI chỉ viết "Điều 10" trần — phải GẮN TÊN VĂN BẢN đầy đủ. Quy ước nguồn:
     • Mục 7 (Điện mặt trời mái nhà): nguồn là "Văn bản hợp nhất 52/VBHN-BCT ngày 30/6/2026" (ghi tắt sau lần đầu: "VBHN 52").
-    • Mục 1-6, 11 (giá điện, khung giờ): nguồn là "Quyết định 1279/QĐ-BCT ngày 09/5/2025".
+    • Mục 1-5, 11 (giá điện bán lẻ): nguồn là "Quyết định 2892/QĐ-BCT ngày 31/10/2026" (ghi tắt sau lần đầu: "QĐ 2892").
+    • Mục 6 (khung giờ TOU): nguồn là "Quyết định 963/QĐ-BCT ngày 22/4/2026" (ghi tắt sau lần đầu: "QĐ 963").
     • Mục 8 (đầu mối xã/phường): nguồn là "Công văn /PCĐB-KD tháng 7/2026 của PC Điện Biên".
   Format bắt buộc:
-    • Lần nhắc Điều/Khoản ĐẦU TIÊN trong câu trả lời: viết đầy đủ "(theo Điều X Văn bản hợp nhất 52/VBHN-BCT ngày 30/6/2026)" hoặc "(Khoản Y Điều X VBHN 52/VBHN-BCT)".
-    • Các lần nhắc TIẾP THEO trong cùng câu trả lời: cho phép viết tắt "(Điều X VBHN 52)" hoặc "(cùng văn bản, Điều X)".
+    • Lần nhắc Điều/Khoản ĐẦU TIÊN trong câu trả lời: viết đầy đủ "(theo Điều X Văn bản hợp nhất 52/VBHN-BCT ngày 30/6/2026)" hoặc "(Phụ lục kèm Quyết định 2892/QĐ-BCT ngày 31/10/2026)".
+    • Các lần nhắc TIẾP THEO trong cùng câu trả lời: cho phép viết tắt "(Điều X VBHN 52)" hoặc "(Phụ lục QĐ 2892)".
     • CẤM: viết trần "(Điều 10, Điều 15)" như trường hợp cũ — bắt buộc có TÊN VĂN BẢN ít nhất 1 lần.
   Không nhớ chính xác Điều/Khoản → không trích chứ KHÔNG được chế số Điều mới hay tên văn bản khác.
 
@@ -32,57 +33,83 @@ Với MỌI câu hỏi liên quan đến thủ tục, quy trình, hồ sơ, đi�
 
 Quy tắc nhận diện: nếu câu hỏi chứa "thủ tục", "quy trình", "cần làm", "cần giấy tờ gì", "có được không", "điều kiện", "bán điện dư", "giấy phép", "chuyển tiếp", "nghiệm thu", "trong KCN", "miền núi", "đất đa mục đích", "pin lưu trữ bán được không" → mặc nhiên kích hoạt 5 tiêu chí trên.
 
-═══════ 1. GIÁ ĐIỆN SINH HOẠT 6 BẬC (đồng/kWh) ═══════
-• Bậc 1 (0–50 kWh):   1.984
-• Bậc 2 (51–100 kWh): 2.050
-• Bậc 3 (101–200):    2.380
-• Bậc 4 (201–300):    2.998
-• Bậc 5 (301–400):    3.350
-• Bậc 6 (từ 401+):    3.460
+═══════ 1. GIÁ ĐIỆN SINH HOẠT 5 BẬC (đồng/kWh — mới từ 01/11/2026) ═══════
+• Bậc 1 (0–100 kWh):    1.901
+• Bậc 2 (101–200 kWh):  2.289
+• Bậc 3 (201–400 kWh):  2.894
+• Bậc 4 (401–700 kWh):  3.456
+• Bậc 5 (từ 701 kWh+):  3.844
+
+⚠ QUAN TRỌNG: Biểu giá cũ 6 BẬC (QĐ 1279/QĐ-BCT) đã bị THAY THẾ. Từ 01/11/2026 áp dụng 5 bậc mới. Khi khách hỏi "6 bậc" hoặc đưa số liệu bậc 6 cũ → PHẢI nhắc "từ 01/11/2026 Bộ Công Thương chuyển sang biểu 5 bậc theo QĐ 2892/QĐ-BCT" rồi mới trả lời theo bảng mới.
 
 CÁCH TÍNH: sản lượng chia LẦN LƯỢT vào từng bậc, KHÔNG nhân toàn bộ với 1 bậc.
-Ví dụ 500 kWh:
-- 50×1.984 = 99.200
-- 50×2.050 = 102.500
-- 100×2.380 = 238.000
-- 100×2.998 = 299.800
-- 100×3.350 = 335.000
-- 100×3.460 = 346.000
-→ Tổng TRƯỚC thuế: 1.420.500 đồng. Sau đó cộng VAT theo mức áp dụng.
+Ví dụ 500 kWh (áp giá mới):
+- 100×1.901 = 190.100
+- 100×2.289 = 228.900
+- 200×2.894 = 578.800
+- 100×3.456 = 345.600
+→ Tổng TRƯỚC thuế: 1.343.400 đồng. Sau đó cộng VAT theo mức áp dụng.
 
 Trường hợp đặc biệt:
-• Công tơ thẻ trả trước: 2.909 đồng/kWh (mức duy nhất, KHÔNG bậc thang).
-• Giá bán lẻ bình quân toàn hệ thống: 2.204,0655 đồng/kWh (dùng cho điều hành giá, KHÔNG áp dụng cho từng hộ).
+• Giá bán lẻ điện bình quân toàn hệ thống: 2.159,9037 đồng/kWh (giảm 2% so với 2.204,0655 đồng/kWh trước đây; dùng cho điều hành giá, KHÔNG áp dụng cho từng hộ).
+• Chính sách GIẢM 2% CÓ THỜI HẠN: giá bán lẻ bình quân giảm 2% áp dụng trong 5 tháng, từ 01/11/2026 đến hết 30/3/2027 (sau đó Bộ Công Thương xem xét điều chỉnh tiếp).
 
 ═══════ 2. NGƯỜI THUÊ NHÀ ═══════
-• Hợp đồng < 12 tháng + chủ nhà KHÔNG kê khai đủ số người → toàn bộ áp bậc 3 (2.380 đồng/kWh).
+• Hợp đồng < 12 tháng + chủ nhà KHÔNG kê khai đủ số người → toàn bộ áp bậc 3 (2.894 đồng/kWh theo QĐ 2892).
 • Chủ nhà kê khai đủ + có tạm trú: cứ 4 người = 1 hộ (1 định mức). Không đủ 4 → quy đổi tỷ lệ.
 
-═══════ 3. GIÁ SẢN XUẤT (đồng/kWh, theo 3 khung giờ) ═══════
-Cấp điện áp        | Bình thường | Thấp điểm | Cao điểm
-≥ 110 kV           |    1.811    |   1.146   |   3.266
-22–<110 kV         |    1.833    |   1.190   |   3.398
-6–<22 kV           |    1.899    |   1.234   |   3.508
-< 6 kV             |    1.987    |   1.300   |   3.640
+═══════ 3. GIÁ SẢN XUẤT (đồng/kWh, theo 3 khung giờ — QĐ 2892) ═══════
+Cấp điện áp               | Bình thường | Thấp điểm | Cao điểm
+Từ 220 kV trở lên         |    1.771    |   1.101   |   3.110
+Trên 35 kV đến dưới 220 kV|    1.792    |   1.123   |   3.218
+Trên 01 kV đến 35 kV      |    1.814    |   1.166   |   3.348
+Hạ áp (đến 01 kV)         |    1.966    |   1.274   |   3.586
 
-═══════ 4. GIÁ KINH DOANH (đồng/kWh) ═══════
-Cấp điện áp        | Bình thường | Thấp điểm | Cao điểm
-≥ 22 kV            |    2.887    |   1.609   |   5.025
-6–<22 kV           |    3.108    |   1.829   |   5.202
-< 6 kV             |    3.152    |   1.918   |   5.422
+⚠ Ngưỡng cấp điện áp theo QĐ 2892 KHÁC so với QĐ 1279 cũ (cũ chia theo 110 kV / 22 kV / 6 kV; mới chia theo 220 kV / 35 kV / 1 kV). Khi khách hỏi theo ngưỡng cũ, quy đổi về nhóm tương ứng ở trên.
 
-═══════ 5. GIÁ HÀNH CHÍNH, SỰ NGHIỆP (đồng/kWh, KHÔNG chia khung giờ) ═══════
-Bệnh viện, nhà trẻ, mẫu giáo, trường phổ thông:
-• ≥ 6 kV: 1.940
-• < 6 kV: 2.072
-Chiếu sáng công cộng, hành chính sự nghiệp:
-• ≥ 6 kV: 2.138
-• < 6 kV: 2.226
+═══════ 4. GIÁ KINH DOANH (đồng/kWh — QĐ 2892, chia 3 NHÓM × 2 cấp điện áp × 3 khung giờ) ═══════
 
-═══════ 6. KHUNG GIỜ HIỆN HÀNH (đến 27/07/2026 vẫn dùng, chưa áp dụng QĐ 963) ═══════
-Cao điểm  (T2-T7):  09h30–11h30, 17h00–20h00 (CN không có cao điểm)
-Bình thường (T2-T7): 04h00–09h30, 11h30–17h00, 20h00–22h00 (CN: 04h00–22h00)
-Thấp điểm  (mọi ngày): 22h00–04h00 sáng hôm sau
+4.1. CƠ SỞ LƯU TRÚ DU LỊCH (chính sách hỗ trợ: giá bằng nhóm sản xuất cùng cấp điện áp):
+Cấp điện áp               | Bình thường | Thấp điểm | Cao điểm
+Trung áp trở lên (>01 kV) |    1.814    |   1.166   |   3.348
+Hạ áp (đến 01 kV)         |    1.966    |   1.274   |   3.586
+
+4.2. TRẠM/TRỤ SẠC XE ĐIỆN (chính sách ưu đãi hạ tầng xe điện):
+Cấp điện áp               | Bình thường | Thấp điểm | Cao điểm
+Trung áp trở lên (>01 kV) |    2.549    |   1.534   |   3.758
+Hạ áp (đến 01 kV)         |    2.700    |   1.620   |   4.212
+
+4.3. KINH DOANH KHÁC (nhà hàng, cửa hàng, dịch vụ thương mại thông thường):
+Cấp điện áp               | Bình thường | Thấp điểm | Cao điểm
+Trung áp trở lên (>01 kV) |    2.829    |   1.577   |   4.924
+Hạ áp (đến 01 kV)         |    3.089    |   1.880   |   5.313
+
+⚠ Khi khách là KHÁCH SẠN / NHÀ NGHỈ / HOMESTAY → dùng 4.1 (lưu trú du lịch), KHÔNG dùng 4.3. Đây là ưu đãi chính sách rõ rệt so với trước (trước xếp chung kinh doanh).
+⚠ Khi khách là TRẠM SẠC XE ĐIỆN (xe máy điện, ô tô điện) → dùng 4.2. KHÔNG xếp vào kinh doanh khác.
+
+═══════ 5. GIÁ HÀNH CHÍNH, SỰ NGHIỆP (đồng/kWh, KHÔNG chia khung giờ — QĐ 2892) ═══════
+Cơ sở khám bệnh, chữa bệnh; cơ sở giáo dục (bệnh viện, nhà trẻ, mẫu giáo, trường phổ thông, đại học):
+• Trung áp trở lên (>01 kV): 1.901
+• Hạ áp (đến 01 kV):         2.030
+
+Chiếu sáng công cộng; đơn vị hành chính sự nghiệp:
+• Trung áp trở lên (>01 kV): 2.095
+• Hạ áp (đến 01 kV):         2.181
+
+⚠ Ngưỡng cấp điện áp ở QĐ 2892 chuyển sang mốc 1 kV (thay vì 6 kV cũ). Khi khách hỏi theo ngưỡng cũ (6 kV), quy đổi về trung áp/hạ áp tương ứng.
+
+═══════ 6. KHUNG GIỜ TOU — ĐÃ ÁP DỤNG TỪ 22/04/2026 THEO QĐ 963/QĐ-BCT ═══════
+
+Cao điểm: 17h30 – 22h30 (05 giờ/ngày), áp dụng THỨ HAI đến THỨ BẢY.
+           → Chủ nhật KHÔNG có giờ cao điểm.
+
+Bình thường:
+  • Thứ Hai – Thứ Bảy: 06h00 – 17h30 và 22h30 – 24h00 (13 giờ/ngày)
+  • Chủ nhật:          06h00 – 24h00                   (18 giờ/ngày)
+
+Thấp điểm: 00h00 – 06h00 (06 giờ/ngày), áp dụng TẤT CẢ các ngày trong tuần.
+
+⚠ Khung giờ CŨ (cao điểm 09h30–11h30 và 17h00–20h00, thấp điểm 22h00–04h00) đã BỊ THAY THẾ từ 22/4/2026. Nếu khách vẫn nói theo khung cũ, phải nhắc khung mới QĐ 963 đã áp dụng và cung cấp lại đúng khung mới.
 
 Đối tượng BẮT BUỘC áp dụng 3 giá (công tơ TOU):
 • Sản xuất/kinh doanh có máy biến áp chuyên dùng ≥ 25 kVA, HOẶC
@@ -308,12 +335,13 @@ Lưu ý luôn nhắc user:
 • Cổng Dịch vụ công quốc gia:             https://dichvucong.gov.vn
 
 ═══════ 11. HÓA ĐƠN — QUY TẮC TÍNH ═══════
-Sinh hoạt: chia sản lượng theo 6 bậc → cộng lại → cộng VAT.
-Ba giá (TOU): (SL_bình_thường × giá_BT) + (SL_thấp_điểm × giá_TĐ) + (SL_cao_điểm × giá_CĐ) → cộng VAT.
-Giá đổi giữa kỳ: phân bổ theo thời gian hoặc chốt chỉ số, KHÔNG áp toàn bộ theo giá mới chỉ dựa vào ngày xuất hóa đơn.
+Sinh hoạt: chia sản lượng theo 5 BẬC (không còn 6 bậc như biểu cũ) → cộng lại → cộng VAT.
+Ba giá (TOU): (SL_bình_thường × giá_BT) + (SL_thấp_điểm × giá_TĐ) + (SL_cao_điểm × giá_CĐ) → cộng VAT. Khung giờ theo QĐ 963/QĐ-BCT (ĐÃ áp dụng).
+Giá đổi giữa kỳ (01/11/2026): phân bổ theo thời gian hoặc chốt chỉ số, KHÔNG áp toàn bộ theo giá mới chỉ dựa vào ngày xuất hóa đơn. Các hóa đơn xuất sau 01/11/2026 cho kỳ đo bắc cầu phải tách sản lượng trước/sau ngày hiệu lực.
 
 ═══════ HƯỚNG DẪN DÙNG DỮ LIỆU NÀY ═══════
-• Khi user hỏi tính tiền điện với sản lượng cụ thể → DÙNG bảng bậc để tính, hiển thị chi tiết từng bậc.
+• Khi user hỏi tính tiền điện với sản lượng cụ thể → DÙNG bảng 5 BẬC (QĐ 2892) để tính, hiển thị chi tiết từng bậc.
+• Nếu user vẫn đưa số theo biểu 6 bậc cũ (1.984, 2.050, 2.380, 2.998, 3.350, 3.460) → PHẢI nhắc "Bộ Công Thương đã ban hành biểu mới 5 bậc theo QĐ 2892/QĐ-BCT áp dụng từ 01/11/2026" rồi tính lại theo giá mới.
 • Khi user hỏi số hotline/URL → trích chính xác từ bảng trên.
 • Khi user hỏi thủ tục điện mặt trời → tra bảng ngưỡng công suất + mẫu số.
 • Khi user hỏi "thủ tục gì", "quy trình lắp", "cần làm những gì" cho HỘ GIA ĐÌNH → BẮT BUỘC chạy đủ CHECKLIST ✓ trong mục 7 phần "QUY TRÌNH 4 BƯỚC CHUẨN cho HỘ GIA ĐÌNH". Mỗi dấu ✓ là 1 claim phải xuất hiện trong câu trả lời cuối cùng. Đặc biệt KHÔNG được bỏ qua:
@@ -327,7 +355,9 @@ Giá đổi giữa kỳ: phân bổ theo thời gian hoặc chốt chỉ số, K
     (3) Trích Điều/Khoản (Điều 10, 15, 16, 17, 18, 21, 23, 24 theo bước).
     (4) Nhắc thời hạn ≥10 ngày làm việc trước lắp (Mẫu 02) hoặc 10 ngày cấp giấy (Mẫu 03).
     (5) KHÔNG chèn Mẫu 01 (chỉ dành cho hạ áp).
-• Khi user hỏi khung giờ TOU → dùng khung "hiện hành", nhắc "khung mới QĐ 963 CHƯA áp dụng".
+• Khi user hỏi khung giờ TOU → dùng khung mới theo QĐ 963 (cao điểm 17h30–22h30, thấp điểm 00h00–06h00, bình thường còn lại). Khung cũ (09h30–11h30, 17h00–20h00, thấp điểm 22h00–04h00) đã HẾT hiệu lực từ 22/4/2026.
+• Khi user hỏi về KHÁCH SẠN / NHÀ NGHỈ / HOMESTAY → dùng mục 4.1 (lưu trú du lịch), được hưởng chính sách giá bằng sản xuất cùng cấp điện áp. KHÔNG áp giá kinh doanh khác (mục 4.3).
+• Khi user hỏi về TRẠM SẠC XE ĐIỆN → dùng mục 4.2 (chính sách giá ưu đãi riêng).
 • Khi user hỏi đầu mối/số điện thoại liên hệ đăng ký, hướng dẫn thủ tục ĐMTMN tại 1 xã/phường cụ thể (hoặc hỏi theo tên Điện lực/huyện) → tra đúng dòng trong bảng mục 8, trả lời tên xã/phường + bộ phận tiếp nhận + SĐT. Nếu user chỉ nêu tên huyện/khu vực mà không rõ xã/phường, liệt kê TẤT CẢ xã/phường thuộc Điện lực khu vực đó. KHÔNG suy diễn hay bịa số điện thoại nếu xã/phường không có trong bảng — khi đó hướng dẫn gọi tổng đài CSKH (mục 10) để được nối máy đúng đầu mối.
 • Khi user hỏi chi phí/giá/ước tính đầu tư ĐMTMN, xử lý theo 2 trường hợp:
 
