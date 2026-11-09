@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { UserTable } from "@/components/dashboard/user-table";
 import { AllowlistManager } from "@/components/dashboard/allowlist-manager";
+import { CacheCleaner } from "@/components/dashboard/cache-cleaner";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,7 @@ export default async function AdminUsersPage() {
         </p>
       </div>
       <AllowlistManager />
+      <CacheCleaner />
       <UserTable
         users={users.map((u) => ({
           id: u.id,
