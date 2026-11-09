@@ -44,13 +44,6 @@ export interface BillResult {
   total: number;
 }
 
-export interface Comparison {
-  allNewTotal: number;
-  allOldTotal: number;
-  diff: number; // actual - allNew OR actual - allOld, we'll show both
-  actualTotal: number;
-}
-
 function round(n: number): number {
   return Math.round(n);
 }
@@ -223,18 +216,20 @@ export function calcResidentialRealistic(
   return makeBillResult(sections);
 }
 
-// Hypothetical: toàn kỳ áp cùng 1 biểu giá (dùng cho dòng so sánh dưới)
-function calcResidentialHypothetical(input: ResidentialInput, decision: Decision): BillResult {
+// Hypothetical: toàn kỳ áp cùng 1 biểu giá
+export function calcResidentialHypothetical(input: ResidentialInput, decision: Decision): BillResult {
   const tariff = decision === "QD2892" ? RESIDENTIAL_NEW : RESIDENTIAL_OLD;
   const households = Math.max(1, Math.floor(input.households || 1));
   const split = splitBillingPeriod(input.fromISO, input.toISO);
   const days = split.totalDays || 30;
-  // Scale = households × (days/30) — định mức đầy đủ cho N hộ và kỳ D ngày
   const scale = households * (days / 30);
   const lines = allocateToResidentialTiers(Math.max(0, input.totalKwh), tariff, scale);
   const sections: BillSection[] = [
     {
-      heading: decision === "QD2892" ? "Toàn kỳ áp QĐ 2892" : "Toàn kỳ áp QĐ 1279",
+      heading:
+        decision === "QD2892"
+          ? `Toàn kỳ ${days} ngày áp QĐ 2892 (giá mới)`
+          : `Toàn kỳ ${days} ngày áp QĐ 1279 (giá cũ)`,
       decision,
       lines,
       subtotal: sum(lines),
@@ -390,75 +385,109 @@ export function calcAdminRealistic(input: AdminStraddleInput, split: BillingSpli
   return makeBillResult(sections);
 }
 
-// ===== So sánh "nếu toàn kỳ áp QĐ X" =====
-// Dùng cho dòng tóm tắt dưới hóa đơn thực tế.
+// ===== Cột 2: "Nếu toàn kỳ áp 100% giá cũ QĐ 1279" =====
+// Mục đích: cho user thấy hóa đơn sẽ như thế nào nếu không có đợt điều chỉnh
+// giá 01/11/2026 (tức áp dụng biểu giá cũ cho toàn bộ kỳ).
 
-export function compareResidential(input: ResidentialInput): Comparison {
-  const actual = calcResidentialRealistic(input, splitBillingPeriod(input.fromISO, input.toISO));
-  const allNew = calcResidentialHypothetical(input, "QD2892");
-  const allOld = calcResidentialHypothetical(input, "QD1279");
-  return {
-    actualTotal: actual.total,
-    allNewTotal: allNew.total,
-    allOldTotal: allOld.total,
-    diff: allNew.total - allOld.total,
-  };
+export function calcResidentialAllOld(input: ResidentialInput): BillResult {
+  return calcResidentialHypothetical(input, "QD1279");
 }
 
-// Cho SX / KD / HC-SN (TOU): giả định tổng kWh mỗi khung giờ = trước + sau,
-// rồi áp mỗi biểu giá lên toàn bộ.
-export function compareProduction(input: TouStraddleInput): Comparison {
+function calcTouAllOld(
+  input: TouStraddleInput,
+  priceOld: TouPrices,
+  heading: string,
+): BillResult {
   const combined: TouAmounts = {
     kwhNormal: (input.before.kwhNormal || 0) + (input.after.kwhNormal || 0),
     kwhOffPeak: (input.before.kwhOffPeak || 0) + (input.after.kwhOffPeak || 0),
     kwhPeak: (input.before.kwhPeak || 0) + (input.after.kwhPeak || 0),
   };
-  const priceNew = productionPrices("QD2892", input.voltage);
-  const priceOld = productionPrices("QD1279", input.voltage);
-  const newLines = touToLines(combined, priceNew, input.flat);
-  const oldLines = touToLines(combined, priceOld, input.flat);
-  const newSub = sum(newLines);
-  const oldSub = sum(oldLines);
-  return {
-    actualTotal: 0,
-    allNewTotal: newSub + round(newSub * VAT_RATE),
-    allOldTotal: oldSub + round(oldSub * VAT_RATE),
-    diff: 0,
-  };
+  const lines = touToLines(combined, priceOld, input.flat);
+  const sections: BillSection[] = [];
+  if (lines.length > 0) {
+    sections.push({
+      heading,
+      decision: "QD1279",
+      lines,
+      subtotal: sum(lines),
+    });
+  }
+  return makeBillResult(sections);
 }
 
-export function compareBusiness(input: BusinessStraddleInput): Comparison {
-  const combined: TouAmounts = {
-    kwhNormal: (input.before.kwhNormal || 0) + (input.after.kwhNormal || 0),
-    kwhOffPeak: (input.before.kwhOffPeak || 0) + (input.after.kwhOffPeak || 0),
-    kwhPeak: (input.before.kwhPeak || 0) + (input.after.kwhPeak || 0),
-  };
-  const priceNew = businessPrices("QD2892", input.group, input.voltage);
-  const priceOld = businessPrices("QD1279", input.group, input.voltage);
-  const newLines = touToLines(combined, priceNew, input.flat);
-  const oldLines = touToLines(combined, priceOld, input.flat);
-  const newSub = sum(newLines);
-  const oldSub = sum(oldLines);
-  return {
-    actualTotal: 0,
-    allNewTotal: newSub + round(newSub * VAT_RATE),
-    allOldTotal: oldSub + round(oldSub * VAT_RATE),
-    diff: 0,
-  };
+export function calcProductionAllOld(input: TouStraddleInput): BillResult {
+  const prices = productionPrices("QD1279", input.voltage);
+  return calcTouAllOld(input, prices, "Toàn kỳ áp QĐ 1279 (giá cũ)");
 }
 
-export function compareAdmin(input: AdminStraddleInput): Comparison {
-  const combined = (input.kwhBefore || 0) + (input.kwhAfter || 0);
-  const priceNew = adminPrice("QD2892", input.group, input.voltage);
-  const priceOld = adminPrice("QD1279", input.group, input.voltage);
-  const newSub = round(combined * priceNew);
-  const oldSub = round(combined * priceOld);
-  return {
-    actualTotal: 0,
-    allNewTotal: newSub + round(newSub * VAT_RATE),
-    allOldTotal: oldSub + round(oldSub * VAT_RATE),
-    diff: 0,
-  };
+export function calcBusinessAllOld(input: BusinessStraddleInput): BillResult {
+  const prices = businessPrices("QD1279", input.group, input.voltage);
+  return calcTouAllOld(input, prices, "Toàn kỳ áp QĐ 1279 (giá cũ)");
+}
+
+export function calcAdminAllOld(input: AdminStraddleInput): BillResult {
+  const kwh = Math.max(0, (input.kwhBefore || 0) + (input.kwhAfter || 0));
+  const price = adminPrice("QD1279", input.group, input.voltage);
+  const sections: BillSection[] = [];
+  if (kwh > 0) {
+    const line: TierBreakdown = {
+      rangeLabel: "Toàn bộ sản lượng",
+      unitPrice: price,
+      kwh,
+      amount: round(kwh * price),
+    };
+    sections.push({
+      heading: "Toàn kỳ áp QĐ 1279 (giá cũ)",
+      decision: "QD1279",
+      lines: [line],
+      subtotal: line.amount,
+    });
+  }
+  return makeBillResult(sections);
+}
+
+// Compare: trả về object chứa 2 bill (realistic left, allOld right)
+export interface BillComparison {
+  actual: BillResult; // cột trái — hóa đơn thực tế (có split nếu bắc cầu)
+  allOld: BillResult; // cột phải — toàn kỳ áp QĐ 1279
+  diffTotal: number; // actual.total - allOld.total
+}
+
+export function compareResidentialBills(
+  input: ResidentialInput,
+  split: BillingSplit,
+): BillComparison {
+  const actual = calcResidentialRealistic(input, split);
+  const allOld = calcResidentialAllOld(input);
+  return { actual, allOld, diffTotal: actual.total - allOld.total };
+}
+
+export function compareProductionBills(
+  input: TouStraddleInput,
+  split: BillingSplit,
+): BillComparison {
+  const actual = calcProductionRealistic(input, split);
+  const allOld = calcProductionAllOld(input);
+  return { actual, allOld, diffTotal: actual.total - allOld.total };
+}
+
+export function compareBusinessBills(
+  input: BusinessStraddleInput,
+  split: BillingSplit,
+): BillComparison {
+  const actual = calcBusinessRealistic(input, split);
+  const allOld = calcBusinessAllOld(input);
+  return { actual, allOld, diffTotal: actual.total - allOld.total };
+}
+
+export function compareAdminBills(
+  input: AdminStraddleInput,
+  split: BillingSplit,
+): BillComparison {
+  const actual = calcAdminRealistic(input, split);
+  const allOld = calcAdminAllOld(input);
+  return { actual, allOld, diffTotal: actual.total - allOld.total };
 }
 
 // ===== Tiện ích format =====
