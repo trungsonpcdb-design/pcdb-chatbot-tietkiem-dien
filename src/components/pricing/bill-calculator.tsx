@@ -422,6 +422,15 @@ function TwoColumnResult({ output }: { output: Output }) {
           {diff > 0 ? "+" : ""}
           {fmtVnd(diff)} đ
         </strong>
+        {bills.allOld.total > 0 && (
+          <>
+            {" "}
+            <strong className="tabular-nums">
+              ({diff > 0 ? "+" : ""}
+              {((diff / bills.allOld.total) * 100).toFixed(2)}%)
+            </strong>
+          </>
+        )}
         {diff < 0 && " — hóa đơn thực tế RẺ HƠN so với giữ nguyên giá cũ."}
         {diff > 0 && " — hóa đơn thực tế ĐẮT HƠN so với giữ nguyên giá cũ."}
       </div>
