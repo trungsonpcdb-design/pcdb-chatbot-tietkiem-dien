@@ -426,7 +426,7 @@ function TwoColumnResult({ output }: { output: Output }) {
         {diff > 0 && " — hóa đơn thực tế ĐẮT HƠN so với giữ nguyên giá cũ."}
       </div>
       <p className="text-xs text-slate-500 mt-3">
-        Kết quả là ước tính tham khảo theo biểu giá công bố. Hóa đơn chính thức do PC Điện Biên phát hành có thể khác do kỳ bắc cầu, phụ thu, giảm trừ chính sách, hoặc công tơ chốt chỉ số thực tế. VAT 8%.
+        Kết quả là ước tính tham khảo theo biểu giá công bố. Hóa đơn chính thức do PC Điện Biên phát hành có thể khác do công tơ chốt chỉ số thực tế. VAT 8%.
       </p>
     </div>
   );

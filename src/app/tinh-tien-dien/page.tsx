@@ -36,7 +36,7 @@ export default function TinhTienDienPage() {
           <h2 className="font-semibold text-slate-900">Hướng dẫn nhanh</h2>
           <ul className="list-disc pl-5 space-y-1 text-xs sm:text-sm text-slate-600">
             <li>
-              <strong>Kỳ bắc cầu 01/11/2026:</strong> chọn "Từ ngày" trước 01/11 và "Đến ngày" sau 01/11 — hệ thống tự tách sản lượng theo tỷ lệ ngày (sinh hoạt) hoặc theo chốt chỉ số (sản xuất/KD/HC-SN).
+              <strong>Ngày đổi giá bán điện 01/11/2026:</strong> chọn "Từ ngày" trước 01/11 và "Đến ngày" sau 01/11 — hệ thống tự tách sản lượng theo tỷ lệ ngày (sinh hoạt) hoặc theo chốt chỉ số (sản xuất/KD/HC-SN).
             </li>
             <li>
               <strong>Sinh hoạt:</strong> nhập tổng kWh + số hộ dùng chung công tơ. Ngưỡng bậc được scale theo số ngày của mỗi giai đoạn (công thức EVN).
