@@ -179,9 +179,15 @@ export function calcResidentialRealistic(
   const sections: BillSection[] = [];
 
   if (!straddles) {
-    // Toàn kỳ cùng 1 biểu giá — scale ngưỡng bậc theo kỳDays/30 (công thức EVN)
+    // Toàn kỳ cùng 1 biểu giá — scale ngưỡng bậc theo quy ước EVN:
+    //   scale = min(kỳDays, monthDays) / monthDays
+    // với monthDays = số ngày của THÁNG ĐẦU KỲ (tháng chứa fromDate).
+    // VD kỳ 02/10 → 31/10 = 30 ngày, tháng 10 có 31 ngày → scale = 30/31 →
+    // Bậc 1 cap = round(50 × 30/31) = 48. Khớp cột hypothetical (calcResidentialHypothetical).
     const tariff = oldDays === totalDays ? RESIDENTIAL_OLD : RESIDENTIAL_NEW;
-    const scale = households * (totalDays / 30);
+    const from = parseISO(input.fromISO);
+    const monthDays = daysInMonthOf(from);
+    const scale = households * (Math.min(totalDays, monthDays) / monthDays);
     const lines = allocateToResidentialTiers(totalKwh, tariff, scale);
     sections.push({
       heading:
