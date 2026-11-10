@@ -235,17 +235,21 @@ export function calcResidentialRealistic(
 }
 
 // Hypothetical: toàn kỳ áp cùng 1 biểu giá.
-// Scale ngưỡng bậc = min(kỳDays, 30) / 30:
-//   • Kỳ ngắn (< 30 ngày): prorate xuống theo số ngày (vd 8 ngày → 8/30).
-//   • Kỳ ≥ 30 ngày: giữ nguyên định mức chuẩn (scale = 1), KHÔNG upscale.
-// Phản ánh đúng kỳ vọng: cột "nếu 100% áp giá cũ" dùng định mức bậc chuẩn
-// QĐ 1279 (50/50/100/100/100/∞) cho tháng đủ 30 ngày trở lên.
+// Scale ngưỡng bậc = min(kỳDays, monthDays) / monthDays, với monthDays =
+// số ngày của THÁNG ĐẦU KỲ (tháng chứa fromDate).
+// Tương đương quy ước EVN: kỳ hóa đơn tháng X được lập đầu tháng X+1, nhưng
+// scale theo tháng X (tháng bắt đầu đọc chỉ số). VD kỳ 22/10 → 04/11 thuộc
+// hóa đơn tháng 11 phát hành nhưng kỳ bắt đầu tháng 10 → monthDays = 31.
+//   • Kỳ ngắn: scale = kỳDays / monthDays (VD 8 ngày tháng 11 → 8/30).
+//   • Kỳ ≥ monthDays: scale = 1 (ngưỡng chuẩn, không upscale).
 export function calcResidentialHypothetical(input: ResidentialInput, decision: Decision): BillResult {
   const tariff = decision === "QD2892" ? RESIDENTIAL_NEW : RESIDENTIAL_OLD;
   const households = Math.max(1, Math.floor(input.households || 1));
   const split = splitBillingPeriod(input.fromISO, input.toISO);
-  const days = split.totalDays || 30;
-  const scaleFactor = Math.min(days, 30) / 30;
+  const from = parseISO(input.fromISO);
+  const monthDays = daysInMonthOf(from);
+  const days = split.totalDays || monthDays;
+  const scaleFactor = Math.min(days, monthDays) / monthDays;
   const scale = households * scaleFactor;
   const lines = allocateToResidentialTiers(Math.max(0, input.totalKwh), tariff, scale);
   const sections: BillSection[] = [
