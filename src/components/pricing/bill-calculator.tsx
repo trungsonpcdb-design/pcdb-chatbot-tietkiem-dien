@@ -99,7 +99,7 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
         let oldKwhNote = "";
         if (straddles && resHasMeterReading) {
           const oldKwh = Number(resOldKwh);
-          if (!Number.isFinite(oldKwh) || oldKwh < 0) {
+          if (resOldKwh.trim() === "" || !Number.isFinite(oldKwh) || oldKwh < 0) {
             throw new Error("Nhập sản lượng chốt chỉ số ngày 01/11/2026 hợp lệ.");
           }
           if (oldKwh > kwh) {
@@ -115,7 +115,7 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
         setOutput({
           bills,
           split,
-          context: `Kỳ ${split.totalDays} ngày · ${households} hộ dùng chung công tơ · tổng ${kwh.toLocaleString("vi-VN")} kWh.${oldKwhNote}`,
+          context: `Kỳ ${split.totalDays} ngày · ${households} hộ dùng chung công tơ · tổng ${kwh.toLocaleString("vi-VN")} kWh${oldKwhNote || "."}`,
         });
       } else if (tab === "production" || tab === "business") {
         const before = {
