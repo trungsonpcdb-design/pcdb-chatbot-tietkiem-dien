@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,7 @@ import {
   type BillResult,
   type BillingSplit,
   type BillComparison,
+  type ResidentialInput,
 } from "@/lib/pricing/calculator";
 
 type Tab = "residential" | "production" | "business" | "admin";
@@ -54,6 +55,8 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
 
   const [resKwh, setResKwh] = useState("");
   const [resHouseholds, setResHouseholds] = useState("1");
+  const [resHasMeterReading, setResHasMeterReading] = useState(false);
+  const [resOldKwh, setResOldKwh] = useState("");
 
   const [voltage, setVoltage] = useState<VoltageKey>("V_LOW");
   const [meterType, setMeterType] = useState<"flat" | "tou">("flat");
@@ -76,6 +79,13 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
   const split = useMemo(() => splitBillingPeriod(fromDate, toDate), [fromDate, toDate]);
   const straddles = split.straddles;
 
+  useEffect(() => {
+    if (!straddles && resHasMeterReading) {
+      setResHasMeterReading(false);
+      setResOldKwh("");
+    }
+  }, [straddles, resHasMeterReading]);
+
   function calculate() {
     setError(null);
     try {
@@ -85,12 +95,27 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
         const kwh = Number(resKwh);
         if (!Number.isFinite(kwh) || kwh < 0) throw new Error("Nhập tổng điện năng tiêu thụ (kWh) hợp lệ.");
         const households = Math.max(1, Math.floor(Number(resHouseholds) || 1));
-        const input = { totalKwh: kwh, households, fromISO: fromDate, toISO: toDate };
+        const input: ResidentialInput = { totalKwh: kwh, households, fromISO: fromDate, toISO: toDate };
+        let oldKwhNote = "";
+        if (straddles && resHasMeterReading) {
+          const oldKwh = Number(resOldKwh);
+          if (!Number.isFinite(oldKwh) || oldKwh < 0) {
+            throw new Error("Nhập sản lượng chốt chỉ số ngày 01/11/2026 hợp lệ.");
+          }
+          if (oldKwh > kwh) {
+            throw new Error(
+              `Sản lượng chốt chỉ số (${oldKwh.toLocaleString("vi-VN")} kWh) không được lớn hơn tổng (${kwh.toLocaleString("vi-VN")} kWh).`,
+            );
+          }
+          input.oldKwhOverride = oldKwh;
+          const newKwh = kwh - oldKwh;
+          oldKwhNote = ` · chốt chỉ số 01/11: ${oldKwh.toLocaleString("vi-VN")} kWh trước + ${newKwh.toLocaleString("vi-VN")} kWh sau.`;
+        }
         const bills = compareResidentialBills(input, split);
         setOutput({
           bills,
           split,
-          context: `Kỳ ${split.totalDays} ngày · ${households} hộ dùng chung công tơ · tổng ${kwh.toLocaleString("vi-VN")} kWh.`,
+          context: `Kỳ ${split.totalDays} ngày · ${households} hộ dùng chung công tơ · tổng ${kwh.toLocaleString("vi-VN")} kWh.${oldKwhNote}`,
         });
       } else if (tab === "production" || tab === "business") {
         const before = {
@@ -149,6 +174,8 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
   function reset() {
     setResKwh("");
     setResHouseholds("1");
+    setResHasMeterReading(false);
+    setResOldKwh("");
     setBeforeNormal("");
     setBeforeOff("");
     setBeforePeak("");
@@ -220,16 +247,54 @@ export function BillCalculator({ compact = false }: { compact?: boolean }) {
 
       <div className="grid gap-3 mb-4">
         {tab === "residential" && (
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className="text-xs text-slate-600 block mb-1">Tổng điện năng tiêu thụ (kWh)</label>
-              <Input type="number" min={0} inputMode="decimal" placeholder="VD: 500" value={resKwh} onChange={(e) => setResKwh(e.target.value)} />
+          <>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label className="text-xs text-slate-600 block mb-1">Tổng điện năng tiêu thụ (kWh)</label>
+                <Input type="number" min={0} inputMode="decimal" placeholder="VD: 500" value={resKwh} onChange={(e) => setResKwh(e.target.value)} />
+              </div>
+              <div>
+                <label className="text-xs text-slate-600 block mb-1">Số hộ dùng chung công tơ</label>
+                <Input type="number" min={1} step={1} value={resHouseholds} onChange={(e) => setResHouseholds(e.target.value)} />
+              </div>
             </div>
-            <div>
-              <label className="text-xs text-slate-600 block mb-1">Số hộ dùng chung công tơ</label>
-              <Input type="number" min={1} step={1} value={resHouseholds} onChange={(e) => setResHouseholds(e.target.value)} />
-            </div>
-          </div>
+            {straddles && (
+              <div className="rounded-lg border bg-slate-50/60 p-3">
+                <label className="flex items-start gap-2 cursor-pointer text-sm">
+                  <input
+                    type="checkbox"
+                    checked={resHasMeterReading}
+                    onChange={(e) => setResHasMeterReading(e.target.checked)}
+                    className="mt-0.5"
+                  />
+                  <span>
+                    <strong>Có chốt chỉ số ngày 01/11/2026</strong>{" "}
+                    <span className="text-xs text-slate-500">
+                      (nhập sản lượng thực tế thay vì để hệ thống chia theo tỷ lệ ngày)
+                    </span>
+                  </span>
+                </label>
+                {resHasMeterReading && (
+                  <div className="mt-3">
+                    <label className="text-xs text-slate-600 block mb-1">
+                      Sản lượng chốt chỉ số ngày 01/11/2026 (kWh)
+                    </label>
+                    <Input
+                      type="number"
+                      min={0}
+                      inputMode="decimal"
+                      placeholder="VD: 104"
+                      value={resOldKwh}
+                      onChange={(e) => setResOldKwh(e.target.value)}
+                    />
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Phần điện năng tiêu thụ TRƯỚC ngày 01/11/2026 — xem cột &quot;Điện TK&quot; dòng &quot;Chỉ số ngày 01/11/2026&quot; trên hóa đơn PC Điện Biên.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
         )}
 
         {(tab === "production" || tab === "business") && (
