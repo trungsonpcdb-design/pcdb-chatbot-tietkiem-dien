@@ -107,6 +107,7 @@ export interface ResidentialInput {
   households: number;
   fromISO: string;
   toISO: string;
+  oldKwhOverride?: number;
 }
 
 // Allocate kWh vào các bậc; mỗi bậc step được scale theo (periodDays/totalDays * households).
@@ -189,8 +190,13 @@ export function calcResidentialRealistic(
     return makeBillResult(sections);
   }
 
-  // Kỳ bắc cầu: chia theo tỷ lệ ngày
-  const oldKwh = round(totalKwh * (oldDays / totalDays));
+  // Kỳ bắc cầu: chia theo tỷ lệ ngày, hoặc dùng chốt chỉ số thực tế nếu caller cung cấp.
+  let oldKwh: number;
+  if (typeof input.oldKwhOverride === "number" && input.oldKwhOverride >= 0) {
+    oldKwh = Math.min(Math.max(0, round(input.oldKwhOverride)), totalKwh);
+  } else {
+    oldKwh = round(totalKwh * (oldDays / totalDays));
+  }
   const newKwh = totalKwh - oldKwh;
   const oldScale = (oldDays / totalDays) * households;
   const newScale = (newDays / totalDays) * households;
