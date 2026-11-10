@@ -70,6 +70,11 @@ function daysInclusive(from: Date, to: Date): number {
   return Math.floor(ms / (24 * 3600 * 1000)) + 1;
 }
 
+function daysInMonthOf(d: Date): number {
+  // last day of the month = day 0 of next month
+  return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+}
+
 export interface BillingSplit {
   totalDays: number;
   oldDays: number; // số ngày tiêu thụ ở giá cũ
@@ -198,8 +203,15 @@ export function calcResidentialRealistic(
     oldKwh = round(totalKwh * (oldDays / totalDays));
   }
   const newKwh = totalKwh - oldKwh;
-  const oldScale = (oldDays / totalDays) * households;
-  const newScale = (newDays / totalDays) * households;
+  // Scale ngưỡng bậc theo công thức EVN: segmentDays / daysInMonth(segmentMonth).
+  // Phần cũ nằm trong tháng trước ngày đổi giá (VD: tháng 10 = 31 ngày).
+  // Phần mới nằm trong tháng của ngày đổi giá (VD: tháng 11 = 30 ngày).
+  const change = parseISO(PRICE_CHANGE_DATE_ISO);
+  const lastDayBeforeChange = new Date(change.getTime() - 24 * 3600 * 1000);
+  const oldMonthDays = daysInMonthOf(lastDayBeforeChange);
+  const newMonthDays = daysInMonthOf(change);
+  const oldScale = (oldDays / oldMonthDays) * households;
+  const newScale = (newDays / newMonthDays) * households;
 
   if (oldKwh > 0) {
     const oldLines = allocateToResidentialTiers(oldKwh, RESIDENTIAL_OLD, oldScale);
