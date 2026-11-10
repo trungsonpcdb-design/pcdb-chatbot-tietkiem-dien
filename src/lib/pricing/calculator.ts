@@ -203,15 +203,15 @@ export function calcResidentialRealistic(
     oldKwh = round(totalKwh * (oldDays / totalDays));
   }
   const newKwh = totalKwh - oldKwh;
-  // Scale ngưỡng bậc theo công thức EVN: segmentDays / daysInMonth(segmentMonth).
-  // Phần cũ nằm trong tháng trước ngày đổi giá (VD: tháng 10 = 31 ngày).
-  // Phần mới nằm trong tháng của ngày đổi giá (VD: tháng 11 = 30 ngày).
-  const change = parseISO(PRICE_CHANGE_DATE_ISO);
-  const lastDayBeforeChange = new Date(change.getTime() - 24 * 3600 * 1000);
-  const oldMonthDays = daysInMonthOf(lastDayBeforeChange);
-  const newMonthDays = daysInMonthOf(change);
-  const oldScale = (oldDays / oldMonthDays) * households;
-  const newScale = (newDays / newMonthDays) * households;
+  // Scale ngưỡng bậc theo quy ước EVN: CẢ HAI segments dùng cùng divisor =
+  // daysInMonth(fromDate's month) = số ngày của THÁNG ĐẦU KỲ (tháng chứa
+  // ngày bắt đầu đọc chỉ số). VD kỳ 22/10 → 21/11 → divisor = 31 (tháng 10)
+  // cho cả phần cũ (10 ngày) VÀ phần mới (21 ngày) → Bậc 1 QĐ 2892 cap =
+  // 100 × 21/31 = 68 (khớp hóa đơn EVN).
+  const from = parseISO(input.fromISO);
+  const monthDays = daysInMonthOf(from);
+  const oldScale = (oldDays / monthDays) * households;
+  const newScale = (newDays / monthDays) * households;
 
   if (oldKwh > 0) {
     const oldLines = allocateToResidentialTiers(oldKwh, RESIDENTIAL_OLD, oldScale);
